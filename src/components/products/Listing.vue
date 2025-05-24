@@ -126,7 +126,9 @@
               </div>
             </section>
 
-             <section>
+            <FeaturedProducts :topRanking="topRanking" />
+
+             <!-- <section>
               <div class="flex items-center justify-between mb-4 xl:mb-6">
                 <h2 class="text-xl xl:text-2xl font-bold text-[#022b5f]">Top Ranking</h2>
                 <button class="text-[#fbb03b] hover:text-[#e09a2a] font-medium text-sm">View All</button>
@@ -138,20 +140,20 @@
                     :key="`desktop-ranking-${product.id}`"
                     class="group relative bg-white rounded-2xl shadow overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105 min-w-[200px] xl:min-w-[240px] h-80 xl:h-96 flex flex-col"
                   >
-                    <!-- Rank Badge -->
+                    
                     <div class="absolute top-3 left-3 z-20">
                       <div class="w-8 h-8 xl:w-10 xl:h-10 bg-gradient-to-br from-[#fbb03b] to-[#e09a2a] rounded-full flex items-center justify-center shadow-lg">
                         <span class="text-white font-bold text-sm xl:text-base">{{ index + 1 }}</span>
                       </div>
                     </div>
                     
-                    <!-- Product Image -->
+                    
                     <div class="relative h-40 xl:h-48 overflow-hidden">
                       <img :src="product.image" :alt="product.name" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
                       <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                     </div>
                     
-                    <!-- Product Info -->
+                    
                     <div class="flex-1 p-4 xl:p-5 flex flex-col">
                       <h3 class="font-bold text-[#022b5f] text-sm xl:text-base mb-2 line-clamp-2 group-hover:text-[#fbb03b] transition-colors">{{ product.name }}</h3>
                       <p class="text-gray-500 text-xs xl:text-sm mb-3 line-clamp-2 flex-1">{{ product.description }}</p>
@@ -177,7 +179,7 @@
                   </div>
                 </div>
               </div>
-            </section>
+            </section> -->
 
             <!-- All Products Section -->
             <section>
@@ -294,88 +296,8 @@
           </div>
         </section>
 
-        <!-- Featured Products Mobile -->
-        <section>
-  <h2 class="text-xl font-bold text-[#022b5f] mb-6">Featured Products</h2>
-  
-  <!-- Horizontal scrolling container -->
-  <div class="relative">
-    <!-- Scroll container -->
-    <div class="flex gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory">
-      <div
-        v-for="(product, index) in topRanking.slice(0, 5)"
-        :key="`ranking-${product.id}`"
-        class="group relative bg-white rounded overflow-hidden hover:shadow-xl transition-all duration-300 flex-shrink-0 w-64 snap-start"
-      >
-        <!-- Gradient overlay -->
-        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-[#022b5f]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-        
-        <div class="relative z-10 p-6">
-          <!-- Rank Badge - Top positioned -->
-          <div class="flex justify-between items-start mb-4">
-            <div class="relative">
-              <div class="w-10 h-10 bg-gradient-to-br from-[#fbb03b] to-[#e09a2a] rounded-lg flex items-center justify-center shadow-lg">
-                <span class="text-white font-bold text-sm">{{ index + 1 }}</span>
-              </div>
-              <!-- Decorative ring -->
-              <div class="absolute -inset-1 bg-gradient-to-br from-[#fbb03b] to-[#e09a2a] rounded opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
-            </div>
-          </div>
-          
-          <!-- Product Image - Centered and larger -->
-          <div class="flex justify-center mb-4">
-            <img 
-              :src="product.image" 
-              :alt="product.name" 
-              class="w-24 h-full object-cover rounded group-hover:scale-105 transition-transform duration-300"
-            >
-          </div>
-          
-          <!-- Product Info - Stacked vertically -->
-          <div class="text-center space-y-3">
-            <h3 class="font-bold text-[#022b5f] text-lg line-clamp-2 group-hover:text-[#fbb03b] transition-colors min-h-[3.5rem]">
-              {{ product.name }}
-            </h3>
-            
-            <p class="text-gray-500 text-sm line-clamp-2 min-h-[2.5rem]">
-              {{ product.description }}
-            </p>
-            
-            <!-- Price -->
-            <div class="py-2">
-              <span class="text-2xl font-bold text-[#022b5f] group-hover:text-[#fbb03b] transition-colors">
-                ${{ product.price }}
-              </span>
-            </div>
-            
-            <!-- Location -->
-            <div class="flex items-center justify-center text-xs text-gray-500 mb-4">
-              <svg class="w-3 h-3 mr-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
-              </svg>
-              <span class="truncate">{{ product.marketplace }}</span>
-            </div>
-            
-            <!-- Action Button - Full width -->
-            <button class="w-full bg-gradient-to-r from-[#fbb03b] to-[#e09a2a] text-white px-4 py-3 rounded text-sm font-medium shadow hover:shadow-xl transform hover:scale-105 transition-all duration-200">
-              View Product
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Optional: Scroll indicators -->
-    <div class="flex justify-center mt-4 space-x-2">
-      <div
-        v-for="(product, index) in topRanking.slice(0, 5)"
-        :key="`indicator-${product.id}`"
-        class="w-2 h-2 rounded-full bg-gray-300 transition-colors duration-200"
-        :class="{ 'bg-[#fbb03b]': index === 0 }"
-      ></div>
-    </div>
-  </div>
-</section>
+             <FeaturedProducts :topRanking="topRanking"/>
+
         <!-- Mobile Products Grid -->
         <section>
           <div class="flex items-center justify-between mb-4">
@@ -434,6 +356,7 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import MainProductCard from "../products/MainProductCard.vue"
 import Header from "../products/ListingPageEssen/Header.vue"
+import FeaturedProducts from "../products/ListingPageEssen/FeaturedProducts.vue"
 
 // Reactive data
 const selectedMarketplace = ref('amazon')
