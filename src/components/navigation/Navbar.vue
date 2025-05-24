@@ -6,12 +6,12 @@
         <div class="flex-shrink-0 flex items-center">
   <router-link to="/" class="flex items-center space-x-3 group">
     
-    <div class="relative w-10 h-10 bg-gradient-to-br from-[#fbb03b] to-[#e09a2a] rounded-lg flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+    <div class="relative w-10 h-10 bg-white from-[#fbb03b] to-[#e09a2a] rounded flex items-center justify-center group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
       <!-- Logo Image -->
       <img
         src="/images/logo.png"
         alt="Townra Logo"
-        class="w-7 h-7 object-contain transition-transform duration-300 group-hover:scale-110"
+        class="w-20 h-20 object-contain transition-transform duration-300 group-hover:scale-110"
         @error="handleImageError"
       />
       
