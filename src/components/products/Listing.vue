@@ -349,7 +349,7 @@
             <div
               v-for="product in newArrivals.slice(0, 6)"
               :key="`mobile-new-${product.id}`"
-              class="flex-none w-40 bg-white rounded shadow overflow-hidden"
+              class="flex-none w-40 bg-white rounded overflow-hidden"
             >
               <img :src="product.image" :alt="product.name" class="w-full h-28 object-cover">
               <div class="p-3">
@@ -407,7 +407,7 @@
       <div
         v-for="(product, index) in topRanking.slice(0, 5)"
         :key="`ranking-${product.id}`"
-        class="group relative bg-white rounded shadow overflow-hidden hover:shadow-xl transition-all duration-300 flex-shrink-0 w-64 snap-start"
+        class="group relative bg-white rounded overflow-hidden hover:shadow-xl transition-all duration-300 flex-shrink-0 w-64 snap-start"
       >
         <!-- Gradient overlay -->
         <div class="absolute inset-0 bg-gradient-to-b from-transparent to-[#022b5f]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -420,7 +420,7 @@
                 <span class="text-white font-bold text-sm">{{ index + 1 }}</span>
               </div>
               <!-- Decorative ring -->
-              <div class="absolute -inset-1 bg-gradient-to-br from-[#fbb03b] to-[#e09a2a] rounded-lg opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
+              <div class="absolute -inset-1 bg-gradient-to-br from-[#fbb03b] to-[#e09a2a] rounded opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
             </div>
           </div>
           
@@ -429,7 +429,7 @@
             <img 
               :src="product.image" 
               :alt="product.name" 
-              class="w-24 h-full object-cover rounded shadow group-hover:scale-105 transition-transform duration-300"
+              class="w-24 h-full object-cover rounded group-hover:scale-105 transition-transform duration-300"
             >
           </div>
           
