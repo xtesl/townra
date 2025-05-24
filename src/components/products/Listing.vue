@@ -1,82 +1,11 @@
 <template>
   <div class="min-h-screen bg-gray-50">
-    <!-- Header -->
-    <header class="bg-[#022b5f] text-white shadow top-0 z-50">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
-          <div class="flex items-center">
-           <h2>{{ selectedMarketplace }}</h2>
-          </div>
-          
-          <!-- Desktop Marketplace Switcher -->
-          <div class="hidden lg:flex items-center space-x-4">
-            <span class="text-sm font-medium">Marketplace:</span>
-            <select 
-              v-model="selectedMarketplace" 
-              class="bg-white text-[#022b5f] rounded px-3 py-1 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#fbb03b]"
-            >
-              <option v-for="marketplace in marketplaces" :key="marketplace.id" :value="marketplace.id">
-                {{ marketplace.name }}
-              </option>
-            </select>
-          </div>
-
-          <!-- Mobile Filter Toggle -->
-          <button 
-            @click="showMobileFilters = !showMobileFilters"
-            class="lg:hidden flex items-center space-x-2 bg-[#fbb03b] px-3 py-2 rounded"
-          >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z" />
-            </svg>
-            <span class="text-sm font-medium">Filters</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Mobile Filters Dropdown -->
-      <div v-if="showMobileFilters" class="lg:hidden bg-white border-t border-gray-200 shadow">
-        <div class="px-4 py-4 space-y-4">
-          <!-- Search -->
-          <div>
-            <input
-              v-model="searchQuery"
-              type="text"
-              placeholder="Search products..."
-              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#fbb03b] text-gray-900"
-            >
-          </div>
-
-          <!-- Quick Filters Row -->
-          <div class="flex space-x-2 overflow-x-auto pb-2">
-            <select v-model="selectedMarketplace" class="flex-shrink-0 px-3 py-2 border border-gray-300 rounded text-sm text-gray-900">
-              <option v-for="marketplace in marketplaces" :key="marketplace.id" :value="marketplace.id">
-                {{ marketplace.name }}
-              </option>
-            </select>
-            <select v-model="selectedCategory" class="flex-shrink-0 px-3 py-2 border border-gray-300 rounded text-sm text-gray-900">
-              <option value="">All Categories</option>
-              <option v-for="category in categories" :key="category" :value="category">{{ category }}</option>
-            </select>
-            <select v-model="selectedDuration" class="flex-shrink-0 px-3 py-2 border border-gray-300 rounded text-sm text-gray-900">
-              <option value="">Any Duration</option>
-              <option v-for="duration in durations" :key="duration" :value="duration">{{ duration }}</option>
-            </select>
-          </div>
-
-          <!-- Price Range -->
-          <div class="grid grid-cols-2 gap-2">
-            <input v-model.number="priceRange.min" type="number" placeholder="Min Price" class="px-3 py-2 border border-gray-300 rounded text-sm text-gray-900">
-            <input v-model.number="priceRange.max" type="number" placeholder="Max Price" class="px-3 py-2 border border-gray-300 rounded text-sm text-gray-900">
-          </div>
-
-          <!-- Clear Filters -->
-          <button @click="clearFilters" class="w-full bg-gray-100 text-gray-700 py-2 rounded text-sm font-medium">
-            Clear All Filters
-          </button>
-        </div>
-      </div>
-    </header>
+     <Header 
+      :selectedCategory="selectedCategory"
+      :selectedMarketplace="selectedMarketplace"
+      :priceRange="priceRange"
+      :marketplaces="marketplaces"
+     />
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
       <!-- Desktop Layout -->
@@ -268,39 +197,8 @@
                 </div>
               </div>
 
-              <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 xl:gap-6">
-                <div
-                  v-for="product in paginatedProducts"
-                  :key="product.id"
-                  class="bg-white rounded shadow overflow-hidden hover:shadow-lg transition-shadow duration-300"
-                >
-                  <img :src="product.image" :alt="product.name" class="w-full h-40 xl:h-48 object-cover">
-                  <div class="p-4 xl:p-6">
-                    <div class="flex items-start justify-between mb-2">
-                      <h3 class="text-base xl:text-lg font-semibold text-[#022b5f] line-clamp-2 pr-2">{{ product.name }}</h3>
-                      <span class="text-xs bg-[#fbb03b] text-white px-2 py-1 rounded-full font-medium flex-shrink-0">{{ product.category }}</span>
-                    </div>
-                    <p class="text-gray-600 text-sm mb-3 xl:mb-4 line-clamp-2">{{ product.description }}</p>
-                    <div class="flex items-center justify-between mb-3 xl:mb-4">
-                      <div class="flex items-center space-x-3 xl:space-x-4">
-                        <span class="text-xl xl:text-2xl font-bold text-[#022b5f]">${{ product.price }}</span>
-                        <span class="text-sm text-gray-500 font-medium">{{ product.duration }}</span>
-                      </div>
-                    </div>
-                    <div class="flex items-center justify-between">
-                      <div class="flex items-center text-sm text-gray-500">
-                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                          <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
-                        </svg>
-                        <span class="truncate">{{ product.marketplace }}</span>
-                      </div>
-                      <button class="bg-[#fbb03b] text-white px-3 xl:px-4 py-2 rounded hover:bg-[#e09a2a] transition-colors duration-200 text-sm font-medium">
-                        View Details
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+             
+              <MainProductCard :products="paginatedProducts"/>
 
               <!-- Pagination -->
               <div v-if="totalPages > 1" class="mt-6 xl:mt-8 flex justify-center">
@@ -459,7 +357,7 @@
             </div>
             
             <!-- Action Button - Full width -->
-            <button class="w-full bg-gradient-to-r from-[#fbb03b] to-[#e09a2a] text-white px-4 py-3 rounded-xl text-sm font-medium shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
+            <button class="w-full bg-gradient-to-r from-[#fbb03b] to-[#e09a2a] text-white px-4 py-3 rounded text-sm font-medium shadow hover:shadow-xl transform hover:scale-105 transition-all duration-200">
               View Product
             </button>
           </div>
@@ -492,39 +390,7 @@
             </select>
           </div>
 
-          <div class="grid grid-cols-2 gap-3">
-            <div
-              v-for="product in paginatedProducts"
-              :key="`mobile-${product.id}`"
-              class="bg-white rounded overflow-hidden"
-            >
-              <img :src="product.image" :alt="product.name" class="w-full h-32 object-cover">
-              <div class="p-3">
-                <div class="flex items-start justify-between mb-2">
-                  <h3 class="text-sm font-semibold text-[#022b5f] line-clamp-2 pr-1">{{ product.name }}</h3>
-                  <span class="text-xs bg-[#fbb03b] text-white px-1.5 py-0.5 rounded font-medium flex-shrink-0">{{ product.category }}</span>
-                </div>
-                <p class="text-gray-600 text-xs mb-3 line-clamp-2">{{ product.description }}</p>
-                <div class="flex flex-col space-y-2">
-                  <div class="flex items-center justify-between">
-                    <span class="text-lg font-bold text-[#022b5f]">${{ product.price }}</span>
-                    <span class="text-xs text-gray-500">{{ product.duration }}</span>
-                  </div>
-                  <div class="flex items-center justify-between">
-                    <div class="flex items-center text-xs text-gray-500">
-                      <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
-                      </svg>
-                      <span class="truncate">{{ product.marketplace }}</span>
-                    </div>
-                    <button class="bg-[#fbb03b] text-white px-2 py-1 rounded text-xs font-medium">
-                      View
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <MainProductCard :products="paginatedProducts" :mobile="true"/>
 
           <!-- Mobile Pagination -->
           <div v-if="totalPages > 1" class="mt-6 flex justify-center">
@@ -566,6 +432,8 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+import MainProductCard from "../products/MainProductCard.vue"
+import Header from "../products/ListingPageEssen/Header.vue"
 
 // Reactive data
 const selectedMarketplace = ref('amazon')
@@ -747,7 +615,57 @@ const products = ref([
     duration: '2-4 weeks',
     marketplace: 'Amazon',
     image: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=300&fit=crop'
-  }
+  },
+   {
+    id: 1,
+    name: 'Wireless Bluetooth Headphones',
+    description: 'High-quality wireless headphones with noise cancellation',
+    price: 89.99,
+    category: 'Electronics',
+    duration: '1-2 weeks',
+    marketplace: 'Amazon',
+    image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop'
+  },
+  {
+    id: 2,
+    name: 'Summer Floral Dress',
+    description: 'Beautiful floral print dress perfect for summer occasions',
+    price: 45.50,
+    category: 'Fashion',
+    duration: '1-7 days',
+    marketplace: 'Etsy',
+    image: 'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400&h=300&fit=crop'
+  },
+   {
+    id: 1,
+    name: 'Wireless Bluetooth Headphones',
+    description: 'High-quality wireless headphones with noise cancellation',
+    price: 89.99,
+    category: 'Electronics',
+    duration: '1-2 weeks',
+    marketplace: 'Amazon',
+    image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop'
+  },
+  {
+    id: 2,
+    name: 'Summer Floral Dress',
+    description: 'Beautiful floral print dress perfect for summer occasions',
+    price: 45.50,
+    category: 'Fashion',
+    duration: '1-7 days',
+    marketplace: 'Etsy',
+    image: 'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400&h=300&fit=crop'
+  },
+  {
+    id: 1,
+    name: 'Wireless Bluetooth Headphones',
+    description: 'High-quality wireless headphones with noise cancellation',
+    price: 89.99,
+    category: 'Electronics',
+    duration: '1-2 weeks',
+    marketplace: 'Amazon',
+    image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop'
+  },
 ])
 
 // Computed properties
