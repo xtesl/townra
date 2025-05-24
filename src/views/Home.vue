@@ -1,0 +1,23 @@
+<template>
+  <div class="min-h-screen flex flex-col">
+    <!-- Navbar Component -->
+    <Navbar />
+    
+    <!-- Main Content Area -->
+    <main class="flex-1">
+      <!-- Your page content goes here -->
+       <Listing />
+      <!-- <slot /> -->
+    </main>
+    
+    <!-- Footer Component -->
+    <Footer />
+  </div>
+</template>
+
+
+<script setup>
+  import Footer from "../components/navigation/Footer.vue"
+  import Navbar from "../components/navigation/Navbar.vue"
+  import Listing from "../components/products/Listing.vue"
+</script>
