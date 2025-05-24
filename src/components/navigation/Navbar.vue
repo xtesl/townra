@@ -4,13 +4,41 @@
       <div class="flex justify-between items-center h-16">
         <!-- Logo -->
         <div class="flex-shrink-0 flex items-center">
-          <router-link to="/" class="flex items-center space-x-2">
-            <div class="w-8 h-8 bg-[#fbb03b] rounded flex items-center justify-center">
-              <span class="text-[#022b5f] font-bold text-lg">T</span>
-            </div>
-            <span class="text-white font-bold text-xl">Townra</span>
-          </router-link>
-        </div>
+  <router-link to="/" class="flex items-center space-x-3 group">
+    
+    <div class="relative w-10 h-10 bg-gradient-to-br from-[#fbb03b] to-[#e09a2a] rounded-lg flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+      <!-- Logo Image -->
+      <img
+        src="/images/logo.png"
+        alt="Townra Logo"
+        class="w-7 h-7 object-contain transition-transform duration-300 group-hover:scale-110"
+        @error="handleImageError"
+      />
+      
+      <!-- Fallback letter if image fails to load -->
+      <span 
+        v-if="imageError" 
+        class="font-bold text-white text-lg"
+      >
+        T
+      </span>
+      
+      <!-- Subtle glow effect -->
+      <div class="absolute inset-0 bg-gradient-to-br from-[#fbb03b] to-[#e09a2a] rounded-lg opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+    </div>
+    
+    <!-- Brand Name -->
+    <div class="flex flex-col">
+      <span class="text-white font-bold text-xl leading-tight group-hover:text-[#fbb03b] transition-colors duration-300">
+        Townra
+      </span>
+      <!-- Optional tagline -->
+      <span class="text-white/70 text-xs font-medium -mt-1 group-hover:text-[#fbb03b]/70 transition-colors duration-300">
+        Marketplace
+      </span>
+    </div>
+  </router-link>
+</div>
 
         <!-- Search Bar (Desktop) -->
         <div class="hidden md:flex flex-1 max-w-lg mx-8">
@@ -368,3 +396,14 @@ onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside)
 })
 </script>
+
+<style scoped>
+.group:hover .w-10 {
+  transform: rotate(-2deg);
+}
+
+/* Smooth transitions */
+* {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+</style>
