@@ -128,59 +128,6 @@
 
             <FeaturedProducts :topRanking="topRanking" />
 
-             <!-- <section>
-              <div class="flex items-center justify-between mb-4 xl:mb-6">
-                <h2 class="text-xl xl:text-2xl font-bold text-[#022b5f]">Top Ranking</h2>
-                <button class="text-[#fbb03b] hover:text-[#e09a2a] font-medium text-sm">View All</button>
-              </div>
-              <div class="overflow-x-auto pb-4">
-                <div class="flex space-x-4 min-w-max">
-                  <div
-                    v-for="(product, index) in topRanking"
-                    :key="`desktop-ranking-${product.id}`"
-                    class="group relative bg-white rounded-2xl shadow overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105 min-w-[200px] xl:min-w-[240px] h-80 xl:h-96 flex flex-col"
-                  >
-                    
-                    <div class="absolute top-3 left-3 z-20">
-                      <div class="w-8 h-8 xl:w-10 xl:h-10 bg-gradient-to-br from-[#fbb03b] to-[#e09a2a] rounded-full flex items-center justify-center shadow-lg">
-                        <span class="text-white font-bold text-sm xl:text-base">{{ index + 1 }}</span>
-                      </div>
-                    </div>
-                    
-                    
-                    <div class="relative h-40 xl:h-48 overflow-hidden">
-                      <img :src="product.image" :alt="product.name" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
-                      <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                    </div>
-                    
-                    
-                    <div class="flex-1 p-4 xl:p-5 flex flex-col">
-                      <h3 class="font-bold text-[#022b5f] text-sm xl:text-base mb-2 line-clamp-2 group-hover:text-[#fbb03b] transition-colors">{{ product.name }}</h3>
-                      <p class="text-gray-500 text-xs xl:text-sm mb-3 line-clamp-2 flex-1">{{ product.description }}</p>
-                      
-                      <div class="space-y-3">
-                        <div class="flex items-center justify-between">
-                          <span class="text-lg xl:text-xl font-bold text-[#022b5f] group-hover:text-[#fbb03b] transition-colors">${{ product.price }}</span>
-                          <span class="text-xs xl:text-sm bg-[#fbb03b] text-white px-2 py-1 rounded-full">{{ product.category }}</span>
-                        </div>
-                        
-                        <div class="flex items-center text-xs xl:text-sm text-gray-500">
-                          <svg class="w-3 h-3 xl:w-4 xl:h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
-                          </svg>
-                          <span class="truncate">{{ product.marketplace }}</span>
-                        </div>
-                        
-                        <button class="w-full bg-gradient-to-r from-[#fbb03b] to-[#e09a2a] text-white py-2 xl:py-2.5 rounded-xl text-xs xl:text-sm font-medium shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
-                          View Details
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section> -->
-
             <!-- All Products Section -->
             <section>
               <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 xl:mb-6">
@@ -264,38 +211,8 @@
         </section>
 
         <!-- Categories Mobile -->
-         <section>
-          <h2 class="text-xl font-bold text-[#022b5f] mb-4">Categories</h2>
-          <div class="overflow-x-auto pb-4">
-            <div class="flex space-x-3 min-w-max">
-              <div
-                v-for="category in categories"
-                :key="`mobile-${category}`"
-                @click="selectedCategory = category; showMobileFilters = false"
-                class="group relative bg-gradient-to-r from-[#022b5f] to-[#034080] rounded p-4 cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-105 hover:from-[#fbb03b] hover:to-[#e09a2a] overflow-hidden min-w-[140px] h-20 flex items-center"
-              >
-                <!-- Background Pattern -->
-                <div class="absolute inset-0 opacity-10">
-                  <div class="absolute -top-2 -right-2 w-10 h-10 rounded-full bg-white/20"></div>
-                  <div class="absolute -bottom-2 -left-2 w-8 h-8 rounded-full bg-white/10"></div>
-                </div>
-                
-                <div class="relative z-10 flex items-center space-x-3 w-full">
-                  <div class="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center group-hover:bg-white/30 transition-all duration-300 group-hover:rotate-12 flex-shrink-0">
-                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M10 2L3 7v11a2 2 0 002 2h10a2 2 0 002-2V7l-7-5z" clip-rule="evenodd" />
-                    </svg>
-                  </div>
-                  <div class="flex-1">
-                    <h3 class="font-bold text-white text-sm group-hover:text-white transition-colors">{{ category }}</h3>
-                    <div class="mt-1 w-6 h-0.5 bg-white/50 group-hover:w-8 group-hover:bg-white transition-all duration-300"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
+        
+            <Categories :categories="categories"/>
              <FeaturedProducts :topRanking="topRanking"/>
 
         <!-- Mobile Products Grid -->
@@ -357,6 +274,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import MainProductCard from "../products/MainProductCard.vue"
 import Header from "../products/ListingPageEssen/Header.vue"
 import FeaturedProducts from "../products/ListingPageEssen/FeaturedProducts.vue"
+import Categories from '../products/ListingPageEssen/Categories.vue'
 
 // Reactive data
 const selectedMarketplace = ref('amazon')

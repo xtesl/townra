@@ -373,173 +373,175 @@
     </div>
 
     <!-- Mobile Sliding Menu Overlay -->
-    <div
-      v-show="showMobileMenu"
-      class="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden transition-opacity duration-300"
-      @click="showMobileMenu = false"
-    ></div>
+   <div 
+  v-show="showMobileMenu"
+  class="fixed inset-0 bg-transparent z-40 md:hidden transition-opacity duration-300"
+  @click="closeMobileMenu"
+></div>
 
     <!-- Mobile Sliding Menu -->
     <div
-      class="fixed top-0 left-0 h-full w-80 bg-white z-50 transform transition-transform duration-300 ease-in-out md:hidden shadow-2xl"
-      :class="{ 'translate-x-0': showMobileMenu, '-translate-x-full': !showMobileMenu }"
-    >
-      <!-- Menu Header -->
-      <div class="bg-gradient-to-r from-[#fbb03b] to-[#e09a2a] p-6">
-        <div class="flex items-center justify-between">
-          <router-link to="/" class="flex items-center space-x-3" @click="showMobileMenu = false">
-            <div class="w-12 h-12 bg-white rounded flex items-center justify-center shadow">
-              <img
-                src="/images/logo.png"
-                alt="Townra Logo"
-                class="w-8 h-8 object-contain"
-                @error="handleImageError"
-              />
-              <span v-if="imageError" class="font-bold text-[#022b5f] text-lg">T</span>
-            </div>
-            <div class="flex flex-col">
-              <span class="text-white font-bold text-xl">Townra</span>
-              <span class="text-white/90 text-sm">Marketplace</span>
-            </div>
-          </router-link>
-          <button
-            @click="showMobileMenu = false"
-            class="text-white hover:text-white/80 transition-colors duration-200"
-          >
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-          </button>
+  class="fixed top-0 left-0 h-full w-80 bg-white z-50 transform transition-transform duration-300 ease-in-out md:hidden shadow-2xl"
+  :class="{ 'translate-x-0': showMobileMenu, '-translate-x-full': !showMobileMenu }"
+>
+  <!-- Menu Header -->
+  <div class="bg-gradient-to-r from-[#fbb03b] to-[#e09a2a] p-6">
+    <div class="flex items-center justify-between">
+      <router-link to="/" class="flex items-center space-x-3" @click="closeMobileMenu">
+        <div class="w-12 h-12 bg-white rounded flex items-center justify-center shadow">
+          <img
+            src="/images/logo.png"
+            alt="Townra Logo"
+            class="w-8 h-8 object-contain"
+            @error="handleImageError"
+          />
+          <span v-if="imageError" class="font-bold text-[#022b5f] text-lg">T</span>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-white font-bold text-xl">Townra</span>
+          <span class="text-white/90 text-sm">Marketplace</span>
+        </div>
+      </router-link>
+      <button
+        @click="closeMobileMenu"
+        class="text-white hover:text-white/80 transition-colors duration-200"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Menu Content -->
+  <div class="flex-1 overflow-y-auto bg-white">
+    <!-- User Section -->
+    <div class="px-6 py-4 border-b border-gray-100">
+      <div v-if="isAuthenticated" class="flex items-center space-x-3 mb-4">
+        <div class="w-12 h-12 bg-[#fbb03b] rounded-full flex items-center justify-center">
+          <span class="text-[#022b5f] font-semibold text-lg">{{ userInitials }}</span>
+        </div>
+        <div>
+          <div class="text-[#022b5f] font-semibold">{{ userName }}</div>
+          <div class="text-gray-600 text-sm">Welcome back!</div>
         </div>
       </div>
-
-      <!-- Menu Content -->
-      <div class="flex-1 overflow-y-auto bg-white">
-        <!-- User Section -->
-        <div class="px-6 py-4 border-b border-gray-100">
-          <div v-if="isAuthenticated" class="flex items-center space-x-3 mb-4">
-            <div class="w-12 h-12 bg-[#fbb03b] rounded-full flex items-center justify-center">
-              <span class="text-[#022b5f] font-semibold text-lg">{{ userInitials }}</span>
-            </div>
-            <div>
-              <div class="text-[#022b5f] font-semibold">{{ userName }}</div>
-              <div class="text-gray-600 text-sm">Welcome back!</div>
-            </div>
-          </div>
-          
-          <!-- Auth Buttons -->
-          <div v-if="!isAuthenticated" class="space-y-3 mb-4">
-            <router-link
-              to="/login"
-              class="block w-full bg-[#fbb03b] hover:bg-[#e09d35] text-[#022b5f] px-4 py-3 rounded font-semibold text-center transition-all duration-200 transform hover:scale-105"
-              @click="showMobileMenu = false"
-            >
-              Sign In
-            </router-link>
-            <router-link
-              to="/register"
-              class="block w-full border-2 border-[#fbb03b] text-[#fbb03b] hover:bg-[#fbb03b] hover:text-[#022b5f] px-4 py-3 rounded font-semibold text-center transition-all duration-200"
-              @click="showMobileMenu = false"
-            >
-              Create Account
-            </router-link>
-          </div>
-        </div>
-
-        <!-- Navigation Links -->
-        <div class="px-6 py-4">
-          <!-- Home -->
-          <router-link
-            to="/"
-            class="flex items-center space-x-4 text-[#022b5f] hover:text-[#fbb03b] py-3 rounded transition-all duration-200 hover:bg-gray-50"
-            @click="showMobileMenu = false"
-          >
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-            </svg>
-            <span class="font-medium">Home</span>
-          </router-link>
-
-          <!-- Sell Button -->
-          <router-link
-            to="/sell"
-            class="flex items-center space-x-4 bg-gradient-to-r from-[#fbb03b] to-[#e09a2a] text-[#022b5f] py-3 px-4 rounded font-semibold my-4 transition-all duration-200 transform hover:scale-105"
-            @click="showMobileMenu = false"
-          >
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-            </svg>
-            <span>Start Selling</span>
-          </router-link>
-
-          <!-- Categories -->
-          <div class="mb-4">
-            <div class="text-gray-500 text-sm font-semibold mb-2 px-2">CATEGORIES</div>
-            <div class="space-y-1">
-              <router-link
-                v-for="category in categories.slice(0, 6)"
-                :key="category.id"
-                :to="`/category/${category.slug}`"
-                class="flex items-center space-x-3 text-gray-700 hover:text-[#fbb03b] py-2 px-2 rounded-lg transition-all duration-200 hover:bg-gray-50"
-                @click="showMobileMenu = false"
-              >
-                <div class="w-2 h-2 bg-[#fbb03b] rounded-full"></div>
-                <span>{{ category.name }}</span>
-              </router-link>
-            </div>
-          </div>
-
-          <!-- User Menu Items (if authenticated) -->
-          <div v-if="isAuthenticated" class="border-t border-gray-100 pt-4 space-y-1">
-            <div class="text-gray-500 text-sm font-semibold mb-2 px-2">MY ACCOUNT</div>
-            <router-link
-              to="/profile"
-              class="flex items-center space-x-4 text-[#022b5f] hover:text-[#fbb03b] py-3 rounded-lg transition-all duration-200 hover:bg-gray-50"
-              @click="showMobileMenu = false"
-            >
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-              </svg>
-              <span>My Profile</span>
-            </router-link>
-            <router-link
-              to="/orders"
-              class="flex items-center space-x-4 text-[#022b5f] hover:text-[#fbb03b] py-3 rounded transition-all duration-200 hover:bg-gray-50"
-              @click="showMobileMenu = false"
-            >
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-              </svg>
-              <span>My Orders</span>
-            </router-link>
-            <router-link
-              to="/seller-dashboard"
-              class="flex items-center space-x-4 text-[#022b5f] hover:text-[#fbb03b] py-3 rounded transition-all duration-200 hover:bg-gray-50"
-              @click="showMobileMenu = false"
-            >
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-              </svg>
-              <span>Seller Dashboard</span>
-            </router-link>
-          </div>
-        </div>
-
-        <!-- Menu Footer -->
-        <div class="px-6 py-4 border-t border-gray-100 mt-auto">
-          <button
-            v-if="isAuthenticated"
-            @click="logout"
-            class="flex items-center space-x-4 text-red-500 hover:text-red-600 py-3 rounded transition-all duration-200 hover:bg-red-50 w-full"
-          >
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-            </svg>
-            <span>Sign Out</span>
-          </button>
-        </div>
+      
+      <!-- Auth Buttons -->
+      <div v-if="!isAuthenticated" class="space-y-3 mb-4">
+        <router-link
+          to="/login"
+          class="block w-full bg-[#fbb03b] hover:bg-[#e09d35] text-[#022b5f] px-4 py-3 rounded font-semibold text-center transition-all duration-200 transform hover:scale-105"
+          @click="closeMobileMenu"
+        >
+          Sign In
+        </router-link>
+        <router-link
+          to="/register"
+          class="block w-full border-2 border-[#fbb03b] text-[#fbb03b] hover:bg-[#fbb03b] hover:text-[#022b5f] px-4 py-3 rounded font-semibold text-center transition-all duration-200"
+          @click="closeMobileMenu"
+        >
+          Create Account
+        </router-link>
       </div>
     </div>
+
+    <!-- Navigation Links -->
+    <div class="px-6 py-4">
+      <!-- Home -->
+      <router-link
+        to="/"
+        class="flex items-center space-x-4 text-[#022b5f] hover:text-[#fbb03b] py-3 rounded transition-all duration-200 hover:bg-gray-50"
+        @click="closeMobileMenu"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+        </svg>
+        <span class="font-medium">Home</span>
+      </router-link>
+
+      <!-- Sell Button -->
+      <router-link
+        to="/sell"
+        class="flex items-center space-x-4 bg-gradient-to-r from-[#fbb03b] to-[#e09a2a] text-[#022b5f] py-3 px-4 rounded font-semibold my-4 transition-all duration-200 transform hover:scale-105"
+        @click="closeMobileMenu"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+        </svg>
+        <span>Start Selling</span>
+      </router-link>
+
+      <!-- Categories -->
+      <div class="mb-4">
+        <div class="text-gray-500 text-sm font-semibold mb-2 px-2">CATEGORIES</div>
+        <div class="space-y-1">
+          <router-link
+            v-for="category in categories.slice(0, 6)"
+            :key="category.id"
+            :to="`/category/${category.slug}`"
+            class="flex items-center space-x-3 text-gray-700 hover:text-[#fbb03b] py-2 px-2 rounded-lg transition-all duration-200 hover:bg-gray-50"
+            @click="closeMobileMenu"
+          >
+            <div class="w-2 h-2 bg-[#fbb03b] rounded-full"></div>
+            <span>{{ category.name }}</span>
+          </router-link>
+        </div>
+      </div>
+
+      <!-- User Menu Items (if authenticated) -->
+      <div v-if="isAuthenticated" class="border-t border-gray-100 pt-4 space-y-1">
+        <div class="text-gray-500 text-sm font-semibold mb-2 px-2">MY ACCOUNT</div>
+        <router-link
+          to="/profile"
+          class="flex items-center space-x-4 text-[#022b5f] hover:text-[#fbb03b] py-3 rounded-lg transition-all duration-200 hover:bg-gray-50"
+          @click="closeMobileMenu"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+          </svg>
+          <span>My Profile</span>
+        </router-link>
+        <router-link
+          to="/orders"
+          class="flex items-center space-x-4 text-[#022b5f] hover:text-[#fbb03b] py-3 rounded transition-all duration-200 hover:bg-gray-50"
+          @click="closeMobileMenu"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+          </svg>
+          <span>My Orders</span>
+        </router-link>
+        <router-link
+          to="/seller-dashboard"
+          class="flex items-center space-x-4 text-[#022b5f] hover:text-[#fbb03b] py-3 rounded transition-all duration-200 hover:bg-gray-50"
+          @click="closeMobileMenu"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+          </svg>
+          <span>Seller Dashboard</span>
+        </router-link>
+      </div>
+    </div>
+
+    <!-- Menu Footer -->
+    <div class="px-6 py-4 border-t border-gray-100 mt-auto">
+      <button
+        v-if="isAuthenticated"
+        @click="logout"
+        class="flex items-center space-x-4 text-red-500 hover:text-red-600 py-3 rounded transition-all duration-200 hover:bg-red-50 w-full"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+        </svg>
+        <span>Sign Out</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+
   </nav>
 </template>
 
@@ -586,14 +588,35 @@ const handleImageError = () => {
   imageError.value = true;
 };
 
-const toggleMobileMenu = () => {
-  showMobileMenu.value = !showMobileMenu.value;
-  if (showMobileMenu.value) {
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = '';
-  }
-};
+ const toggleMobileMenu = () => {
+      showMobileMenu.value = !showMobileMenu.value;
+    }
+    
+    // Method to close mobile menu
+   const  closeMobileMenu = () => {
+      showMobileMenu.value = false;
+    }
+
+    const toggleBodyScroll = (disable) => {
+      if (disable) {
+        // Disable body scroll
+        document.body.style.overflow = 'hidden';
+        document.documentElement.style.overflow = 'hidden';
+      } else {
+        // Enable body scroll
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+      }
+    }
+
+// const toggleMobileMenu = () => {
+//   showMobileMenu.value = !showMobileMenu.value;
+//   if (showMobileMenu.value) {
+//     document.body.style.overflow = 'hidden';
+//   } else {
+//     document.body.style.overflow = '';
+//   }
+// };
 
 const toggleCategories = () => {
   showCategories.value = !showCategories.value;
