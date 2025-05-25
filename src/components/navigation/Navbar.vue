@@ -199,7 +199,7 @@
           <!-- Login/Register (when not authenticated) -->
           <div v-else class="flex items-center space-x-4">
             <router-link
-              to="/login"
+              to="/auth/login"
               class="text-white hover:text-[#fbb03b] transition-colors duration-200"
             >
               Login
@@ -297,7 +297,7 @@
             </div>
             <div v-else class="flex items-center">
               <router-link
-                to="/login"
+                to="/auth/login"
                 class="text-white text-sm hover:text-[#fbb03b] transition-colors duration-200"
               >
                 Login
