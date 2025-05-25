@@ -6,7 +6,7 @@
       class="fixed top-6 left-6 z-10 hover:bg-gray-100 border border-gray-200 text-gray-700 hover:text-[#034080] px-4 py-2 rounded transition-all duration-300 flex items-center gap-2  hover:shadow-md"
     >
       <i class="pi pi-arrow-left text-sm "></i>
-      <span class="hidden sm:inline font-medium">Back</span>
+      <span class="hidden sm:inline font-medium text-white">Back</span>
     </button>
 
     <div class="flex min-h-screen">
@@ -384,7 +384,6 @@ const handleSellerRegister = () => {
 
 const goBack = () => {
   // Navigate back or to previous page
-  console.log('Going back')
   if (window.history.length > 1) {
     window.history.back()
   } else {

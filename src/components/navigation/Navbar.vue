@@ -5,7 +5,7 @@
       <div class="hidden md:flex justify-between items-center h-16">
         <!-- Logo -->
         <div class="flex-shrink-0 flex items-center">
-          <router-link to="/" class="flex items-center space-x-3 group">
+          <a href="/" class="flex items-center space-x-3 group">
             <div
               class="relative w-10 h-10 bg-white from-[#fbb03b] to-[#e09a2a] rounded flex items-center justify-center group-hover:shadow-xl transition-all duration-300 group-hover:scale-105"
             >
@@ -42,7 +42,7 @@
                 Marketplace
               </span>
             </div>
-          </router-link>
+          </a>
         </div>
 
         <!-- Search Bar (Desktop) -->
@@ -198,17 +198,12 @@
 
           <!-- Login/Register (when not authenticated) -->
           <div v-else class="flex items-center space-x-4">
+           
             <router-link
               to="/auth/login"
-              class="text-white hover:text-[#fbb03b] transition-colors duration-200"
-            >
-              Login
-            </router-link>
-            <router-link
-              to="/register"
               class="bg-transparent border border-[#fbb03b] text-[#fbb03b] hover:bg-[#fbb03b] hover:text-[#022b5f] px-4 py-2 rounded-lg transition-colors duration-200"
             >
-              Sign Up
+              Login
             </router-link>
           </div>
 
@@ -430,19 +425,19 @@
       <!-- Auth Buttons -->
       <div v-if="!isAuthenticated" class="space-y-3 mb-4">
         <router-link
-          to="/login"
+          to="/auth/login"
           class="block w-full bg-[#fbb03b] hover:bg-[#e09d35] text-[#022b5f] px-4 py-3 rounded font-semibold text-center transition-all duration-200 transform hover:scale-105"
           @click="closeMobileMenu"
         >
           Sign In
         </router-link>
-        <router-link
-          to="/register"
+        <!-- <router-link
+          to="/auth/"
           class="block w-full border-2 border-[#fbb03b] text-[#fbb03b] hover:bg-[#fbb03b] hover:text-[#022b5f] px-4 py-3 rounded font-semibold text-center transition-all duration-200"
           @click="closeMobileMenu"
         >
           Create Account
-        </router-link>
+        </router-link> -->
       </div>
     </div>
 
