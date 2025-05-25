@@ -1,7 +1,8 @@
 <template>
   <nav class="bg-[#022b5f] shadow-lg sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
+      <!-- Desktop Navigation (unchanged) -->
+      <div class="hidden md:flex justify-between items-center h-16">
         <!-- Logo -->
         <div class="flex-shrink-0 flex items-center">
           <router-link to="/" class="flex items-center space-x-3 group">
@@ -45,7 +46,7 @@
         </div>
 
         <!-- Search Bar (Desktop) -->
-        <div class="hidden md:flex flex-1 max-w-lg mx-8">
+        <div class="flex flex-1 max-w-lg mx-8">
           <div class="relative w-full">
             <input
               v-model="searchQuery"
@@ -85,7 +86,7 @@
         </div>
 
         <!-- Desktop Navigation -->
-        <div class="hidden md:flex items-center space-x-6">
+        <div class="flex items-center space-x-6">
           <!-- Sell Button -->
           <router-link
             to="/sell"
@@ -237,204 +238,305 @@
             </span>
           </router-link>
         </div>
+      </div>
 
-        <!-- Mobile menu button -->
-        <div class="md:hidden">
-          <button
-            @click="toggleMobileMenu"
-            class="text-white hover:text-[#fbb03b] transition-colors duration-200"
-          >
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+      <!-- Mobile Navigation -->
+      <div class="md:hidden">
+        <!-- Mobile Header Row -->
+        <div class="flex items-center justify-between h-16 py-2">
+          <!-- Left side: Toggle Button and Logo -->
+          <div class="flex items-center space-x-3 flex-shrink-0">
+            <button
+              @click="toggleMobileMenu"
+              class="text-white hover:text-[#fbb03b] transition-all duration-300 p-1"
+              :class="{ 'rotate-90': showMobileMenu }"
             >
-              <path
-                v-if="!showMobileMenu"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 6h16M4 12h16M4 18h16"
-              ></path>
-              <path
-                v-else
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              ></path>
-            </svg>
-          </button>
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  v-if="!showMobileMenu"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                ></path>
+                <path
+                  v-else
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                ></path>
+              </svg>
+            </button>
+            
+            <router-link to="/" class="flex items-center space-x-2 group flex-shrink-0">
+              <div class="relative w-8 h-8 bg-white rounded flex items-center justify-center group-hover:shadow-lg transition-all duration-300">
+                <img
+                  src="/images/logo.png"
+                  alt="Townra Logo"
+                  class="w-6 h-6 object-contain"
+                  @error="handleImageError"
+                />
+                <span v-if="imageError" class="font-bold text-[#022b5f] text-sm">T</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-white font-bold text-base leading-tight group-hover:text-[#fbb03b] transition-colors duration-300">
+                  Townra
+                </span>
+              </div>
+            </router-link>
+          </div>
+
+          <!-- Right side: User and Cart -->
+          <div class="flex items-center space-x-3 flex-shrink-0">
+            <!-- User Avatar or Login -->
+            <div v-if="isAuthenticated" class="flex items-center">
+              <div class="w-7 h-7 bg-[#fbb03b] rounded-full flex items-center justify-center">
+                <span class="text-[#022b5f] font-semibold text-xs">{{ userInitials }}</span>
+              </div>
+            </div>
+            <div v-else class="flex items-center">
+              <router-link
+                to="/login"
+                class="text-white text-sm hover:text-[#fbb03b] transition-colors duration-200"
+              >
+                Login
+              </router-link>
+            </div>
+          
+            <!-- Cart -->
+            <router-link
+              to="/cart"
+              class="relative text-white hover:text-[#fbb03b] transition-colors duration-200"
+            >
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6.5-5L19 13"
+                ></path>
+              </svg>
+              <span
+                v-if="cartCount > 0"
+                class="absolute -top-1 -right-1 bg-[#fbb03b] text-[#022b5f] text-xs rounded-full h-4 w-4 flex items-center justify-center font-semibold text-[10px]"
+              >
+                {{ cartCount }}
+              </span>
+            </router-link>
+          </div>
         </div>
+
+        <!-- Mobile Start Selling Button and Search Bar Row -->
+        
+  <div class="flex items-center gap-2 sm:gap-3 px-3 pb-3">
+  <!-- Start Selling Button -->
+  <router-link
+    to="/sell"
+    class="bg-[#fbb03b] hover:bg-[#e09d35] text-[#022b5f] px-2.5 sm:px-3 py-2 rounded text-xs sm:text-sm font-semibold transition-colors duration-200 whitespace-nowrap flex-shrink-0 min-w-0"
+  >
+    <span class="hidden xs:inline">Sell Now</span>
+    <span class="xs:hidden">Start Selling</span>
+  </router-link>
+
+  <!-- Mobile Search Bar -->
+  <div class="relative flex-1 min-w-0">
+    <input
+      v-model="searchQuery"
+      type="text"
+      placeholder="Search Townra"
+      class="w-full px-4 sm:px-5 py-2 pl-8 sm:pl-10 pr-14 sm:pr-16 text-gray-900 bg-white border border-gray-200 rounded focus:outline-none focus:ring-2 focus:ring-[#fbb03b] focus:border-transparent shadow text-xs sm:text-sm"
+      @keyup.enter="handleSearch"
+    />
+    <div class="absolute inset-y-0 left-0 pl-2 sm:pl-3 flex items-center pointer-events-none">
+      <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+        ></path>
+      </svg>
+    </div>
+    <button
+      @click="handleSearch"
+      class="absolute inset-y-0 right-0 pr-1.5 sm:pr-2 flex items-center"
+    >
+      <div class="bg-[#fbb03b] hover:bg-[#e09d35] text-[#022b5f] px-2 sm:px-2.5 py-0.5 sm:py-1 rounded transition-colors duration-200 text-xs font-medium">
+        Go
+      </div>
+    </button>
+  </div>
+</div>
+
       </div>
     </div>
 
-    <!-- Mobile Menu -->
+    <!-- Mobile Sliding Menu Overlay -->
     <div
       v-show="showMobileMenu"
-      class="md:hidden bg-[#022b5f] border-t border-[#fbb03b]/20"
+      class="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden transition-opacity duration-300"
+      @click="showMobileMenu = false"
+    ></div>
+
+    <!-- Mobile Sliding Menu -->
+    <div
+      class="fixed top-0 left-0 h-full w-80 bg-white z-50 transform transition-transform duration-300 ease-in-out md:hidden shadow-2xl"
+      :class="{ 'translate-x-0': showMobileMenu, '-translate-x-full': !showMobileMenu }"
     >
-      <!-- Mobile Search -->
-      <div class="px-4 py-3">
-        <div class="relative">
-          <input
-            v-model="searchQuery"
-            type="text"
-            placeholder="Search products..."
-            class="w-full px-4 py-2 pl-10 pr-4 text-gray-900 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#fbb03b]"
-            @keyup.enter="handleSearch"
-          />
-          <div
-            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+      <!-- Menu Header -->
+      <div class="bg-gradient-to-r from-[#fbb03b] to-[#e09a2a] p-6">
+        <div class="flex items-center justify-between">
+          <router-link to="/" class="flex items-center space-x-3" @click="showMobileMenu = false">
+            <div class="w-12 h-12 bg-white rounded flex items-center justify-center shadow">
+              <img
+                src="/images/logo.png"
+                alt="Townra Logo"
+                class="w-8 h-8 object-contain"
+                @error="handleImageError"
+              />
+              <span v-if="imageError" class="font-bold text-[#022b5f] text-lg">T</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-white font-bold text-xl">Townra</span>
+              <span class="text-white/90 text-sm">Marketplace</span>
+            </div>
+          </router-link>
+          <button
+            @click="showMobileMenu = false"
+            class="text-white hover:text-white/80 transition-colors duration-200"
           >
-            <svg
-              class="w-5 h-5 text-gray-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              ></path>
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
             </svg>
-          </div>
+          </button>
         </div>
       </div>
 
-      <!-- Mobile Navigation Links -->
-      <div class="px-4 py-2 space-y-2">
-        <router-link
-          to="/sell"
-          class="block bg-[#fbb03b] hover:bg-[#e09d35] text-[#022b5f] px-4 py-3 rounded-lg font-semibold text-center transition-colors duration-200"
-          @click="showMobileMenu = false"
-        >
-          Start Selling
-        </router-link>
-
-        <button
-          @click="toggleCategories"
-          class="w-full text-left text-white hover:text-[#fbb03b] px-4 py-3 rounded-lg transition-colors duration-200 flex items-center justify-between"
-        >
-          <span>Categories</span>
-          <svg
-            class="w-4 h-4 transition-transform duration-200"
-            :class="{ 'rotate-180': showCategories }"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M19 9l-7 7-7-7"
-            ></path>
-          </svg>
-        </button>
-
-        <div v-show="showCategories" class="pl-4 space-y-1">
-          <router-link
-            v-for="category in categories"
-            :key="category.id"
-            :to="`/category/${category.slug}`"
-            class="block text-gray-300 hover:text-[#fbb03b] px-4 py-2 rounded transition-colors duration-200"
-            @click="showMobileMenu = false"
-          >
-            {{ category.name }}
-          </router-link>
-        </div>
-
-        <router-link
-          to="/cart"
-          class="flex items-center justify-between text-white hover:text-[#fbb03b] px-4 py-3 rounded-lg transition-colors duration-200"
-          @click="showMobileMenu = false"
-        >
-          <span>Cart</span>
-          <div class="flex items-center space-x-2">
-            <svg
-              class="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6.5-5L19 13"
-              ></path>
-            </svg>
-            <span
-              v-if="cartCount > 0"
-              class="bg-[#fbb03b] text-[#022b5f] text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold"
-            >
-              {{ cartCount }}
-            </span>
-          </div>
-        </router-link>
-
-        <div
-          v-if="isAuthenticated"
-          class="border-t border-[#fbb03b]/20 pt-2 mt-2"
-        >
-          <div class="flex items-center space-x-3 px-4 py-3">
-            <div
-              class="w-10 h-10 bg-[#fbb03b] rounded-full flex items-center justify-center"
-            >
-              <span class="text-[#022b5f] font-semibold">{{
-                userInitials
-              }}</span>
+      <!-- Menu Content -->
+      <div class="flex-1 overflow-y-auto bg-white">
+        <!-- User Section -->
+        <div class="px-6 py-4 border-b border-gray-100">
+          <div v-if="isAuthenticated" class="flex items-center space-x-3 mb-4">
+            <div class="w-12 h-12 bg-[#fbb03b] rounded-full flex items-center justify-center">
+              <span class="text-[#022b5f] font-semibold text-lg">{{ userInitials }}</span>
             </div>
-            <span class="text-white font-medium">{{ userName }}</span>
+            <div>
+              <div class="text-[#022b5f] font-semibold">{{ userName }}</div>
+              <div class="text-gray-600 text-sm">Welcome back!</div>
+            </div>
           </div>
-          <router-link
-            to="/profile"
-            class="block text-white hover:text-[#fbb03b] px-4 py-2 transition-colors duration-200"
-            @click="showMobileMenu = false"
-          >
-            My Profile
-          </router-link>
-          <router-link
-            to="/orders"
-            class="block text-white hover:text-[#fbb03b] px-4 py-2 transition-colors duration-200"
-            @click="showMobileMenu = false"
-          >
-            My Orders
-          </router-link>
-          <router-link
-            to="/seller-dashboard"
-            class="block text-white hover:text-[#fbb03b] px-4 py-2 transition-colors duration-200"
-            @click="showMobileMenu = false"
-          >
-            Seller Dashboard
-          </router-link>
-          <button
-            @click="logout"
-            class="w-full text-left text-white hover:text-[#fbb03b] px-4 py-2 transition-colors duration-200"
-          >
-            Logout
-          </button>
+          
+          <!-- Auth Buttons -->
+          <div v-if="!isAuthenticated" class="space-y-3 mb-4">
+            <router-link
+              to="/login"
+              class="block w-full bg-[#fbb03b] hover:bg-[#e09d35] text-[#022b5f] px-4 py-3 rounded font-semibold text-center transition-all duration-200 transform hover:scale-105"
+              @click="showMobileMenu = false"
+            >
+              Sign In
+            </router-link>
+            <router-link
+              to="/register"
+              class="block w-full border-2 border-[#fbb03b] text-[#fbb03b] hover:bg-[#fbb03b] hover:text-[#022b5f] px-4 py-3 rounded font-semibold text-center transition-all duration-200"
+              @click="showMobileMenu = false"
+            >
+              Create Account
+            </router-link>
+          </div>
         </div>
 
-        <div v-else class="border-t border-[#fbb03b]/20 pt-2 mt-2 space-y-2">
+        <!-- Navigation Links -->
+        <div class="px-6 py-4">
+          <!-- Home -->
           <router-link
-            to="/login"
-            class="block text-white hover:text-[#fbb03b] px-4 py-3 rounded-lg transition-colors duration-200"
+            to="/"
+            class="flex items-center space-x-4 text-[#022b5f] hover:text-[#fbb03b] py-3 rounded transition-all duration-200 hover:bg-gray-50"
             @click="showMobileMenu = false"
           >
-            Login
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+            </svg>
+            <span class="font-medium">Home</span>
           </router-link>
+
+          <!-- Sell Button -->
           <router-link
-            to="/register"
-            class="block bg-transparent border border-[#fbb03b] text-[#fbb03b] hover:bg-[#fbb03b] hover:text-[#022b5f] px-4 py-3 rounded-lg text-center transition-colors duration-200"
+            to="/sell"
+            class="flex items-center space-x-4 bg-gradient-to-r from-[#fbb03b] to-[#e09a2a] text-[#022b5f] py-3 px-4 rounded font-semibold my-4 transition-all duration-200 transform hover:scale-105"
             @click="showMobileMenu = false"
           >
-            Sign Up
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+            <span>Start Selling</span>
           </router-link>
+
+          <!-- Categories -->
+          <div class="mb-4">
+            <div class="text-gray-500 text-sm font-semibold mb-2 px-2">CATEGORIES</div>
+            <div class="space-y-1">
+              <router-link
+                v-for="category in categories.slice(0, 6)"
+                :key="category.id"
+                :to="`/category/${category.slug}`"
+                class="flex items-center space-x-3 text-gray-700 hover:text-[#fbb03b] py-2 px-2 rounded-lg transition-all duration-200 hover:bg-gray-50"
+                @click="showMobileMenu = false"
+              >
+                <div class="w-2 h-2 bg-[#fbb03b] rounded-full"></div>
+                <span>{{ category.name }}</span>
+              </router-link>
+            </div>
+          </div>
+
+          <!-- User Menu Items (if authenticated) -->
+          <div v-if="isAuthenticated" class="border-t border-gray-100 pt-4 space-y-1">
+            <div class="text-gray-500 text-sm font-semibold mb-2 px-2">MY ACCOUNT</div>
+            <router-link
+              to="/profile"
+              class="flex items-center space-x-4 text-[#022b5f] hover:text-[#fbb03b] py-3 rounded-lg transition-all duration-200 hover:bg-gray-50"
+              @click="showMobileMenu = false"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+              </svg>
+              <span>My Profile</span>
+            </router-link>
+            <router-link
+              to="/orders"
+              class="flex items-center space-x-4 text-[#022b5f] hover:text-[#fbb03b] py-3 rounded transition-all duration-200 hover:bg-gray-50"
+              @click="showMobileMenu = false"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+              </svg>
+              <span>My Orders</span>
+            </router-link>
+            <router-link
+              to="/seller-dashboard"
+              class="flex items-center space-x-4 text-[#022b5f] hover:text-[#fbb03b] py-3 rounded transition-all duration-200 hover:bg-gray-50"
+              @click="showMobileMenu = false"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+              </svg>
+              <span>Seller Dashboard</span>
+            </router-link>
+          </div>
+        </div>
+
+        <!-- Menu Footer -->
+        <div class="px-6 py-4 border-t border-gray-100 mt-auto">
+          <button
+            v-if="isAuthenticated"
+            @click="logout"
+            class="flex items-center space-x-4 text-red-500 hover:text-red-600 py-3 rounded transition-all duration-200 hover:bg-red-50 w-full"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+            </svg>
+            <span>Sign Out</span>
+          </button>
         </div>
       </div>
     </div>
@@ -443,6 +545,7 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from "vue";
+// import { RouterLink } from "vue-router"
 
 // Reactive data
 const searchQuery = ref("");
@@ -451,9 +554,10 @@ const showCategories = ref(false);
 const showUserMenu = ref(false);
 const categoriesDropdown = ref(null);
 const userDropdown = ref(null);
+const imageError = ref(false);
 
 // Mock data - replace with your actual data/store
-const isAuthenticated = ref(true); // Change based on auth state
+const isAuthenticated = ref(false); // Change based on auth state
 const userName = ref("John Doe");
 const cartCount = ref(3);
 
@@ -478,11 +582,16 @@ const userInitials = computed(() => {
 });
 
 // Methods
+const handleImageError = () => {
+  imageError.value = true;
+};
+
 const toggleMobileMenu = () => {
   showMobileMenu.value = !showMobileMenu.value;
   if (showMobileMenu.value) {
-    showCategories.value = false;
-    showUserMenu.value = false;
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = '';
   }
 };
 
@@ -532,16 +641,8 @@ onMounted(() => {
 
 onUnmounted(() => {
   document.removeEventListener("click", handleClickOutside);
+  document.body.style.overflow = '';
 });
 </script>
 
-<style scoped>
-.group:hover .w-10 {
-  transform: rotate(-2deg);
-}
 
-/* Smooth transitions */
-* {
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
-</style>
