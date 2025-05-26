@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from "../views/Home.vue"
 import Login from "../views/auth/login.vue"
 import RegisterSeller from "../views/auth/ResgisterSeller.vue"
+import MagicLogin  from "../views/auth/MagicLogin.vue"
 
 const routes = [
   {
@@ -18,6 +19,12 @@ const routes = [
     path: "/auth/register",
     name: "register-seller",
     component: RegisterSeller
+  },
+
+  {
+    path: "/auth/magic-login",
+    name: "magic-login",
+    component: MagicLogin
   }
 
 ]

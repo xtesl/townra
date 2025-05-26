@@ -3,9 +3,9 @@
     <!-- Back Button -->
     <button 
       @click="goBack"
-      class="fixed top-6 left-6 z-10 hover:bg-gray-100 border border-gray-200 text-gray-700 hover:text-[#034080] px-4 py-2 rounded transition-all duration-300 flex items-center gap-2  hover:shadow-md"
+      class="fixed top-6 left-6 z-10 hover:bg-gray-100 border border-gray-200 text-gray-700 hover:text-[#034080] px-4 py-2 rounded transition-all duration-300 flex items-center gap-2 hover:shadow-md"
     >
-      <i class="pi pi-arrow-left text-sm "></i>
+      <i class="pi pi-arrow-left text-sm"></i>
       <span class="hidden sm:inline font-medium text-white">Back</span>
     </button>
 
@@ -15,20 +15,17 @@
         <div class="absolute inset-0 bg-black/10"></div>
         <div class="relative z-10 flex flex-col justify-center px-12 xl:px-16 text-white">
           <div class="mb-8">
-            <!-- <div class="w-20 h-20 bg-white/20 backdrop-blur-sm rounded flex items-center justify-center mb-6">
-              <i class="fas fa-store text-3xl text-white"></i>
-            </div> -->
-               <img
-                src="/images/logo.png"
-                alt="Townra Logo"
-                class="w-20 h-20 bg-white object-contain transition-transform duration-300 group-hover:scale-110"
-                @error="handleImageError"
-              />
+            <img
+              src="/images/logo.png"
+              alt="Townra Logo"
+              class="w-20 h-20 bg-white object-contain transition-transform duration-300 group-hover:scale-110"
+              @error="handleImageError"
+            />
 
-              <!-- Fallback letter if image fails to load -->
-              <span v-if="imageError" class="font-bold text-white text-lg">
-                T
-              </span>
+            <!-- Fallback letter if image fails to load -->
+            <span v-if="imageError" class="font-bold text-white text-lg">
+              T
+            </span>
             <h1 class="text-4xl xl:text-5xl font-bold mb-4 leading-tight">
               Welcome to Our
               <span class="text-[#e09a2a]">Professional</span>
@@ -42,7 +39,7 @@
           <div class="space-y-4">
             <div class="flex items-center gap-4">
               <div class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                <i class="fas fa-shield-alt text-white"></i>
+                <i class="pi pi-shield text-white"></i>
               </div>
               <div>
                 <h3 class="font-semibold text-lg">Secure & Safe</h3>
@@ -51,7 +48,7 @@
             </div>
             <div class="flex items-center gap-4">
               <div class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                <i class="fas fa-bolt text-white"></i>
+                <i class="pi pi-bolt text-white"></i>
               </div>
               <div>
                 <h3 class="font-semibold text-lg">Fast & Easy</h3>
@@ -60,7 +57,7 @@
             </div>
             <div class="flex items-center gap-4">
               <div class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                <i class="fas fa-users text-white"></i>
+                <i class="pi pi-users text-white"></i>
               </div>
               <div>
                 <h3 class="font-semibold text-lg">Trusted Platform</h3>
@@ -82,8 +79,7 @@
           <!-- Mobile Header (hidden on desktop) -->
           <div class="lg:hidden text-center mb-8">
             <div class="w-16 h-16 bg-gradient-to-r from-[#034080] to-[#e09a2a] rounded mx-auto mb-4 flex items-center justify-center">
-              <!-- <i class="fas fa-store text-white text-xl"></i> -->
-                <img
+              <img
                 src="/images/logo.png"
                 alt="Townra Logo"
                 class="w-20 h-20 object-contain transition-transform duration-300 group-hover:scale-110"
@@ -100,8 +96,8 @@
             <p class="text-gray-600">Enter your email to get started</p>
           </div>
 
-          <!-- Login Form -->
-          <div class="bg-white border border-gray-100 rounded p-8">
+          <!-- Login Form - Show only when no modals are active -->
+          <div v-show="!showEmailLinkModal && !showOtpModal" class="bg-white border border-gray-100 rounded p-8">
             <form @submit.prevent="handleEmailLogin" class="space-y-6">
               <!-- Email Input -->
               <div class="space-y-2">
@@ -126,10 +122,10 @@
               <button
                 type="submit"
                 :disabled="isLoading || !email"
-                class="w-full bg-[#034080] hover:bg-[#034080]/90 disabled:bg-gray-300 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] disabled:transform-none disabled:cursor-not-allowed  hover:shadow-xl"
+                class="w-full bg-[#034080] hover:bg-[#034080]/90 disabled:bg-gray-300 text-white font-semibold py-4 px-6 rounded transition-all duration-300 transform hover:scale-[1.02] disabled:transform-none disabled:cursor-not-allowed hover:shadow-xl"
               >
                 <span v-if="!isLoading" class="flex items-center justify-center gap-2">
-                  <i class="fas fa-paper-plane"></i>
+                  <i class="pi pi-send"></i>
                   Send Magic Link
                 </span>
                 <div v-else class="flex items-center justify-center gap-3">
@@ -139,17 +135,15 @@
               </button>
             </form>
 
-            <!-- Success Message -->
-            <div v-if="emailSent" class="mt-6 p-4 bg-green-50 border border-green-200 rounded-xl">
-              <div class="flex items-center gap-3">
-                <i class="fas fa-check-circle text-green-600"></i>
-                <div>
-                  <p class="text-green-800 font-medium">Magic link sent!</p>
-                  <p class="text-green-700 text-sm">Check your email and click the link to sign in.</p>
-                </div>
-              </div>
-            </div>
-
+        <div v-if="showError" class="mt-6 p-4 bg-red-50 border border-red-200 rounded">
+  <div class="flex items-center gap-3">
+    <i class="pi pi-times-circle text-red-600"></i>
+    <div>
+      <!-- <p class="text-red-800 font-medium">Error sending email</p> -->
+      <p class="text-red-700 text-sm">{{ errorMessage }}</p>
+    </div>
+  </div>
+</div>
             <!-- Social Login Divider -->
             <div class="my-8 flex items-center">
               <div class="flex-1 border-t border-gray-200"></div>
@@ -173,29 +167,106 @@
             </button>
           </div>
 
-          <!-- Seller Registration -->
-          <div class="mt-8 p-6 bg-gradient-to-r from-[#e09a2a]/5 to-[#e09a2a]/10 rounded border border-[#e09a2a]/20">
+          <!-- Email Link Sent Modal -->
+          <div v-show="showEmailLinkModal" class="bg-white border border-gray-100 rounded p-8 animate-fade-in">
+            <div class="text-center">
+              <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="pi pi-envelope text-3xl text-green-600"></i>
+              </div>
+              <h2 class="text-2xl font-bold text-[#034080] mb-4">Check Your Email</h2>
+              <p class="text-gray-600 mb-2 leading-relaxed">
+                We've sent a magic link to:
+              </p>
+              <p class="text-[#034080] font-semibold text-lg mb-6">{{ email }}</p>
+              <p class="text-gray-600 text-sm leading-relaxed">
+                Click the link in your email to continue. The link will expire in 15 minutes.
+              </p>
+              <div class="mt-6 flex items-center justify-center gap-2 text-sm text-gray-500">
+                <div class="w-2 h-2 bg-[#e09a2a] rounded-full animate-pulse"></div>
+                <span>Waiting for confirmation...</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- OTP Code Modal -->
+          <div v-show="showOtpModal" class="bg-white border border-gray-100 rounded p-8 animate-fade-in">
+            <div class="text-center">
+              <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="pi pi-key text-3xl text-blue-600"></i>
+              </div>
+              <h2 class="text-2xl font-bold text-[#034080] mb-4">Enter Verification Code</h2>
+              <p class="text-gray-600 mb-6 leading-relaxed">
+                Didn't receive the email? Enter the 6-digit code sent to your device instead.
+              </p>
+              
+              <form @submit.prevent="handleOtpSubmit" class="space-y-6">
+                <div class="space-y-2">
+                  <label for="otp" class="block text-sm font-semibold text-[#034080]">
+                    Verification Code
+                  </label>
+                  <input
+                    id="otp"
+                    v-model="otpCode"
+                    type="text"
+                    maxlength="6"
+                    placeholder="Enter 6-digit code"
+                    class="w-full px-4 py-4 text-center text-2xl tracking-widest border-2 border-gray-200 rounded focus:ring-2 focus:ring-[#e09a2a]/20 focus:border-[#e09a2a] transition-all duration-300 bg-white text-gray-900 placeholder-gray-500"
+                    @input="otpCode = otpCode.replace(/\D/g, '')"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  :disabled="otpCode.length !== 6"
+                  class="w-full bg-[#034080] hover:bg-[#034080]/90 disabled:bg-gray-300 text-white font-semibold py-4 px-6 rounded transition-all duration-300 transform hover:scale-[1.02] disabled:transform-none disabled:cursor-not-allowed hover:shadow-xl"
+                >
+                  <span class="flex items-center justify-center gap-2">
+                    <i class="pi pi-check"></i>
+                    Verify Code
+                  </span>
+                </button>
+              </form>
+
+              <div class="mt-6 flex flex-col sm:flex-row gap-4 justify-center">
+                <button
+                  @click="resendEmail"
+                  class="text-[#034080] hover:text-[#e09a2a] font-semibold transition-colors underline decoration-2 underline-offset-2"
+                >
+                  Resend Email
+                </button>
+                <button
+                  @click="goBackToForm"
+                  class="text-gray-600 hover:text-gray-800 font-semibold transition-colors"
+                >
+                  Use Different Email
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Seller Registration - Only show when forms are visible -->
+          <div v-show="!showEmailLinkModal && !showOtpModal" class="mt-8 p-6 bg-gradient-to-r from-[#e09a2a]/5 to-[#e09a2a]/10 rounded border border-[#e09a2a]/20">
             <div class="text-center">
               <div class="w-12 h-12 bg-[#e09a2a]/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                <i class="fas fa-store text-[#e09a2a]"></i>
+                <i class="pi pi-shopping-bag text-[#e09a2a]"></i>
               </div>
               <h3 class="text-lg font-bold text-[#034080] mb-2">Become a Seller</h3>
               <p class="text-sm text-gray-600 mb-4 leading-relaxed">
-                <i class="fas fa-info-circle text-[#e09a2a] mr-1"></i>
+                <i class="pi pi-info-circle text-[#e09a2a] mr-1"></i>
                 Seller registration is exclusively available for verified business entities only
               </p>
               <button
                 @click="handleSellerRegister"
-                class="bg-[#e09a2a] hover:bg-[#e09a2a]/90 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
+                class="bg-[#e09a2a] hover:bg-[#e09a2a]/90 text-white font-semibold py-3 px-6 rounded transition-all duration-300 transform hover:scale-105 hover:shadow"
               >
-                <i class="fas fa-arrow-right mr-2"></i>
+                <i class="pi pi-arrow-right mr-2"></i>
                 Register as Seller
               </button>
             </div>
           </div>
 
-          <!-- Terms and Conditions -->
-          <div class="mt-6 text-center text-sm text-gray-600">
+          <!-- Terms and Conditions - Only show when forms are visible -->
+          <div v-show="!showEmailLinkModal && !showOtpModal" class="mt-6 text-center text-sm text-gray-600">
             <p class="leading-relaxed">
               By signing in, you agree to our
               <button
@@ -233,7 +304,7 @@
             @click="showTerms = false"
             class="text-gray-400 hover:text-gray-600 transition-colors p-2 hover:bg-gray-100 rounded-lg"
           >
-            <i class="fas fa-times text-xl"></i>
+            <i class="pi pi-times text-xl"></i>
           </button>
         </div>
         <div class="p-6 overflow-y-auto max-h-[60vh]">
@@ -326,44 +397,109 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import apiClient from "../../api/axios"
+import { useReCaptcha } from "vue-recaptcha-v3"
+import Cookies from "js-cookie"
+
+const { executeRecaptcha } = useReCaptcha();
 
 // Reactive data
 const email = ref('')
 const isLoading = ref(false)
-const emailSent = ref(false)
+const showEmailLinkModal = ref(false)
+const showOtpModal = ref(false)
+const otpCode = ref('')
 const showTerms = ref(false)
 const showPrivacy = ref(false)
-const imageError = ref(false);
-
-
+const imageError = ref(false)
+const showError = ref(false);
+const errorMessage = ref('');
 
 // Methods
 const handleImageError = () => {
-  imageError.value = true;
-};
+  imageError.value = true
+}
 
 const handleEmailLogin = async () => {
   if (!email.value) return
   
   isLoading.value = true
-  emailSent.value = false
   
   try {
-    // Simulate API call for sending magic link
-    await new Promise(resolve => setTimeout(resolve, 2000))
+       errorMessage.value = '';
+       showError.value = false;
+
+       const recaptcha_token = await executeRecaptcha("login")
+      const recaptcha_site_key = import.meta.env.VITE_RECAPTCHA_SITE_KEY
+      const payload = {
+      recaptcha_token: recaptcha_token,
+      recaptcha_site_key: recaptcha_site_key
+    }
+    const response = await apiClient.post(`/auth/request-login?credential=${email.value}`, payload)
+    const response_data = response.data 
     
-    // Here you would implement your actual magic link logic
-    console.log('Magic link sent to:', email.value)
+    const deviceId = response_data.data.device_id
+    if (deviceId) {
+      Cookies.set('townra-device-id', deviceId, {
+        expires: 30, // 1 year
+        path: '/',
+        sameSite: 'Lax',
+        secure: false, // Set to true in production over HTTPS
+      })
+    }
+    // Show email link modal
+    showEmailLinkModal.value = true
     
-    emailSent.value = true
+    // After 5 seconds, hide email modal and show OTP modal
+    setTimeout(() => {
+      showEmailLinkModal.value = false
+      showOtpModal.value = true
+    }, 5000)
     
   } catch (error) {
-    console.error('Login error:', error)
-    alert('Failed to send magic link. Please try again.')
+    showError.value = true;
+    errorMessage.value = 'Failed to send login link. Please try again.';
   } finally {
     isLoading.value = false
   }
+}
+
+const handleOtpSubmit = async () => {
+  if (otpCode.value.length !== 6) return
+  
+  try {
+    // Simulate OTP verification
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    console.log('OTP verified:', otpCode.value)
+    alert('OTP verified successfully!')
+    
+    // Reset form
+    showOtpModal.value = false
+    otpCode.value = ''
+    email.value = ''
+    
+  } catch (error) {
+    console.error('OTP verification error:', error)
+    alert('Invalid OTP. Please try again.')
+  }
+}
+
+const resendEmail = async () => {
+  try {
+    // Simulate resending email
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    alert('Email resent successfully!')
+  } catch (error) {
+    console.error('Resend error:', error)
+    alert('Failed to resend email. Please try again.')
+  }
+}
+
+const goBackToForm = () => {
+  showOtpModal.value = false
+  showEmailLinkModal.value = false
+  otpCode.value = ''
 }
 
 const handleGoogleLogin = () => {
@@ -371,7 +507,6 @@ const handleGoogleLogin = () => {
   
   // Implement Google OAuth login
   console.log('Google login initiated')
-  // Here you would integrate with Google OAuth
   alert('Google login would be implemented here')
 }
 
@@ -379,7 +514,6 @@ const handleSellerRegister = () => {
   // Navigate to seller registration
   console.log('Seller registration initiated')
   alert('Redirecting to seller registration...')
-  // Here you would navigate to seller registration page
 }
 
 const goBack = () => {
@@ -390,6 +524,11 @@ const goBack = () => {
     window.location.href = '/'
   }
 }
+
+onMounted(() => {
+
+  email.value = ""
+})
 </script>
 
 <style scoped>
@@ -403,6 +542,10 @@ const goBack = () => {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
 }
 
 /* Ensure proper mobile handling */
