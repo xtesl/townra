@@ -1,5 +1,14 @@
 <template>
   <div class="min-h-screen bg-white">
+     <div :v-if="showPageLoader">
+       <PageLoader
+      :isVisible="showPageLoader" 
+      :message="''"
+      :showLogo="false"
+      type="pulse"
+      color="blue"
+   />
+    </div>
     <!-- Back Button -->
     <button 
       @click="goBack"
@@ -393,6 +402,8 @@
         </div>
       </div>
     </div>
+   
+ 
   </div>
 </template>
 
@@ -401,6 +412,7 @@ import { ref, onMounted } from 'vue'
 import apiClient from "../../api/axios"
 import { useReCaptcha } from "vue-recaptcha-v3"
 import Cookies from "js-cookie"
+import PageLoader from "../../components/animation/PageLoader.vue"
 
 const { executeRecaptcha } = useReCaptcha();
 
@@ -415,11 +427,14 @@ const showPrivacy = ref(false)
 const imageError = ref(false)
 const showError = ref(false);
 const errorMessage = ref('');
+const showPageLoader = ref(false)
 
 // Methods
 const handleImageError = () => {
   imageError.value = true
 }
+
+// const async fetchData
 
 const handleEmailLogin = async () => {
   if (!email.value) return
@@ -526,7 +541,7 @@ const goBack = () => {
 }
 
 onMounted(() => {
-
+  
   email.value = ""
 })
 </script>

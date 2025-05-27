@@ -88,12 +88,12 @@
         <!-- Desktop Navigation -->
         <div class="flex items-center space-x-6">
           <!-- Sell Button -->
-          <router-link
+          <RouterLink
             to="/auth/register"
             class="bg-[#fbb03b] hover:bg-[#e09d35] text-[#022b5f] px-4 py-2 rounded font-semibold transition-colors duration-200"
           >
             Start Selling
-          </router-link>
+        </RouterLink>
 
           <!-- Categories Dropdown -->
           <div class="relative" ref="categoriesDropdown">
@@ -121,7 +121,7 @@
               v-show="showCategories"
               class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50"
             >
-              <router-link
+              <RouterLink
                 v-for="category in categories"
                 :key="category.id"
                 :to="`/category/${category.slug}`"
@@ -129,7 +129,7 @@
                 @click="showCategories = false"
               >
                 {{ category.name }}
-              </router-link>
+          </RouterLink>
             </div>
           </div>
 
@@ -199,12 +199,12 @@
           <!-- Login/Register (when not authenticated) -->
           <div v-else class="flex items-center space-x-4">
            
-            <router-link
+            <RouterLink
               to="/auth/login"
               class="bg-transparent border border-[#fbb03b] text-[#fbb03b] hover:bg-[#fbb03b] hover:text-[#022b5f] px-4 py-2 rounded-lg transition-colors duration-200"
             >
               Login
-            </router-link>
+          </RouterLink>
           </div>
 
           <!-- Cart -->
@@ -264,7 +264,7 @@
               </svg>
             </button>
             
-            <router-link to="/" class="flex items-center space-x-2 group flex-shrink-0">
+            <RouterLink to="/" class="flex items-center space-x-2 group flex-shrink-0">
               <div class="relative w-8 h-8 bg-white rounded flex items-center justify-center group-hover:shadow-lg transition-all duration-300">
                 <img
                   src="/images/logo.png"
@@ -279,7 +279,7 @@
                   Townra
                 </span>
               </div>
-            </router-link>
+            </RouterLink>
           </div>
 
           <!-- Right side: User and Cart -->
@@ -291,12 +291,12 @@
               </div>
             </div>
             <div v-else class="flex items-center">
-              <router-link
+              <RouterLink
                 to="/auth/login"
                 class="text-white text-sm hover:text-[#fbb03b] transition-colors duration-200"
               >
                 Login
-              </router-link>
+            </RouterLink>
             </div>
           
             <!-- Cart -->
@@ -326,13 +326,13 @@
         
   <div class="flex items-center gap-2 sm:gap-3 px-3 pb-3">
   <!-- Start Selling Button -->
-  <router-link
-    to="/auth/register"
+  <RouterLink
+    href="/auth/register"
     class="bg-[#fbb03b] hover:bg-[#e09d35] text-[#022b5f] px-2.5 sm:px-3 py-2 rounded text-xs sm:text-sm font-semibold transition-colors duration-200 whitespace-nowrap flex-shrink-0 min-w-0"
   >
     <span class="hidden xs:inline">Sell Now</span>
     <span class="xs:hidden">Start Selling</span>
-  </router-link>
+  </RouterLink>
 
   <!-- Mobile Search Bar -->
   <div class="relative flex-1 min-w-0">

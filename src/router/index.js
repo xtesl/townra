@@ -4,6 +4,7 @@ import Login from "../views/auth/login.vue"
 import RegisterSeller from "../views/auth/ResgisterSeller.vue"
 import MagicLogin  from "../views/auth/MagicLogin.vue"
 import StartSelling from "../views/auth/StartSelling.vue"
+import { useGlobalLoader } from '../composables/useLoader'
 
 const routes = [
   {
@@ -14,12 +15,13 @@ const routes = [
   {
     path: "/auth/login",
     name: "login",
-    component: Login
+    component: Login,
+    meta: { requiresLoader: true }
   }, {
 
-    path: "/auth/register",
-    name: "register-seller",
-    component: RegisterSeller
+    path: "/auth/start-selling",
+    name: "start-selling",
+    component: StartSelling
   },
 
   {
@@ -31,7 +33,7 @@ const routes = [
   {
     path: "/auth/register",
     name: "register-seller",  
-    component: StartSelling
+    component: RegisterSeller
   },
 
 
@@ -41,5 +43,22 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes
 })
+
+// router.beforeEach((to, from, next) => {
+//   if (to.meta?.requiresLoader && to.path !== from.path) {
+//     const { showLoader } = useGlobalLoader()
+//     const message = to.meta.loaderMessage || 'Loading page...'
+//     showLoader(message)
+//   }
+//   next()
+// })
+
+// router.afterEach(() => {
+//   const { hideLoader } = useGlobalLoader()
+//   // Small delay to ensure content is loaded
+//   setTimeout(() => {
+//     hideLoader()
+//   }, 500)
+// })
 
 export default router

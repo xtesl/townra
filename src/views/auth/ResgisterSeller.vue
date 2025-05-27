@@ -1,470 +1,541 @@
 <template>
-  <div class="min-h-screen bg-white">
-    <!-- Hero Section with Background -->
-    <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <!-- Background Pattern -->
-      <div class="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-amber-400"></div>
-      <div 
-        class="absolute inset-0 opacity-20"
-        style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.1\'%3E%3Ccircle cx=\'30\' cy=\'30\' r=\'2\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')"
-      ></div>
-      
-      <!-- Back Button -->
-      <button 
-        @click="goBack"
-        class="absolute top-6 left-6 z-20  backdrop-blur-sm hover:bg-white/30 text-white p-3 rounded transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white/50"
-      >
-        <i class="pi pi-arrow-left text-lg"></i>
-      </button>
+  <div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50 relative">
 
-      <!-- Hero Content -->
-      <div class="relative z-10 px-6 py-20 sm:py-24 lg:py-32">
-        <div class="max-w-4xl mx-auto text-center">
-          <div class="mb-8">
-            <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-xl mx-auto mb-6 flex items-center justify-center">
-              <!-- <i class="pi pi-shop text-2xl text-amber-300"></i> -->
-                <img
-                src="/images/logo.png"
-                alt="Townra Logo"
-                class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110"
-               
-              />
-            </div>
-            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-white">
-              Professional Selling
-              <span class="block text-amber-300">Made Simple</span>
-            </h1>
-            <p class="text-xl text-white/90 mb-8 leading-relaxed max-w-3xl mx-auto">
-              Join thousands of successful sellers on our platform. Build your brand, reach more customers, and grow your business with professional-grade tools.
-            </p>
-          </div>
-          
-          <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button
-              @click="scrollToPricing"
-              class="bg-white text-blue-900 font-semibold py-3 px-8 rounded transition-all duration-300 hover:shadow-xl hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white/50"
-            >
-              <i class="pi pi-play mr-2"></i>
-              Get Started
-          </button>
-            <button
-              @click="scrollToFeatures"
-              class="bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 font-semibold py-3 px-8 rounded transition-all duration-300 border border-white/30 hover:border-white/50 focus:outline-none focus:ring-2 focus:ring-white/50"
-            >
-              <i class="pi pi-info-circle mr-2"></i>
-              Learn More
-            </button>
-          </div>
-        </div>
+    <div class="h-screen flex flex-col">
+
+      <div class="bg-gradient-to-r from-[#022b5f] via-[#033870] to-[#022b5f] px-6 sm:px-8 py-6 relative overflow-hidden flex-shrink-0">
+  <!-- Header Background Pattern -->
+  <div class="absolute inset-0 opacity-10" style="background-image: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 30%, rgba(255,255,255,0.1) 70%, transparent 70%), linear-gradient(-45deg, transparent 30%, rgba(255,255,255,0.05) 30%, rgba(255,255,255,0.05) 70%, transparent 70%); background-size: 60px 60px;"></div>
+  
+  <div class="flex items-center justify-between relative z-10 max-w-7xl mx-auto">
+    <div>
+      <h1 class="text-2xl sm:text-3xl font-bold text-white">Join as a Seller</h1>
+      <p class="text-blue-100 mt-1">Start your selling journey with us</p>
+    </div>
+    
+    <!-- Logo and Company Name Section -->
+    <div class="flex items-center gap-3 sm:gap-4">
+      <div class="w-12 h-12 sm:w-14 sm:h-14 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/20 flex-shrink-0">
+        <img
+          src="/images/logo.png"
+          alt="Townra Logo"
+          class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110 rounded-lg"
+        />
       </div>
+      <div class="hidden sm:block">
+        <h2 class="text-lg font-semibold text-white tracking-wide">Townra</h2>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Progress Bar -->
+  <div class="mt-6 relative z-10 max-w-7xl mx-auto">
+    <div class="flex items-center justify-between mb-2">
+      <span class="text-sm text-blue-100">Step {{ currentStep }} of {{ steps.length }}</span>
+      <span class="text-sm text-blue-100">{{ Math.round((currentStep / steps.length) * 100) }}%</span>
+    </div>
+    <div class="w-full bg-[#022b5f]/30 rounded-full h-2">
+      <div 
+        class="bg-gradient-to-r from-[#fbb03b] to-[#fbb03b]/80 h-2 rounded-full transition-all duration-500 ease-out shadow-sm"
+        :style="{ width: `${(currentStep / steps.length) * 100}%` }"
+      ></div>
+    </div>
+  </div>
+</div>
 
-      <!-- Floating Elements -->
-      <div class="absolute top-20 left-10 w-20 h-20 bg-white/10 rounded-full animate-pulse hidden lg:block"></div>
-      <div class="absolute bottom-32 right-16 w-16 h-16 bg-amber-300/20 rounded-full animate-bounce hidden lg:block"></div>
-      <div class="absolute top-1/2 right-8 w-12 h-12 bg-white/5 rounded-full animate-ping hidden lg:block"></div>
-    </section>
+      <!-- Form Content - Full Width and Height -->
+      <div class="flex-1 px-6 sm:px-8 py-8 overflow-y-auto bg-white">
+        <div class="max-w-7xl mx-auto h-full flex flex-col">
+          <!-- Step Indicators -->
+          <div class="flex justify-center mb-8">
+            <div class="flex items-center space-x-4 sm:space-x-8">
+              <div 
+                v-for="(step, index) in steps" 
+                :key="step.id"
+                class="flex items-center"
+              >
+                <div 
+                  class="flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all duration-300"
+                  :class="[
+                    currentStep >= step.id 
+                      ? 'bg-[#022b5f] border-[#022b5f] text-white shadow-blue-200' 
+                      : 'border-gray-300 text-gray-400 bg-white',
+                    currentStep === step.id ? 'ring-4 ring-[#fbb03b]/20 shadow-lg' : ''
+                  ]"
+                >
+                  <component 
+                    :is="getStepIcon(step.id)" 
+                    class="w-5 h-5"
+                  />
+                </div>
+                <div v-if="index < steps.length - 1" class="hidden sm:block w-12 h-0.5 bg-gradient-to-r from-gray-300 to-gray-200 ml-4 rounded-full"></div>
+              </div>
+            </div>
+          </div>
 
-    <!-- Student Discount Banner -->
-    <section class="py-8 bg-gray-50 border-y border-gray-200">
-      <div class="max-w-6xl mx-auto px-6">
-        <div class="bg-white rounded p-6 sm:p-8 border-gray-200 duration-300">
-          <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
-            <div class="flex items-center gap-4">
-              <div class="w-12 h-12 bg-amber-50 rounded-lg flex items-center justify-center">
-                <i class="pi pi-graduation-cap text-xl text-amber-500"></i>
+          <!-- Step Content - Flexible Height -->
+          <div class="flex-1 flex flex-col">
+            <div class="text-center mb-8">
+              <h2 class="text-2xl font-bold text-[#022b5f] mb-2">{{ steps[currentStep - 1].title }}</h2>
+              <p class="text-gray-600">{{ steps[currentStep - 1].subtitle }}</p>
+            </div>
+
+            <form @submit.prevent="handleNext" class="flex-1 flex flex-col">
+              <!-- Step 1: Personal Information -->
+              <div v-if="currentStep === 1" class="space-y-6 flex-1">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div>
+                    <label class="block text-sm font-medium text-[#022b5f] mb-2">
+                      First Name *
+                    </label>
+                    <input
+                      v-model="formData.firstName"
+                      type="text"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
+                      :class="{ 'border-red-500 ring-2 ring-red-500/20': errors.firstName }"
+                      placeholder="Enter your first name"
+                    />
+                    <p v-if="errors.firstName" class="mt-1 text-sm text-red-600">{{ errors.firstName }}</p>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-[#022b5f] mb-2">
+                      Last Name *
+                    </label>
+                    <input
+                      v-model="formData.lastName"
+                      type="text"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
+                      :class="{ 'border-red-500 ring-2 ring-red-500/20': errors.lastName }"
+                      placeholder="Enter your last name"
+                    />
+                    <p v-if="errors.lastName" class="mt-1 text-sm text-red-600">{{ errors.lastName }}</p>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div>
+                    <label class="block text-sm font-medium text-[#022b5f] mb-2">
+                      Email Address *
+                    </label>
+                    <input
+                      v-model="formData.email"
+                      type="email"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
+                      :class="{ 'border-red-500 ring-2 ring-red-500/20': errors.email }"
+                      placeholder="Enter your email address"
+                    />
+                    <p v-if="errors.email" class="mt-1 text-sm text-red-600">{{ errors.email }}</p>
+                  </div>
+
+                  <div>
+                    <label class="block text-sm font-medium text-[#022b5f] mb-2">
+                      Phone Number
+                    </label>
+                    <input
+                      v-model="formData.phone"
+                      type="tel"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
+                      placeholder="Enter your phone number (optional)"
+                    />
+                  </div>
+                </div>
+
+                <!-- Marketplace Selection -->
+                <div>
+                  <label class="block text-sm font-medium text-[#022b5f] mb-2">
+                    Marketplace *
+                  </label>
+                  <select
+                    v-model="formData.marketplace"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
+                    :class="{ 'border-red-500 ring-2 ring-red-500/20': errors.marketplace }"
+                  >
+                    <option value="">Select a marketplace</option>
+                    <option v-for="marketplace in marketplaces" :key="marketplace" :value="marketplace">{{ marketplace }}</option>
+                  </select>
+                  <p v-if="errors.marketplace" class="mt-1 text-sm text-red-600">{{ errors.marketplace }}</p>
+                  <p class="mt-1 text-xs text-gray-500">Choose the primary marketplace where you'll be selling</p>
+                </div>
+              </div>
+
+              <!-- Step 2: Business Information -->
+              <div v-if="currentStep === 2" class="space-y-6 flex-1">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div>
+                    <label class="block text-sm font-medium text-[#022b5f] mb-2">
+                      Business Name *
+                    </label>
+                    <input
+                      v-model="formData.businessName"
+                      type="text"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
+                      :class="{ 'border-red-500 ring-2 ring-red-500/20': errors.businessName }"
+                      placeholder="Enter your business name"
+                    />
+                    <p v-if="errors.businessName" class="mt-1 text-sm text-red-600">{{ errors.businessName }}</p>
+                  </div>
+
+                  <div>
+                    <label class="block text-sm font-medium text-[#022b5f] mb-2">
+                      Business Type *
+                    </label>
+                    <select
+                      v-model="formData.businessType"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
+                      :class="{ 'border-red-500 ring-2 ring-red-500/20': errors.businessType }"
+                    >
+                      <option value="">Select business type</option>
+                      <option v-for="type in businessTypes" :key="type" :value="type">{{ type }}</option>
+                    </select>
+                    <p v-if="errors.businessType" class="mt-1 text-sm text-red-600">{{ errors.businessType }}</p>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div>
+                    <label class="block text-sm font-medium text-[#022b5f] mb-2">
+                      Tax ID/EIN
+                    </label>
+                    <input
+                      v-model="formData.taxId"
+                      type="text"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
+                      placeholder="Tax ID (optional)"
+                    />
+                    <p class="mt-1 text-xs text-gray-500">For tax reporting purposes</p>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-[#022b5f] mb-2">
+                      Website
+                    </label>
+                    <input
+                      v-model="formData.website"
+                      type="url"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
+                      placeholder="https://yourwebsite.com (optional)"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 3: Address Information -->
+              <div v-if="currentStep === 3" class="space-y-6 flex-1">
+                <div>
+                  <label class="block text-sm font-medium text-[#022b5f] mb-2">
+                    Street Address *
+                  </label>
+                  <input
+                    v-model="formData.street"
+                    type="text"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
+                    :class="{ 'border-red-500 ring-2 ring-red-500/20': errors.street }"
+                    placeholder="Enter your street address"
+                  />
+                  <p v-if="errors.street" class="mt-1 text-sm text-red-600">{{ errors.street }}</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div>
+                    <label class="block text-sm font-medium text-[#022b5f] mb-2">
+                      City *
+                    </label>
+                    <input
+                      v-model="formData.city"
+                      type="text"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
+                      :class="{ 'border-red-500 ring-2 ring-red-500/20': errors.city }"
+                      placeholder="Enter your city"
+                    />
+                    <p v-if="errors.city" class="mt-1 text-sm text-red-600">{{ errors.city }}</p>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-[#022b5f] mb-2">
+                      State/Province
+                    </label>
+                    <input
+                      v-model="formData.state"
+                      type="text"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
+                      placeholder="Enter your state/province"
+                    />
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div>
+                    <label class="block text-sm font-medium text-[#022b5f] mb-2">
+                      ZIP/Postal Code *
+                    </label>
+                    <input
+                      v-model="formData.zipCode"
+                      type="text"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
+                      :class="{ 'border-red-500 ring-2 ring-red-500/20': errors.zipCode }"
+                      placeholder="Enter your ZIP/postal code"
+                    />
+                    <p v-if="errors.zipCode" class="mt-1 text-sm text-red-600">{{ errors.zipCode }}</p>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-[#022b5f] mb-2">
+                      Country *
+                    </label>
+                    <select
+                      v-model="formData.country"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
+                    >
+                      <option v-for="country in countries" :key="country" :value="country">{{ country }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Navigation Buttons - Sticky at bottom -->
+              <div class="flex justify-between mt-8 pt-6 border-t border-gray-200">
+                <button
+                  v-if="currentStep > 1"
+                  type="button"
+                  @click="handlePrevious"
+                  class="flex items-center px-6 py-3 text-[#022b5f] hover:text-[#022b5f]/80 font-medium transition-all duration-200 rounded-lg hover:bg-gray-50 border border-[#022b5f]/20 hover:border-[#022b5f]/40"
+                >
+                  <i class="pi pi-chevron-left mr-2"></i>
+                  Previous
+                </button>
+                <div v-else></div>
+
+                <button
+                  type="submit"
+                  class="flex items-center px-8 py-3 bg-[#fbb03b] text-white font-semibold rounded-lg hover:bg-[#fbb03b]/90 focus:outline-none focus:ring-2 focus:ring-[#fbb03b]/50 focus:ring-offset-2 transition-all duration-200 hover:shadow"
+                  :class="{ 'opacity-50 cursor-not-allowed': isSubmitting }"
+                  :disabled="isSubmitting"
+                >
+                  <span v-if="currentStep < steps.length">
+                    Next
+                    <i class="pi pi-chevron-right ml-2"></i>
+                  </span>
+                  <span v-else>
+                    <i class="pi pi-check mr-2"></i>
+                    Complete Registration
+                  </span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Footer -->
+          <div class="mt-8 pt-4 border-gray-200">
+            <div class="flex flex-col sm:flex-row items-center justify-between text-sm text-gray-600">
+              <div class="flex items-center space-x-4 mb-2 sm:mb-0">
+                <span class="flex items-center">
+                  <i class="pi pi-shield mr-1 text-green-600"></i>
+                  Secure & Encrypted
+                </span>
+                <span class="flex items-center">
+                  <i class="pi pi-clock mr-1 text-[#fbb03b]"></i>
+                  2-3 minutes to complete
+                </span>
               </div>
               <div>
-                <h3 class="text-xl font-semibold mb-1 text-blue-900">Student Discount Available</h3>
-                <p class="text-gray-600">Reduced platform fees for verified students</p>
-              </div>
-            </div>
-            <div class="text-center lg:text-right">
-              <div class="text-2xl font-bold mb-1 text-amber-500">50% OFF</div>
-              <div class="text-gray-600 text-sm">Platform fees</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features" class="py-16 sm:py-20 lg:py-24 bg-white">
-      <div class="max-w-6xl mx-auto px-6">
-        <div class="text-center mb-16">
-          <h2 class="text-3xl sm:text-4xl font-bold mb-6 text-blue-900">
-            Why Choose Our Platform?
-          </h2>
-          <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Everything you need to succeed as a professional seller, from powerful analytics to seamless payment processing.
-          </p>
-        </div>
-
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <!-- Feature 1: Easy Setup -->
-          <div class="group">
-            <div class="bg-white border-gray-200 hover:border-gray-300 rounded p-6 transition-all duration-300 hover:-translate-y-1">
-              <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-amber-50 transition-colors duration-300">
-                <i class="pi pi-bolt text-lg text-gray-600 group-hover:text-amber-500"></i>
-              </div>
-              <h3 class="text-lg font-semibold mb-3 text-blue-900">Easy Setup</h3>
-              <p class="text-gray-600 leading-relaxed">Get your store running in minutes with our intuitive setup wizard guiding every step.</p>
-            </div>
-          </div>
-
-          <!-- Feature 2: Low Fees -->
-          <div class="group">
-            <div class="bg-white border-gray-200 hover:border-gray-300 rounded-xl p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-              <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-amber-50 transition-colors duration-300">
-                <i class="pi pi-dollar text-lg text-gray-600 group-hover:text-amber-500"></i>
-              </div>
-              <h3 class="text-lg font-semibold mb-3 text-blue-900">Competitive Fees</h3>
-              <p class="text-gray-600 leading-relaxed">Keep more profits with our transparent, competitive fee structure. No hidden charges.</p>
-            </div>
-          </div>
-
-          <!-- Feature 3: Global Reach -->
-          <div class="group">
-            <div class="bg-white border-gray-200 hover:border-gray-300 rounded-xl p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-              <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-amber-50 transition-colors duration-300">
-                <i class="pi pi-globe text-lg text-gray-600 group-hover:text-amber-500"></i>
-              </div>
-              <h3 class="text-lg font-semibold mb-3 text-blue-900">Global Reach</h3>
-              <p class="text-gray-600 leading-relaxed">Sell worldwide with international shipping and multi-currency support.</p>
-            </div>
-          </div>
-
-          <!-- Feature 4: Analytics -->
-          <div class="group">
-            <div class="bg-white border-gray-200 hover:border-gray-300 rounded-xl p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-              <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-amber-50 transition-colors duration-300">
-                <i class="pi pi-chart-line text-lg text-gray-600 group-hover:text-amber-500"></i>
-              </div>
-              <h3 class="text-lg font-semibold mb-3 text-blue-900">Advanced Analytics</h3>
-              <p class="text-gray-600 leading-relaxed">Track performance with detailed insights and reports to optimize your strategy.</p>
-            </div>
-          </div>
-
-          <!-- Feature 5: 24/7 Support -->
-          <div class="group">
-            <div class="bg-white border-gray-200 hover:border-gray-300 rounded-xl p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-              <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-amber-50 transition-colors duration-300">
-                <i class="pi pi-headphones text-lg text-gray-600 group-hover:text-amber-500"></i>
-              </div>
-              <h3 class="text-lg font-semibold mb-3 text-blue-900">24/7 Support</h3>
-              <p class="text-gray-600 leading-relaxed">Dedicated support team ready to help you succeed and solve challenges.</p>
-            </div>
-          </div>
-
-          <!-- Feature 6: Marketing Tools -->
-          <div class="group">
-            <div class="bg-white border-gray-200 hover:border-gray-300 rounded-xl p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-              <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-amber-50 transition-colors duration-300">
-                <i class="pi pi-megaphone text-lg text-gray-600 group-hover:text-amber-500"></i>
-              </div>
-              <h3 class="text-lg font-semibold mb-3 text-blue-900">Marketing Tools</h3>
-              <p class="text-gray-600 leading-relaxed">Built-in SEO optimization, social media integration, and advertising tools.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Pricing Section -->
-    <section id="pricing" class="py-16 sm:py-20 lg:py-24 bg-gray-50">
-      <div class="max-w-6xl mx-auto px-6">
-        <div class="text-center mb-16">
-          <h2 class="text-3xl sm:text-4xl font-bold mb-6 text-blue-900">
-            Choose Your Plan
-          </h2>
-          <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Start your selling journey with our flexible plans designed to grow with your business.
-          </p>
-        </div>
-
-        <div class="grid lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          <!-- Starter Plan -->
-          <div class="relative bg-white border rounded-xl border-gray-200 hover:border-gray-300 transition-all duration-300 hover:shadow">
-            <div class="p-6 sm:p-8">
-              <!-- Free Trial Badge -->
-              <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                <div class="bg-green-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
-                  30-Day Free Trial
-                </div>
-              </div>
-              
-              <div class="text-center mb-8 pt-4">
-                <div class="w-16 h-16 bg-blue-50 rounded-lg mx-auto mb-4 flex items-center justify-center">
-                  <i class="pi pi-bolt text-2xl text-blue-600"></i>
-                </div>
-                <h3 class="text-2xl font-bold mb-2 text-blue-900">Starter</h3>
-                <p class="text-gray-600 mb-6">Perfect for new sellers getting started</p>
-                
-                <div class="mb-6">
-                  <div class="text-4xl font-bold text-blue-900">$29</div>
-                  <div class="text-gray-600">/month after trial</div>
-                </div>
-              </div>
-
-              <!-- Features List -->
-              <div class="space-y-4 mb-8">
-                <div v-for="feature in starterFeatures" :key="feature.text" class="flex items-start gap-3">
-                  <div class="flex-shrink-0 w-5 h-5 rounded-full bg-green-100 flex items-center justify-center mt-0.5">
-                    <i class="pi pi-check text-xs text-green-600"></i>
-                  </div>
-                  <div>
-                    <span class="text-gray-700">{{ feature.text }}</span>
-                    <div v-if="feature.description" class="text-sm text-gray-500 mt-1">
-                      {{ feature.description }}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <button 
-                @click="selectPlan('starter')"
-                class="w-full bg-blue-900 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 hover:bg-blue-800 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-900/50"
-              >
-                <i class="pi pi-play mr-2"></i>
-                Start Free Trial
-              </button>
-            </div>
-          </div>
-
-          <!-- Professional Plan -->
-          <div class="relative bg-white rounded-xl border-2 border-amber-300 hover:border-amber-400 transition-all duration-300">
-            <!-- Popular Badge -->
-            <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
-              <div class="bg-amber-400 text-blue-900 px-4 py-1 rounded-full text-sm font-semibold">
-                Most Popular
-              </div>
-            </div>
-            
-            <div class="p-6 sm:p-8">
-              <div class="text-center mb-8 pt-4">
-                <div class="w-16 h-16 bg-amber-50 rounded-lg mx-auto mb-4 flex items-center justify-center">
-                  <i class="pi pi-crown text-2xl text-amber-500"></i>
-                </div>
-                <h3 class="text-2xl font-bold mb-2 text-blue-900">Professional</h3>
-                <p class="text-gray-600 mb-6">For serious sellers ready to scale</p>
-                
-                <div class="mb-6">
-                  <div class="text-4xl font-bold text-blue-900">$79</div>
-                  <div class="text-gray-600">/month</div>
-                </div>
-              </div>
-
-              <!-- Features List -->
-              <div class="space-y-4 mb-8">
-                <div v-for="feature in professionalFeatures" :key="feature.text" class="flex items-start gap-3">
-                  <div class="flex-shrink-0 w-5 h-5 rounded-full bg-green-100 flex items-center justify-center mt-0.5">
-                    <i class="pi pi-check text-xs text-green-600"></i>
-                  </div>
-                  <div>
-                    <span class="text-gray-700">{{ feature.text }}</span>
-                    <div v-if="feature.description" class="text-sm text-gray-500 mt-1">
-                      {{ feature.description }}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <button 
-                @click="selectPlan('professional')"
-                class="w-full bg-amber-400 text-blue-900 font-semibold py-3 px-6 rounded-lg transition-all duration-300 hover:bg-amber-500 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-amber-400/50"
-              >
-                <i class="pi pi-crown mr-2"></i>
-                Get Professional
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Additional Info -->
-        <div class="text-center mt-12">
-          <div class="bg-white rounded-lg p-6 border-gray-200 max-w-2xl mx-auto">
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-6 text-sm text-gray-600">
-              <div class="flex items-center gap-2">
-                <i class="pi pi-shield text-green-600"></i>
-                <span>Cancel anytime</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <i class="pi pi-credit-card text-green-600"></i>
-                <span>No setup fees</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <i class="pi pi-headphones text-green-600"></i>
-                <span>24/7 support included</span>
+                Already have an account? 
+                <a href="#" class="text-[#022b5f] hover:text-[#022b5f]/80 font-medium transition-colors duration-200">Sign in</a>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
-
-    <!-- Final CTA Section -->
-    <section class="py-16 sm:py-20 bg-white border-gray-200">
-      <div class="max-w-4xl mx-auto px-6 text-center">
-        <h2 class="text-3xl sm:text-4xl font-bold mb-6 text-blue-900">
-          Ready to Start Your Journey?
-        </h2>
-        <p class="text-xl text-gray-600 mb-8 leading-relaxed">
-          Join our community of successful sellers and take your business to the next level.
-        </p>
-        
-        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <button
-            @click="startRegistration"
-            class="bg-blue-900 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-900/50"
-          >
-            <i class="pi pi-rocket mr-2"></i>
-            Start Selling Today
-          </button>
-          <button
-            @click="contactSupport"
-            class="bg-white hover:bg-gray-50 text-blue-900 font-semibold py-3 px-8 rounded-lg transition-all duration-300 border border-blue-900 hover:border-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-900/50"
-          >
-            <i class="pi pi-phone mr-2"></i>
-            Talk to an Expert
-          </button>
-        </div>
-
-        <div class="mt-8 text-gray-500">
-          <p>
-            <i class="pi pi-shield mr-2"></i>
-            Secure • Trusted • Reliable
-          </p>
-        </div>
-      </div>
-    </section>
+    </div>
+      <div :v-if="showPageLoader">
+       <PageLoader
+      :isVisible="showPageLoader" 
+      :message="''"
+      :showLogo="false"
+      type="pulse"
+      color="blue"
+   />
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { RouterLink } from "vue-router"
+import { ref, computed, onMounted } from 'vue'
+import PageLoader from "../../components/animation/PageLoader.vue"
 
-// Pricing data - easily customizable
-const starterFeatures = ref([
-  { 
-    text: 'Up to 100 products',
-    description: 'Perfect for testing the waters'
+const currentStep = ref(1)
+const isSubmitting = ref(false)
+const showPageLoader = ref(true)
+
+const formData = ref({
+  // Personal Information
+  firstName: '',
+  lastName: '',
+  email: '',
+  phone: '',
+  marketplace: '',
+  
+  // Business Information
+  businessName: '',
+  businessType: '',
+  taxId: '',
+  website: '',
+  
+  // Address Information
+  street: '',
+  city: '',
+  state: '',
+  zipCode: '',
+  country: 'United States'
+})
+
+const errors = ref({})
+
+const steps = [
+  {
+    id: 1,
+    title: 'Personal Details',
+    subtitle: 'Tell us about yourself',
+    icon: 'pi-user'
   },
-  { 
-    text: 'Basic analytics dashboard',
-    description: 'Track sales and customer data'
+  {
+    id: 2,
+    title: 'Business Information',
+    subtitle: 'Your business details',
+    icon: 'pi-building'
   },
-  { 
-    text: 'Standard payment processing',
-    description: '2.9% + 30¢ per transaction'
-  },
-  { 
-    text: 'Email support',
-    description: 'Response within 24 hours'
-  },
-  { 
-    text: 'Mobile-optimized store',
-    description: 'Your store works perfectly on all devices'
-  },
-  { 
-    text: 'SSL security',
-    description: 'Keep customer data safe'
+  {
+    id: 3,
+    title: 'Address Details',
+    subtitle: 'Where are you located?',
+    icon: 'pi-map-marker'
   }
-])
+]
 
-const professionalFeatures = ref([
-  { 
-    text: 'Unlimited products',
-    description: 'Scale without limits'
-  },
-  { 
-    text: 'Advanced analytics & reporting',
-    description: 'Deep insights and custom reports'
-  },
-  { 
-    text: 'Priority payment processing',
-    description: '2.4% + 30¢ per transaction'
-  },
-  { 
-    text: 'Priority support (phone + email)',
-    description: 'Get help when you need it most'
-  },
-  { 
-    text: 'Custom domain & branding',
-    description: 'Build your brand identity'
-  },
-  { 
-    text: 'Advanced marketing tools',
-    description: 'Email campaigns, SEO tools, social integration'
-  },
-  { 
-    text: 'Inventory management',
-    description: 'Track stock levels and automate reordering'
-  },
-  { 
-    text: 'Multi-channel selling',
-    description: 'Sell on social media and marketplaces'
+const businessTypes = [
+  'Individual/Sole Proprietorship',
+  'LLC',
+  'Corporation',
+  'Partnership',
+  'Non-profit',
+  'Other'
+]
+
+const marketplaces = [
+  'Amazon',
+  'eBay',
+  'Etsy',
+  'Shopify',
+  'WooCommerce',
+  'Facebook Marketplace',
+  'Instagram Shop',
+  'Mercari',
+  'Poshmark',
+  'Depop',
+  'Other'
+]
+
+const countries = [
+  'United States',
+  'Canada',
+  'United Kingdom',
+  'Australia',
+  'Germany',
+  'France',
+  'Other'
+]
+
+const getStepIcon = (stepId) => {
+  const iconMap = {
+    1: 'pi-user',
+    2: 'pi-building', 
+    3: 'pi-map-marker'
   }
-])
-
-// Methods
-const selectPlan = (planType) => {
-  console.log(`Selected plan: ${planType}`)
-  alert(`Redirecting to ${planType} plan signup...`)
-  // Here you would typically redirect to your signup/checkout process
+  return iconMap[stepId] || 'pi-circle'
 }
 
-const scrollToPricing = () => {
-  const pricingSection = document.getElementById('pricing')
-  if (pricingSection) {
-    pricingSection.scrollIntoView({ 
-      behavior: 'smooth',
-      block: 'start'
-    })
+const validateStep = (step) => {
+  const newErrors = {}
+  
+  if (step === 1) {
+    // Personal Information validation
+    if (!formData.value.firstName.trim()) {
+      newErrors.firstName = 'First name is required'
+    }
+    if (!formData.value.lastName.trim()) {
+      newErrors.lastName = 'Last name is required'
+    }
+    if (!formData.value.email.trim()) {
+      newErrors.email = 'Email is required'
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.value.email)) {
+      newErrors.email = 'Please enter a valid email address'
+    }
+    if (!formData.value.marketplace) {
+      newErrors.marketplace = 'Please select a marketplace'
+    }
   }
-}
-
-const startRegistration = () => {
-  console.log('Starting seller registration process')
-  alert('Starting registration process...')
-}
-
-const scrollToFeatures = () => {
-  const featuresSection = document.getElementById('features')
-  if (featuresSection) {
-    featuresSection.scrollIntoView({ 
-      behavior: 'smooth',
-      block: 'start'
-    })
+  
+  if (step === 2) {
+    // Business Information validation
+    if (!formData.value.businessName.trim()) {
+      newErrors.businessName = 'Business name is required'
+    }
+    if (!formData.value.businessType) {
+      newErrors.businessType = 'Please select a business type'
+    }
   }
+  
+  if (step === 3) {
+    // Address Information validation
+    if (!formData.value.street.trim()) {
+      newErrors.street = 'Street address is required'
+    }
+    if (!formData.value.city.trim()) {
+      newErrors.city = 'City is required'
+    }
+    if (!formData.value.zipCode.trim()) {
+      newErrors.zipCode = 'ZIP/Postal code is required'
+    }
+  }
+  
+  errors.value = newErrors
+  return Object.keys(newErrors).length === 0
 }
 
-const contactSupport = () => {
-  console.log('Opening support contact')
-  alert('Opening support contact...')
-}
-
-const goBack = () => {
-  // Navigate back or to previous page
-  if (window.history.length > 1) {
-    window.history.back()
+const handleNext = async () => {
+  if (!validateStep(currentStep.value)) {
+    return
+  }
+  
+  if (currentStep.value < steps.length) {
+    currentStep.value++
   } else {
-    window.location.href = '/'
+    // Final submission
+    isSubmitting.value = true
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 2000))
+      
+      console.log('Form submitted:', formData.value)
+      alert('Registration completed successfully!')
+      
+      // Reset form or redirect
+      // window.location.href = '/dashboard'
+    } catch (error) {
+      console.error('Submission error:', error)
+      alert('An error occurred. Please try again.')
+    } finally {
+      isSubmitting.value = false
+    }
   }
 }
+
+const handlePrevious = () => {
+  if (currentStep.value > 1) {
+    currentStep.value--
+    // Clear errors when going back
+    errors.value = {}
+  }
+}
+
+onMounted(async()=>{
+ await new Promise(resolve => setTimeout(resolve, 4000))
+  showPageLoader.value = false
+})
 </script>
-
-<style scoped>
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
-</style>

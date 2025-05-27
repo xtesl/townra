@@ -17,7 +17,15 @@
 
 
 <script setup>
-  import Footer from "../components/navigation/Footer.vue"
+  import { onMounted } from "vue"
+import Footer from "../components/navigation/Footer.vue"
   import Navbar from "../components/navigation/Navbar.vue"
   import Listing from "../components/products/Listing.vue"
+  import { useGlobalLoader } from "../composables/useLoader"
+
+const { showLoader, hideLoader } = useGlobalLoader()
+  onMounted(() =>{
+  // showLoader("")
+
+  })
 </script>
