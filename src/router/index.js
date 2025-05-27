@@ -3,6 +3,7 @@ import Home from "../views/Home.vue"
 import Login from "../views/auth/login.vue"
 import RegisterSeller from "../views/auth/ResgisterSeller.vue"
 import MagicLogin  from "../views/auth/MagicLogin.vue"
+import StartSelling from "../views/auth/StartSelling.vue"
 
 const routes = [
   {
@@ -25,7 +26,14 @@ const routes = [
     path: "/auth/magic-login",
     name: "magic-login",
     component: MagicLogin
-  }
+  },
+
+  {
+    path: "/auth/register",
+    name: "register-seller",  
+    component: StartSelling
+  },
+
 
 ]
 
