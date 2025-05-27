@@ -326,13 +326,13 @@
         
   <div class="flex items-center gap-2 sm:gap-3 px-3 pb-3">
   <!-- Start Selling Button -->
-  <RouterLink
-    href="/auth/register"
+  <router-link
+    to="/auth/register"
     class="bg-[#fbb03b] hover:bg-[#e09d35] text-[#022b5f] px-2.5 sm:px-3 py-2 rounded text-xs sm:text-sm font-semibold transition-colors duration-200 whitespace-nowrap flex-shrink-0 min-w-0"
   >
     <span class="hidden xs:inline">Sell Now</span>
     <span class="xs:hidden">Start Selling</span>
-  </RouterLink>
+  </router-link>
 
   <!-- Mobile Search Bar -->
   <div class="relative flex-1 min-w-0">
