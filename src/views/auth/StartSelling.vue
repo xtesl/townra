@@ -1,12 +1,5 @@
 <template>
   <div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50 relative">
-    <!-- Back Button - Mobile Optimized -->
-    <!-- <button 
-      @click="goBack"
-      class="fixed top-4 left-4 sm:top-6 sm:left-6 z-30 bg-white/90 backdrop-blur-md hover:bg-white text-[#022b5f] hover:text-[#022b5f]/80 p-2.5 sm:p-3 rounded-xl shadow-lg hover:shadow-xl border border-white/50 transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#fbb03b]/30"
-    >
-      <i class="pi pi-arrow-left text-base sm:text-lg"></i>
-    </button> -->
 
     <div class="h-screen flex flex-col">
       <!-- Header Banner - Full Width -->
@@ -270,7 +263,7 @@
                   <input
                     v-model="formData.street"
                     type="text"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white shadow-sm"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
                     :class="{ 'border-red-500 ring-2 ring-red-500/20': errors.street }"
                     placeholder="Enter your street address"
                   />
@@ -285,7 +278,7 @@
                     <input
                       v-model="formData.city"
                       type="text"
-                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white shadow-sm"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
                       :class="{ 'border-red-500 ring-2 ring-red-500/20': errors.city }"
                       placeholder="Enter your city"
                     />
@@ -298,7 +291,7 @@
                     <input
                       v-model="formData.state"
                       type="text"
-                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white shadow-sm"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
                       placeholder="Enter your state/province"
                     />
                   </div>
@@ -312,7 +305,7 @@
                     <input
                       v-model="formData.zipCode"
                       type="text"
-                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white shadow-sm"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
                       :class="{ 'border-red-500 ring-2 ring-red-500/20': errors.zipCode }"
                       placeholder="Enter your ZIP/postal code"
                     />
@@ -324,7 +317,7 @@
                     </label>
                     <select
                       v-model="formData.country"
-                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white shadow-sm"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
                     >
                       <option v-for="country in countries" :key="country" :value="country">{{ country }}</option>
                     </select>
@@ -347,7 +340,7 @@
 
                 <button
                   type="submit"
-                  class="flex items-center px-8 py-3 bg-[#fbb03b] text-white font-semibold rounded-lg hover:bg-[#fbb03b]/90 focus:outline-none focus:ring-2 focus:ring-[#fbb03b]/50 focus:ring-offset-2 transition-all duration-200 shadow-lg hover:shadow-xl"
+                  class="flex items-center px-8 py-3 bg-[#fbb03b] text-white font-semibold rounded-lg hover:bg-[#fbb03b]/90 focus:outline-none focus:ring-2 focus:ring-[#fbb03b]/50 focus:ring-offset-2 transition-all duration-200 hover:shadow"
                   :class="{ 'opacity-50 cursor-not-allowed': isSubmitting }"
                   :disabled="isSubmitting"
                 >
@@ -365,7 +358,7 @@
           </div>
 
           <!-- Footer -->
-          <div class="mt-8 pt-4 border-t border-gray-200">
+          <div class="mt-8 pt-4 border-gray-200">
             <div class="flex flex-col sm:flex-row items-center justify-between text-sm text-gray-600">
               <div class="flex items-center space-x-4 mb-2 sm:mb-0">
                 <span class="flex items-center">
