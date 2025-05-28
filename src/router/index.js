@@ -4,7 +4,7 @@ import Login from "../views/auth/login.vue"
 import RegisterSeller from "../views/auth/ResgisterSeller.vue"
 import MagicLogin  from "../views/auth/MagicLogin.vue"
 import StartSelling from "../views/auth/StartSelling.vue"
-import { useGlobalLoader } from '../composables/useLoader'
+import TestProductTour from "../views/TestProductTour.vue"
 
 const routes = [
   {
@@ -35,6 +35,12 @@ const routes = [
     name: "register-seller",  
     component: RegisterSeller
   },
+
+  {
+    path: "/tour",
+    name: "tour",
+    component: TestProductTour
+  }
 
 
 ]
