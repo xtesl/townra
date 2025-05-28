@@ -264,13 +264,13 @@
                 <i class="pi pi-info-circle text-[#e09a2a] mr-1"></i>
                 Seller registration is exclusively available for verified business entities only
               </p>
-              <button
-                @click="handleSellerRegister"
+              <router-link
+                to="/auth/register"
                 class="bg-[#e09a2a] hover:bg-[#e09a2a]/90 text-white font-semibold py-3 px-6 rounded transition-all duration-300 transform hover:scale-105 hover:shadow"
               >
                 <i class="pi pi-arrow-right mr-2"></i>
                 Register as Seller
-              </button>
+              </router-link>
             </div>
           </div>
 

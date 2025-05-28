@@ -1,47 +1,84 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50 relative">
-
+  <div
+    class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50 relative"
+  >
+     <MessageDisplayer ref="messageDisplayer"/>
+       
     <div class="h-screen flex flex-col">
+   
+      <div
+        class="bg-gradient-to-r from-[#022b5f] via-[#033870] to-[#022b5f] px-6 sm:px-8 py-6 relative overflow-hidden flex-shrink-0"
+      >
+        <!-- Header Background Pattern -->
+        <div
+          class="absolute inset-0 opacity-10"
+          style="
+            background-image: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.1) 30%,
+                rgba(255, 255, 255, 0.1) 70%,
+                transparent 70%
+              ),
+              linear-gradient(
+                -45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.05) 30%,
+                rgba(255, 255, 255, 0.05) 70%,
+                transparent 70%
+              );
+            background-size: 60px 60px;
+          "
+        ></div>
+     
 
-      <div class="bg-gradient-to-r from-[#022b5f] via-[#033870] to-[#022b5f] px-6 sm:px-8 py-6 relative overflow-hidden flex-shrink-0">
-  <!-- Header Background Pattern -->
-  <div class="absolute inset-0 opacity-10" style="background-image: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 30%, rgba(255,255,255,0.1) 70%, transparent 70%), linear-gradient(-45deg, transparent 30%, rgba(255,255,255,0.05) 30%, rgba(255,255,255,0.05) 70%, transparent 70%); background-size: 60px 60px;"></div>
-  
-  <div class="flex items-center justify-between relative z-10 max-w-7xl mx-auto">
-    <div>
-      <h1 class="text-2xl sm:text-3xl font-bold text-white">Join as a Seller</h1>
-      <p class="text-blue-100 mt-1">Start your selling journey with us</p>
-    </div>
-    
-    <!-- Logo and Company Name Section -->
-    <div class="flex items-center gap-3 sm:gap-4">
-      <div class="w-12 h-12 sm:w-14 sm:h-14 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/20 flex-shrink-0">
-        <img
-          src="/images/logo.png"
-          alt="Townra Logo"
-          class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110 rounded-lg"
-        />
+        <div
+          class="flex items-center justify-between relative z-10 max-w-7xl mx-auto"
+        >
+          <div>
+            <h1 class="text-2xl sm:text-3xl font-bold text-white">
+              Join as a Seller
+            </h1>
+            <p class="text-blue-100 mt-1">Start your selling journey with us</p>
+          </div>
+
+          <!-- Logo and Company Name Section -->
+          <div class="flex items-center gap-3 sm:gap-4">
+            <div
+              class="w-12 h-12 sm:w-14 sm:h-14 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/20 flex-shrink-0"
+            >
+              <img
+                src="/images/logo.png"
+                alt="Townra Logo"
+                class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110 rounded-lg"
+              />
+            </div>
+            <div class="hidden sm:block">
+              <h2 class="text-lg font-semibold text-white tracking-wide">
+                Townra
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="mt-6 relative z-10 max-w-7xl mx-auto">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-sm text-blue-100"
+              >Step {{ currentStep }} of {{ steps.length }}</span
+            >
+            <span class="text-sm text-blue-100"
+              >{{ Math.round((currentStep / steps.length) * 100) }}%</span
+            >
+          </div>
+          <div class="w-full bg-[#022b5f]/30 rounded-full h-2">
+            <div
+              class="bg-gradient-to-r from-[#fbb03b] to-[#fbb03b]/80 h-2 rounded-full transition-all duration-500 ease-out shadow-sm"
+              :style="{ width: `${(currentStep / steps.length) * 100}%` }"
+            ></div>
+          </div>
+        </div>
       </div>
-      <div class="hidden sm:block">
-        <h2 class="text-lg font-semibold text-white tracking-wide">Townra</h2>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Progress Bar -->
-  <div class="mt-6 relative z-10 max-w-7xl mx-auto">
-    <div class="flex items-center justify-between mb-2">
-      <span class="text-sm text-blue-100">Step {{ currentStep }} of {{ steps.length }}</span>
-      <span class="text-sm text-blue-100">{{ Math.round((currentStep / steps.length) * 100) }}%</span>
-    </div>
-    <div class="w-full bg-[#022b5f]/30 rounded-full h-2">
-      <div 
-        class="bg-gradient-to-r from-[#fbb03b] to-[#fbb03b]/80 h-2 rounded-full transition-all duration-500 ease-out shadow-sm"
-        :style="{ width: `${(currentStep / steps.length) * 100}%` }"
-      ></div>
-    </div>
-  </div>
-</div>
 
       <!-- Form Content - Full Width and Height -->
       <div class="flex-1 px-6 sm:px-8 py-8 overflow-y-auto bg-white">
@@ -49,26 +86,28 @@
           <!-- Step Indicators -->
           <div class="flex justify-center mb-8">
             <div class="flex items-center space-x-4 sm:space-x-8">
-              <div 
-                v-for="(step, index) in steps" 
+              <div
+                v-for="(step, index) in steps"
                 :key="step.id"
                 class="flex items-center"
               >
-                <div 
+                <div
                   class="flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all duration-300"
                   :class="[
-                    currentStep >= step.id 
-                      ? 'bg-[#022b5f] border-[#022b5f] text-white shadow-blue-200' 
+                    currentStep >= step.id
+                      ? 'bg-[#022b5f] border-[#022b5f] text-white shadow-blue-200'
                       : 'border-gray-300 text-gray-400 bg-white',
-                    currentStep === step.id ? 'ring-4 ring-[#fbb03b]/20 shadow-lg' : ''
+                    currentStep === step.id
+                      ? 'ring-4 ring-[#fbb03b]/20 shadow-lg'
+                      : '',
                   ]"
                 >
-                  <component 
-                    :is="getStepIcon(step.id)" 
-                    class="w-5 h-5"
-                  />
+                  <component :is="getStepIcon(step.id)" class="w-5 h-5" />
                 </div>
-                <div v-if="index < steps.length - 1" class="hidden sm:block w-12 h-0.5 bg-gradient-to-r from-gray-300 to-gray-200 ml-4 rounded-full"></div>
+                <div
+                  v-if="index < steps.length - 1"
+                  class="hidden sm:block w-12 h-0.5 bg-gradient-to-r from-gray-300 to-gray-200 ml-4 rounded-full"
+                ></div>
               </div>
             </div>
           </div>
@@ -76,7 +115,9 @@
           <!-- Step Content - Flexible Height -->
           <div class="flex-1 flex flex-col">
             <div class="text-center mb-8">
-              <h2 class="text-2xl font-bold text-[#022b5f] mb-2">{{ steps[currentStep - 1].title }}</h2>
+              <h2 class="text-2xl font-bold text-[#022b5f] mb-2">
+                {{ steps[currentStep - 1].title }}
+              </h2>
               <p class="text-gray-600">{{ steps[currentStep - 1].subtitle }}</p>
             </div>
 
@@ -85,50 +126,75 @@
               <div v-if="currentStep === 1" class="space-y-6 flex-1">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <div>
-                    <label class="block text-sm font-medium text-[#022b5f] mb-2">
+                    <label
+                      class="block text-sm font-medium text-[#022b5f] mb-2"
+                    >
                       First Name *
                     </label>
                     <input
                       v-model="formData.firstName"
                       type="text"
                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
-                      :class="{ 'border-red-500 ring-2 ring-red-500/20': errors.firstName }"
+                      :class="{
+                        'border-red-500 ring-2 ring-red-500/20':
+                          errors.firstName,
+                      }"
                       placeholder="Enter your first name"
                     />
-                    <p v-if="errors.firstName" class="mt-1 text-sm text-red-600">{{ errors.firstName }}</p>
+                    <p
+                      v-if="errors.firstName"
+                      class="mt-1 text-sm text-red-600"
+                    >
+                      {{ errors.firstName }}
+                    </p>
                   </div>
                   <div>
-                    <label class="block text-sm font-medium text-[#022b5f] mb-2">
+                    <label
+                      class="block text-sm font-medium text-[#022b5f] mb-2"
+                    >
                       Last Name *
                     </label>
                     <input
                       v-model="formData.lastName"
                       type="text"
                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
-                      :class="{ 'border-red-500 ring-2 ring-red-500/20': errors.lastName }"
+                      :class="{
+                        'border-red-500 ring-2 ring-red-500/20':
+                          errors.lastName,
+                      }"
                       placeholder="Enter your last name"
                     />
-                    <p v-if="errors.lastName" class="mt-1 text-sm text-red-600">{{ errors.lastName }}</p>
+                    <p v-if="errors.lastName" class="mt-1 text-sm text-red-600">
+                      {{ errors.lastName }}
+                    </p>
                   </div>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <div>
-                    <label class="block text-sm font-medium text-[#022b5f] mb-2">
+                    <label
+                      class="block text-sm font-medium text-[#022b5f] mb-2"
+                    >
                       Email Address *
                     </label>
                     <input
                       v-model="formData.email"
                       type="email"
                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
-                      :class="{ 'border-red-500 ring-2 ring-red-500/20': errors.email }"
+                      :class="{
+                        'border-red-500 ring-2 ring-red-500/20': errors.email,
+                      }"
                       placeholder="Enter your email address"
                     />
-                    <p v-if="errors.email" class="mt-1 text-sm text-red-600">{{ errors.email }}</p>
+                    <p v-if="errors.email" class="mt-1 text-sm text-red-600">
+                      {{ errors.email }}
+                    </p>
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-[#022b5f] mb-2">
+                    <label
+                      class="block text-sm font-medium text-[#022b5f] mb-2"
+                    >
                       Phone Number
                     </label>
                     <input
@@ -148,13 +214,29 @@
                   <select
                     v-model="formData.marketplace"
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
-                    :class="{ 'border-red-500 ring-2 ring-red-500/20': errors.marketplace }"
+                    :class="{
+                      'border-red-500 ring-2 ring-red-500/20':
+                        errors.marketplace,
+                    }"
                   >
                     <option value="">Select a marketplace</option>
-                    <option v-for="marketplace in marketplaces" :key="marketplace" :value="marketplace">{{ marketplace }}</option>
+                    <option
+                      v-for="marketplace in marketplaces"
+                      :key="marketplace"
+                      :value="marketplace"
+                    >
+                      {{ marketplace }}
+                    </option>
                   </select>
-                  <p v-if="errors.marketplace" class="mt-1 text-sm text-red-600">{{ errors.marketplace }}</p>
-                  <p class="mt-1 text-xs text-gray-500">Choose the primary marketplace where you'll be selling</p>
+                  <p
+                    v-if="errors.marketplace"
+                    class="mt-1 text-sm text-red-600"
+                  >
+                    {{ errors.marketplace }}
+                  </p>
+                  <p class="mt-1 text-xs text-gray-500">
+                    Choose the primary marketplace where you'll be selling
+                  </p>
                 </div>
               </div>
 
@@ -162,38 +244,66 @@
               <div v-if="currentStep === 2" class="space-y-6 flex-1">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <div>
-                    <label class="block text-sm font-medium text-[#022b5f] mb-2">
+                    <label
+                      class="block text-sm font-medium text-[#022b5f] mb-2"
+                    >
                       Business Name *
                     </label>
                     <input
                       v-model="formData.businessName"
                       type="text"
                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
-                      :class="{ 'border-red-500 ring-2 ring-red-500/20': errors.businessName }"
+                      :class="{
+                        'border-red-500 ring-2 ring-red-500/20':
+                          errors.businessName,
+                      }"
                       placeholder="Enter your business name"
                     />
-                    <p v-if="errors.businessName" class="mt-1 text-sm text-red-600">{{ errors.businessName }}</p>
+                    <p
+                      v-if="errors.businessName"
+                      class="mt-1 text-sm text-red-600"
+                    >
+                      {{ errors.businessName }}
+                    </p>
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-[#022b5f] mb-2">
+                    <label
+                      class="block text-sm font-medium text-[#022b5f] mb-2"
+                    >
                       Business Type *
                     </label>
                     <select
                       v-model="formData.businessType"
                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
-                      :class="{ 'border-red-500 ring-2 ring-red-500/20': errors.businessType }"
+                      :class="{
+                        'border-red-500 ring-2 ring-red-500/20':
+                          errors.businessType,
+                      }"
                     >
                       <option value="">Select business type</option>
-                      <option v-for="type in businessTypes" :key="type" :value="type">{{ type }}</option>
+                      <option
+                        v-for="type in businessTypes"
+                        :key="type"
+                        :value="type"
+                      >
+                        {{ type }}
+                      </option>
                     </select>
-                    <p v-if="errors.businessType" class="mt-1 text-sm text-red-600">{{ errors.businessType }}</p>
+                    <p
+                      v-if="errors.businessType"
+                      class="mt-1 text-sm text-red-600"
+                    >
+                      {{ errors.businessType }}
+                    </p>
                   </div>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <div>
-                    <label class="block text-sm font-medium text-[#022b5f] mb-2">
+                    <label
+                      class="block text-sm font-medium text-[#022b5f] mb-2"
+                    >
                       Tax ID/EIN
                     </label>
                     <input
@@ -202,10 +312,14 @@
                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
                       placeholder="Tax ID (optional)"
                     />
-                    <p class="mt-1 text-xs text-gray-500">For tax reporting purposes</p>
+                    <p class="mt-1 text-xs text-gray-500">
+                      For tax reporting purposes
+                    </p>
                   </div>
                   <div>
-                    <label class="block text-sm font-medium text-[#022b5f] mb-2">
+                    <label
+                      class="block text-sm font-medium text-[#022b5f] mb-2"
+                    >
                       Website
                     </label>
                     <input
@@ -228,28 +342,40 @@
                     v-model="formData.street"
                     type="text"
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
-                    :class="{ 'border-red-500 ring-2 ring-red-500/20': errors.street }"
+                    :class="{
+                      'border-red-500 ring-2 ring-red-500/20': errors.street,
+                    }"
                     placeholder="Enter your street address"
                   />
-                  <p v-if="errors.street" class="mt-1 text-sm text-red-600">{{ errors.street }}</p>
+                  <p v-if="errors.street" class="mt-1 text-sm text-red-600">
+                    {{ errors.street }}
+                  </p>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <div>
-                    <label class="block text-sm font-medium text-[#022b5f] mb-2">
-                      City *
+                    <label
+                      class="block text-sm font-medium text-[#022b5f] mb-2"
+                    >
+                      City/Town *
                     </label>
                     <input
                       v-model="formData.city"
                       type="text"
                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
-                      :class="{ 'border-red-500 ring-2 ring-red-500/20': errors.city }"
+                      :class="{
+                        'border-red-500 ring-2 ring-red-500/20': errors.city,
+                      }"
                       placeholder="Enter your city"
                     />
-                    <p v-if="errors.city" class="mt-1 text-sm text-red-600">{{ errors.city }}</p>
+                    <p v-if="errors.city" class="mt-1 text-sm text-red-600">
+                      {{ errors.city }}
+                    </p>
                   </div>
                   <div>
-                    <label class="block text-sm font-medium text-[#022b5f] mb-2">
+                    <label
+                      class="block text-sm font-medium text-[#022b5f] mb-2"
+                    >
                       State/Province
                     </label>
                     <input
@@ -263,34 +389,50 @@
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <div>
-                    <label class="block text-sm font-medium text-[#022b5f] mb-2">
+                    <label
+                      class="block text-sm font-medium text-[#022b5f] mb-2"
+                    >
                       ZIP/Postal Code *
                     </label>
                     <input
                       v-model="formData.zipCode"
                       type="text"
                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
-                      :class="{ 'border-red-500 ring-2 ring-red-500/20': errors.zipCode }"
+                      :class="{
+                        'border-red-500 ring-2 ring-red-500/20': errors.zipCode,
+                      }"
                       placeholder="Enter your ZIP/postal code"
                     />
-                    <p v-if="errors.zipCode" class="mt-1 text-sm text-red-600">{{ errors.zipCode }}</p>
+                    <p v-if="errors.zipCode" class="mt-1 text-sm text-red-600">
+                      {{ errors.zipCode }}
+                    </p>
                   </div>
                   <div>
-                    <label class="block text-sm font-medium text-[#022b5f] mb-2">
+                    <label
+                      class="block text-sm font-medium text-[#022b5f] mb-2"
+                    >
                       Country *
                     </label>
                     <select
                       v-model="formData.country"
                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#fbb03b] focus:border-[#fbb03b] transition-all duration-200 bg-white"
                     >
-                      <option v-for="country in countries" :key="country" :value="country">{{ country }}</option>
+                      <option
+                        v-for="country in countries"
+                        :key="country"
+                        :value="country"
+                      >
+                        {{ country }}
+                      </option>
                     </select>
                   </div>
                 </div>
               </div>
 
               <!-- Navigation Buttons - Sticky at bottom -->
-              <div class="flex justify-between mt-8 pt-6 border-t border-gray-200">
+              <div
+                class="flex justify-between mt-8 pt-6 border-t border-gray-200"
+              >
                 <button
                   v-if="currentStep > 1"
                   type="button"
@@ -302,7 +444,7 @@
                 </button>
                 <div v-else></div>
 
-                <button
+                <!-- <button
                   type="submit"
                   class="flex items-center px-8 py-3 bg-[#fbb03b] text-white font-semibold rounded-lg hover:bg-[#fbb03b]/90 focus:outline-none focus:ring-2 focus:ring-[#fbb03b]/50 focus:ring-offset-2 transition-all duration-200 hover:shadow"
                   :class="{ 'opacity-50 cursor-not-allowed': isSubmitting }"
@@ -312,9 +454,29 @@
                     Next
                     <i class="pi pi-chevron-right ml-2"></i>
                   </span>
-                  <span v-else>
-                    <i class="pi pi-check mr-2"></i>
-                    Complete Registration
+                 <span v-else>
+  <i class="pi pi-check mr-2"></i>
+  <span class="text-sm sm:text-base">Start your 30-day free trial</span>
+</span>
+                </button> -->
+                <button
+                  type="submit"
+                  class="flex items-center justify-center px-4 py-2 sm:px-6 sm:py-2.5 lg:px-8 lg:py-3 bg-[#fbb03b] text-white font-semibold rounded-lg hover:bg-[#fbb03b]/90 focus:outline-none focus:ring-2 focus:ring-[#fbb03b]/50 focus:ring-offset-2 transition-all duration-200 hover:shadow text-sm sm:text-base"
+                  :class="{ 'opacity-50 cursor-not-allowed': isSubmitting }"
+                  :disabled="isSubmitting"
+                >
+                  <span
+                    v-if="currentStep < steps.length"
+                    class="flex items-center"
+                  >
+                    Next
+                    <i
+                      class="pi pi-chevron-right ml-2 text-sm sm:text-base"
+                    ></i>
+                  </span>
+                  <span v-else class="flex items-center text-sm sm:text-base">
+                    <i class="pi pi-bolt mr-2 text-sm sm:text-base"></i>
+                    Start your 30-day free trial
                   </span>
                 </button>
               </div>
@@ -323,7 +485,9 @@
 
           <!-- Footer -->
           <div class="mt-8 pt-4 border-gray-200">
-            <div class="flex flex-col sm:flex-row items-center justify-between text-sm text-gray-600">
+            <div
+              class="flex flex-col sm:flex-row items-center justify-between text-sm text-gray-600"
+            >
               <div class="flex items-center space-x-4 mb-2 sm:mb-0">
                 <span class="flex items-center">
                   <i class="pi pi-shield mr-1 text-green-600"></i>
@@ -335,207 +499,227 @@
                 </span>
               </div>
               <div>
-                Already have an account? 
-                <a href="#" class="text-[#022b5f] hover:text-[#022b5f]/80 font-medium transition-colors duration-200">Sign in</a>
+                Already have an account?
+                <router-link
+                  to="/auth/login"
+                  class="text-[#022b5f] hover:text-[#022b5f]/80 font-medium transition-colors duration-200"
+                  >Sign in</router-link
+                >
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-      <div :v-if="showPageLoader">
-       <PageLoader
-      :isVisible="showPageLoader" 
-      :message="''"
-      :showLogo="false"
-      type="pulse"
-      color="blue"
-   />
+    <div :v-if="showPageLoader">
+      <PageLoader
+        :isVisible="showPageLoader"
+        :message="''"
+        :showLogo="false"
+        type="pulse"
+        color="blue"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import PageLoader from "../../components/animation/PageLoader.vue"
+import { ref, computed, onMounted } from "vue";
+import PageLoader from "../../components/animation/PageLoader.vue";
+import apiClient from "../../api/axios";
+import MessageDisplayer from "../../components/animation/MessageDisplayer.vue"
 
-const currentStep = ref(1)
-const isSubmitting = ref(false)
-const showPageLoader = ref(true)
+const currentStep = ref(1);
+const isSubmitting = ref(false);
+const showPageLoader = ref(true);
+const marketplaces = ref(["Sunyani"]);
+const messageDisplayer = ref(null)
 
 const formData = ref({
   // Personal Information
-  firstName: '',
-  lastName: '',
-  email: '',
-  phone: '',
-  marketplace: '',
-  
-  // Business Information
-  businessName: '',
-  businessType: '',
-  taxId: '',
-  website: '',
-  
-  // Address Information
-  street: '',
-  city: '',
-  state: '',
-  zipCode: '',
-  country: 'United States'
-})
+  firstName: "",
+  lastName: "",
+  email: "",
+  phone: "",
+  marketplace: "",
 
-const errors = ref({})
+  // Business Information
+  businessName: "",
+  businessType: "",
+  taxId: "",
+  website: "",
+
+  // Address Information
+  street: "",
+  city: "",
+  state: "",
+  zipCode: "",
+  country: "Ghana",
+});
+
+const errors = ref({});
 
 const steps = [
   {
     id: 1,
-    title: 'Personal Details',
-    subtitle: 'Tell us about yourself',
-    icon: 'pi-user'
+    title: "Personal Details",
+    subtitle: "Tell us about yourself",
+    icon: "pi-user",
   },
   {
     id: 2,
-    title: 'Business Information',
-    subtitle: 'Your business details',
-    icon: 'pi-building'
+    title: "Business Information",
+    subtitle: "Your business details",
+    icon: "pi-building",
   },
   {
     id: 3,
-    title: 'Address Details',
-    subtitle: 'Where are you located?',
-    icon: 'pi-map-marker'
-  }
-]
+    title: "Address Details",
+    subtitle: "Where are you located?",
+    icon: "pi-map-marker",
+  },
+];
 
 const businessTypes = [
-  'Individual/Sole Proprietorship',
-  'LLC',
-  'Corporation',
-  'Partnership',
-  'Non-profit',
-  'Other'
-]
+  "Individual/Sole Proprietorship",
+  "LLC",
+  "Corporation",
+  "Partnership",
+  "Non-profit",
+  "Other",
+];
 
-const marketplaces = [
-  'Amazon',
-  'eBay',
-  'Etsy',
-  'Shopify',
-  'WooCommerce',
-  'Facebook Marketplace',
-  'Instagram Shop',
-  'Mercari',
-  'Poshmark',
-  'Depop',
-  'Other'
-]
+// const marketplaces = [
+//   'Amazon',
+//   'eBay',
+//   'Etsy',
+//   'Shopify',
+//   'WooCommerce',
+//   'Facebook Marketplace',
+//   'Instagram Shop',
+//   'Mercari',
+//   'Poshmark',
+//   'Depop',
+//   'Other'
+// ]
+
+let marketplace = [];
 
 const countries = [
-  'United States',
-  'Canada',
-  'United Kingdom',
-  'Australia',
-  'Germany',
-  'France',
-  'Other'
-]
+  "Ghana",
+  "Other",
+];
 
 const getStepIcon = (stepId) => {
   const iconMap = {
-    1: 'pi-user',
-    2: 'pi-building', 
-    3: 'pi-map-marker'
-  }
-  return iconMap[stepId] || 'pi-circle'
-}
+    1: "pi-user",
+    2: "pi-building",
+    3: "pi-map-marker",
+  };
+  return iconMap[stepId] || "pi-circle";
+};
 
 const validateStep = (step) => {
-  const newErrors = {}
-  
+  const newErrors = {};
+
   if (step === 1) {
     // Personal Information validation
     if (!formData.value.firstName.trim()) {
-      newErrors.firstName = 'First name is required'
+      newErrors.firstName = "First name is required";
     }
     if (!formData.value.lastName.trim()) {
-      newErrors.lastName = 'Last name is required'
+      newErrors.lastName = "Last name is required";
     }
     if (!formData.value.email.trim()) {
-      newErrors.email = 'Email is required'
+      newErrors.email = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.value.email)) {
-      newErrors.email = 'Please enter a valid email address'
+      newErrors.email = "Please enter a valid email address";
     }
     if (!formData.value.marketplace) {
-      newErrors.marketplace = 'Please select a marketplace'
+      newErrors.marketplace = "Please select a marketplace";
     }
   }
-  
+
   if (step === 2) {
     // Business Information validation
     if (!formData.value.businessName.trim()) {
-      newErrors.businessName = 'Business name is required'
+      newErrors.businessName = "Business name is required";
     }
     if (!formData.value.businessType) {
-      newErrors.businessType = 'Please select a business type'
+      newErrors.businessType = "Please select a business type";
     }
   }
-  
+
   if (step === 3) {
     // Address Information validation
     if (!formData.value.street.trim()) {
-      newErrors.street = 'Street address is required'
+      newErrors.street = "Street address is required";
     }
     if (!formData.value.city.trim()) {
-      newErrors.city = 'City is required'
+      newErrors.city = "City is required";
     }
     if (!formData.value.zipCode.trim()) {
-      newErrors.zipCode = 'ZIP/Postal code is required'
+      newErrors.zipCode = "ZIP/Postal code is required";
     }
   }
-  
-  errors.value = newErrors
-  return Object.keys(newErrors).length === 0
-}
+
+  errors.value = newErrors;
+  return Object.keys(newErrors).length === 0;
+};
 
 const handleNext = async () => {
   if (!validateStep(currentStep.value)) {
-    return
+    return;
   }
-  
+
   if (currentStep.value < steps.length) {
-    currentStep.value++
+    currentStep.value++;
   } else {
     // Final submission
-    isSubmitting.value = true
+    isSubmitting.value = true;
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      
-      console.log('Form submitted:', formData.value)
-      alert('Registration completed successfully!')
-      
+      showPageLoader.value = true;
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      console.log("Form submitted:", formData.value);
+
       // Reset form or redirect
       // window.location.href = '/dashboard'
     } catch (error) {
-      console.error('Submission error:', error)
-      alert('An error occurred. Please try again.')
+      console.error("Submission error:", error);
+      alert("An error occurred. Please try again.");
     } finally {
-      isSubmitting.value = false
+      isSubmitting.value = false;
+      showPageLoader.value = false
+      messageDisplayer.value.addMessage('Failed to connect to the server. Please try again later.', 'error', 3000)
     }
   }
-}
+};
 
 const handlePrevious = () => {
   if (currentStep.value > 1) {
-    currentStep.value--
+    currentStep.value--;
     // Clear errors when going back
-    errors.value = {}
+    errors.value = {};
   }
-}
+};
 
-onMounted(async()=>{
- await new Promise(resolve => setTimeout(resolve, 4000))
-  showPageLoader.value = false
-})
+const fetch_marketplaces = async () => {
+  try {
+    const response = await apiClient.get("/marketplaces");
+    if (response.status === 200 && Array.isArray(response.data)) {
+      marketplaces.value = response.data.map((m) => m.name);
+    }
+  } catch (error) {
+    showPageLoader.value = false;
+  }
+};
+
+
+onMounted(async () => {
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+  await fetch_marketplaces();
+  showPageLoader.value = false;
+});
 </script>
