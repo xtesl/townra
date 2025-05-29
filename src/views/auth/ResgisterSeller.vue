@@ -697,7 +697,9 @@ const handleNext = async () => {
       const response = await apiClient.post("/auth/register", data)
       if (response.status == 201){
         // messageDisplayer.value.addMessage("Account created successfully", "success", 3000)
-        router.replace("/")
+        router.replace("/").then(() => {
+            window.location.reload();
+        })
       }
 
       // Reset form or redirect

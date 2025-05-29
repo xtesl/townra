@@ -1,5 +1,6 @@
 <template>
   <nav class="bg-[#022b5f] shadow-lg sticky top-0 z-50">
+    
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Desktop Navigation (unchanged) -->
       <div class="hidden md:flex justify-between items-center h-16">
@@ -536,22 +537,36 @@
       </button>
     </div>
   </div>
+  <div :v-if="showPageLoader">
+      <PageLoader
+        :isVisible="showPageLoader"
+        :message="''"
+        :showLogo="false"
+        type="pulse"
+        color="blue"
+      />
+    </div>
 </div>
-
 
   </nav>
 </template>
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from "vue";
+import { useRouter } from "vue-router";
 import { useAuthStore } from "../../stores";
+import PageLoader from "../animation/PageLoader.vue";
+// import MessageDisplayer from "../animation/MessageDisplayer.vue"
 
 
+
+// const messageDisplayer = ref(null)
 const authStore = useAuthStore();
-console.log(authStore.isAuthenticated)
+const router = useRouter()
 
 // Reactive data
 const searchQuery = ref("");
+const showPageLoader = ref(false); // For showing page loader
 const showMobileMenu = ref(false);
 const showCategories = ref(false);
 const showUserMenu = ref(false);
@@ -637,12 +652,17 @@ const handleSearch = () => {
   }
 };
 
-const logout = () => {
+const logout = async () => {
   // Implement logout logic
-  isAuthenticated.value = false;
-  showUserMenu.value = false;
+  // isAuthenticated.value = false;
+  // showUserMenu.value = false;
+  // showPageLoader.value = true;
+  await authStore.logout();
   showMobileMenu.value = false;
-  console.log("User logged out");
+  router.replace("/").then(() => {
+       window.location.reload();
+       showPageLoader.value = false;
+  })
 };
 
 // Click outside handler
