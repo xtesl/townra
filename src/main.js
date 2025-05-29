@@ -3,10 +3,13 @@ import './style.css'
 import App from './App.vue'
 import router from './router'
 import { VueReCaptcha } from 'vue-recaptcha-v3'
-import { useGlobalLoader } from './composables/useLoader'
+import { useAuthStore } from './stores/authStore'
+import { createPinia } from 'pinia'
 
 const app = createApp(App)
+const pinia = createPinia()
 app.use(router)
+app.use(pinia)
 
 const site_key = import.meta.env.VITE_RECAPTCHA_SITE_KEY
 app.use(VueReCaptcha, {
@@ -14,6 +17,13 @@ app.use(VueReCaptcha, {
   loaderOptions: {
     autoHideBadge: true,
   }
-})
+});
 
-app.mount('#app')
+const initializeApp = async () => {
+  const authStore = useAuthStore();
+  app.mount("#app"); 
+  await authStore.checkUserState();
+  authStore.homeLoaded = true;
+};
+
+initializeApp();

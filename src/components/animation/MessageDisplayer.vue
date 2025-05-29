@@ -40,9 +40,9 @@
                 <p :class="['text-sm font-medium leading-relaxed', getTextColorClass(message.type)]">
                   {{ message.text }}
                 </p>
-                <div class="mt-1 text-xs opacity-70" :class="getTextColorClass(message.type)">
+                <!-- <div class="mt-1 text-xs opacity-70" :class="getTextColorClass(message.type)">
                   {{ formatTime(message.timestamp) }}
-                </div>
+                </div> -->
               </div>
             </div>
           </div>

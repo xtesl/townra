@@ -134,7 +134,7 @@
           </div>
 
           <!-- User Menu -->
-          <div class="relative" ref="userDropdown" v-if="isAuthenticated">
+          <div class="relative" ref="userDropdown" v-if="authStore.isAuthenticated">
             <button
               @click="toggleUserMenu"
               class="flex items-center space-x-2 text-white hover:text-[#fbb03b] transition-colors duration-200"
@@ -412,7 +412,7 @@
   <div class="flex-1 overflow-y-auto bg-white">
     <!-- User Section -->
     <div class="px-6 py-4 border-b border-gray-100">
-      <div v-if="isAuthenticated" class="flex items-center space-x-3 mb-4">
+      <div v-if="authStore.isAuthenticated" class="flex items-center space-x-3 mb-4">
         <div class="w-12 h-12 bg-[#fbb03b] rounded-full flex items-center justify-center">
           <span class="text-[#022b5f] font-semibold text-lg">{{ userInitials }}</span>
         </div>
@@ -423,7 +423,7 @@
       </div>
       
       <!-- Auth Buttons -->
-      <div v-if="!isAuthenticated" class="space-y-3 mb-4">
+      <div v-if="!authStore.isAuthenticated" class="space-y-3 mb-4">
         <router-link
           to="/auth/login"
           class="block w-full bg-[#fbb03b] hover:bg-[#e09d35] text-[#022b5f] px-4 py-3 rounded font-semibold text-center transition-all duration-200 transform hover:scale-105"
@@ -431,14 +431,16 @@
         >
           Sign In
         </router-link>
-        <!-- <router-link
+      </div>
+              <!-- <div>
+           <router-link
           to="/auth/"
           class="block w-full border-2 border-[#fbb03b] text-[#fbb03b] hover:bg-[#fbb03b] hover:text-[#022b5f] px-4 py-3 rounded font-semibold text-center transition-all duration-200"
           @click="closeMobileMenu"
         >
-          Create Account
-        </router-link> -->
-      </div>
+          Logout
+        </router-link>
+        </div> -->
     </div>
 
     <!-- Navigation Links -->
@@ -485,7 +487,7 @@
       </div>
 
       <!-- User Menu Items (if authenticated) -->
-      <div v-if="isAuthenticated" class="border-t border-gray-100 pt-4 space-y-1">
+      <div v-if="authStore.isAuthenticated" class="border-t border-gray-100 pt-4 space-y-1">
         <div class="text-gray-500 text-sm font-semibold mb-2 px-2">MY ACCOUNT</div>
         <router-link
           to="/profile"
@@ -523,7 +525,7 @@
     <!-- Menu Footer -->
     <div class="px-6 py-4 border-t border-gray-100 mt-auto">
       <button
-        v-if="isAuthenticated"
+        v-if="authStore.isAuthenticated"
         @click="logout"
         class="flex items-center space-x-4 text-red-500 hover:text-red-600 py-3 rounded transition-all duration-200 hover:bg-red-50 w-full"
       >
@@ -542,7 +544,11 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from "vue";
-// import { RouterLink } from "vue-router"
+import { useAuthStore } from "../../stores";
+
+
+const authStore = useAuthStore();
+console.log(authStore.isAuthenticated)
 
 // Reactive data
 const searchQuery = ref("");

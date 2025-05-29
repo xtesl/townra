@@ -222,10 +222,10 @@
                     <option value="">Select a marketplace</option>
                     <option
                       v-for="marketplace in marketplaces"
-                      :key="marketplace"
-                      :value="marketplace"
+                      :key="marketplace.pk"
+                      :value="marketplace.pk"
                     >
-                      {{ marketplace }}
+                      {{ marketplace.name }}
                     </option>
                   </select>
                   <p
@@ -528,6 +528,10 @@ import { ref, computed, onMounted } from "vue";
 import PageLoader from "../../components/animation/PageLoader.vue";
 import apiClient from "../../api/axios";
 import MessageDisplayer from "../../components/animation/MessageDisplayer.vue"
+import { useRouter } from "vue-router";
+
+
+const router = useRouter()
 
 const currentStep = ref(1);
 const isSubmitting = ref(false);
@@ -589,21 +593,6 @@ const businessTypes = [
   "Other",
 ];
 
-// const marketplaces = [
-//   'Amazon',
-//   'eBay',
-//   'Etsy',
-//   'Shopify',
-//   'WooCommerce',
-//   'Facebook Marketplace',
-//   'Instagram Shop',
-//   'Mercari',
-//   'Poshmark',
-//   'Depop',
-//   'Other'
-// ]
-
-let marketplace = [];
 
 const countries = [
   "Ghana",
@@ -680,19 +669,63 @@ const handleNext = async () => {
     try {
       // Simulate API call
       showPageLoader.value = true;
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const formDataValue = formData.value;
+      const data = {
+        "first_name": formDataValue.firstName,
+        "last_name": formDataValue.lastName,
+        "email": formDataValue.email,
+        "phone_number": formDataValue.phone,
+        "base_marketplace_pk": formDataValue.marketplace,
+        "account_type": "seller",
+        "address": {
+          "street_address": formDataValue.street,
+          "country": formDataValue.country,
+          "postal_code": formDataValue.zipCode,
+          "city": formDataValue.city,
+          "state_province": formData.state
+        }, 
+        "business": {
+          "name": formDataValue.businessName,
+          "business_type": "Lcc",
+          "tax_id": formDataValue.taxId,
+          "website": formDataValue.website
+        }
+      }
 
-      console.log("Form submitted:", formData.value);
+      // await new Promise((resolve) => setTimeout(resolve, 2000)); 
+
+      const response = await apiClient.post("/auth/register", data)
+      if (response.status == 201){
+        // messageDisplayer.value.addMessage("Account created successfully", "success", 3000)
+        router.replace("/")
+      }
 
       // Reset form or redirect
       // window.location.href = '/dashboard'
     } catch (error) {
-      console.error("Submission error:", error);
-      alert("An error occurred. Please try again.");
+      const messageDuration = 3000;
+        const messageType = "error"
+      if(error.response){
+          switch(error.response.status){
+            case 409:
+              messageDisplayer.value.addMessage("An account with this email address already exists", messageType, messageDuration)
+              break;
+            case 500:
+              messageDisplayer.value.addMessage("Internal server error", messageType, messageDuration)
+              break;
+            case 403:
+              messageDisplayer.value.addMessage(error.response.data.details, messageType, messageDuration);
+            
+          }
+    }else if(error.request){
+      messageDisplayer.value.addMessage('Failed to connect to the server. Please try again later.', messageType, messageDuration)
+    }else{
+      messageDisplayer.value.addMessage("Something went wrong.Please try again later.", messageType, messageDuration)
+    }
+ 
     } finally {
       isSubmitting.value = false;
       showPageLoader.value = false
-      messageDisplayer.value.addMessage('Failed to connect to the server. Please try again later.', 'error', 3000)
     }
   }
 };
@@ -707,9 +740,9 @@ const handlePrevious = () => {
 
 const fetch_marketplaces = async () => {
   try {
-    const response = await apiClient.get("/marketplaces");
+    const response = await apiClient.get("/marketplaces/");
     if (response.status === 200 && Array.isArray(response.data)) {
-      marketplaces.value = response.data.map((m) => m.name);
+      marketplaces.value = response.data;
     }
   } catch (error) {
     showPageLoader.value = false;
