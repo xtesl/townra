@@ -6,11 +6,12 @@ import MagicLogin  from "../views/auth/MagicLogin.vue"
 import StartSelling from "../views/auth/StartSelling.vue"
 import TestProductTour from "../views/TestProductTour.vue"
 import Profile from '../views/user/Profile.vue'
+import { useAuthStore } from '../stores'
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
+    name: 'home',
     component: Home,
     meta: { disableLoader: true }
   },
@@ -42,37 +43,54 @@ const routes = [
     path: "/user/profile",
     name: "profile",
     component: Profile,
+    meta: { requiresAuth: false, disableLoader: true }
   },
 
   {
     path: "/tour",
     name: "tour",
     component: TestProductTour
-  }
+  },
+   
 
 
 ]
 
+
 const router = createRouter({
-  history: createWebHashHistory(),
-  routes
-})
+  history: createWebHashHistory(import.meta.env.BASE_URL),
+  routes,
+   scrollBehavior(to, from, savedPosition) {
+        // Check if there's a saved position (e.g., from browser history)
+        if (savedPosition) {
+          return savedPosition;
+        }
+    
+        // Determine scroll position based on the route or some condition
+        if(to.hash){
+          return {
+            el: to.hash,
+            behavior: 'smooth',
+          };
+        }
+    
+        // Scroll to the top by default
+        return { top: 0 };
+      },
+});
 
-// router.beforeEach((to, from, next) => {
-//   if (to.meta?.requiresLoader && to.path !== from.path) {
-//     const { showLoader } = useGlobalLoader()
-//     const message = to.meta.loaderMessage || 'Loading page...'
-//     showLoader(message)
-//   }
-//   next()
-// })
 
-// router.afterEach(() => {
-//   const { hideLoader } = useGlobalLoader()
-//   // Small delay to ensure content is loaded
-//   setTimeout(() => {
-//     hideLoader()
-//   }, 500)
-// })
+router.beforeEach((to, from, next) => {
+  try {
+    const authStore = useAuthStore();
+    if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+      next({ name: "home" });
+    } else {
+      next();
+    }
+  } catch (error) {
+    next(); 
+  }
+});
 
 export default router
