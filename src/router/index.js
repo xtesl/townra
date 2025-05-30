@@ -33,7 +33,8 @@ const routes = [
   {
     path: "/auth/register",
     name: "register-seller",  
-    component: RegisterSeller
+    component: RegisterSeller, 
+    meta: { disableLoader: true }
   },
 
   {

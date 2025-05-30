@@ -661,7 +661,7 @@ const logout = async () => {
   showMobileMenu.value = false;
   router.replace("/").then(() => {
        window.location.reload();
-       showPageLoader.value = false;
+      //  showPageLoader.value = false;
   })
 };
 
