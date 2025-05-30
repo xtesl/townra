@@ -89,7 +89,7 @@
         <!-- Desktop Navigation -->
         <div class="flex items-center space-x-6" v-if="isInitialized">
           <!-- Sell Button -->
-           <div v-if="!isAuthenticated && userType !== 'seller'">
+           <div v-if="userType !== 'seller'">
                <RouterLink
             to="/auth/register"
             class="bg-[#fbb03b] hover:bg-[#e09d35] text-[#022b5f] px-4 py-2 rounded font-semibold transition-colors duration-200"
@@ -471,7 +471,7 @@
       </router-link>
 
       <!-- Sell Button -->
-       <div v-if="!isAuthenticated && userType !== 'seller'">
+       <div v-if="userType !== 'seller'">
 <router-link
         to="/auth/register"
         class="flex items-center space-x-4 bg-gradient-to-r from-[#fbb03b] to-[#e09a2a] text-[#022b5f] py-3 px-4 rounded font-semibold my-4 transition-all duration-200 transform hover:scale-105"

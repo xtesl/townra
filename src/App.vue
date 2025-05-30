@@ -83,7 +83,6 @@ watch(
     <router-view />
     
     <PageLoader
-      
       :isVisible="showPageLoader"
       :message="''"
       :showLogo="false"

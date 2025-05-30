@@ -1,5 +1,6 @@
 <template>
   <div class="min-h-screen bg-gray-50">
+    <MessageDisplayer ref="messageDisplayer"/>
     <!-- Header with Back Button -->
     <div class="bg-white border-b border-gray-200 sticky top-0 z-10">
       <div class="px-4 sm:px-6 lg:px-8 py-4">
@@ -36,14 +37,14 @@
               </h2>
               <p class="text-gray-600 mb-2">{{ userProfile.email }}</p>
               <div class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
-                <div class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium accent-bg primary-text">
-                  <i class="pi pi-star mr-2"></i>
+                <div class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                  <i class="pi pi-shop mr-2"></i>
                   {{ userProfile.account_type }} Account
                 </div>
-                <div v-if="isSeller" class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                <!-- <div v-else class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
                   <i class="pi pi-shop mr-2"></i>
                   Seller Account
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -66,7 +67,7 @@
               <i class="pi pi-user mr-2"></i>
               Profile
             </button>
-            <button 
+            <!-- <button 
               @click="activeTab = 'settings'"
               :class="[
                 'py-4 px-4 border-b-2 font-medium text-sm transition-colors duration-200 whitespace-nowrap',
@@ -77,7 +78,7 @@
             >
               <i class="pi pi-cog mr-2"></i>
               Settings
-            </button>
+            </button> -->
             <button 
               v-if="isSeller"
               @click="activeTab = 'address'"
@@ -179,7 +180,14 @@
             </div>
 
             <!-- Account Type -->
-            <div>
+              <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Account Type</label>
+              <div class="flex items-center">
+                <i class="text-gray-400 mr-2"></i>
+                <p class="text-gray-900 bg-gray-100 px-3 py-2 rounded-md flex-1 opacity-60">{{ userProfile.account_type }}</p>
+              </div>
+            </div>
+            <!-- <div>
               <label class="block text-sm font-medium text-gray-700 mb-2">Account Type</label>
               <select 
                 v-if="isEditing"
@@ -189,7 +197,7 @@
                 <option v-for="type in accountTypes" :key="type" :value="type">{{ type }}</option>
               </select>
               <p v-else class="text-gray-900 bg-gray-50 px-3 py-2 rounded-md">{{ userProfile.account_type }}</p>
-            </div>
+            </div> -->
           </div>
 
           <!-- Save Button -->
@@ -520,7 +528,7 @@
             </div>
 
             <!-- Tax ID/Registration Number -->
-            <div>
+            <div class="lg:col-span-2">
               <label class="block text-sm font-medium text-gray-700 mb-2">Tax ID/Registration Number</label>
               <input 
                 v-if="isEditingBusiness"
@@ -532,7 +540,7 @@
             </div>
 
             <!-- Industry -->
-            <div>
+            <!-- <div>
               <label class="block text-sm font-medium text-gray-700 mb-2">Industry</label>
               <select 
                 v-if="isEditingBusiness"
@@ -542,10 +550,10 @@
                 <option v-for="industry in industries" :key="industry" :value="industry">{{ industry }}</option>
               </select>
               <p v-else class="text-gray-900 bg-gray-50 px-3 py-2 rounded-md">{{ businessInfo.industry }}</p>
-            </div>
+            </div> -->
 
             <!-- Business Description -->
-            <div class="lg:col-span-2">
+            <!-- <div class="lg:col-span-2">
               <label class="block text-sm font-medium text-gray-700 mb-2">Business Description</label>
               <textarea 
                 v-if="isEditingBusiness"
@@ -555,10 +563,10 @@
                 placeholder="Describe your business..."
               ></textarea>
               <p v-else class="text-gray-900 bg-gray-50 px-3 py-2 rounded-md min-h-[100px]">{{ businessInfo.description || 'No description provided' }}</p>
-            </div>
+            </div> -->
 
             <!-- Years in Business -->
-            <div>
+            <!-- <div>
               <label class="block text-sm font-medium text-gray-700 mb-2">Years in Business</label>
               <input 
                 v-if="isEditingBusiness"
@@ -569,10 +577,10 @@
                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent"
               />
               <p v-else class="text-gray-900 bg-gray-50 px-3 py-2 rounded-md">{{ businessInfo.years_in_business || 0 }} years</p>
-            </div>
+            </div> -->
 
             <!-- Number of Employees -->
-            <div>
+            <!-- <div>
               <label class="block text-sm font-medium text-gray-700 mb-2">Number of Employees</label>
               <select 
                 v-if="isEditingBusiness"
@@ -582,7 +590,7 @@
                 <option v-for="range in employeeRanges" :key="range" :value="range">{{ range }}</option>
               </select>
               <p v-else class="text-gray-900 bg-gray-50 px-3 py-2 rounded-md">{{ businessInfo.employee_count || 'Not specified' }}</p>
-            </div>
+            </div> -->
           </div>
 
           <!-- Save Button -->
@@ -657,12 +665,22 @@
         </div>
       </div>
     </div>
+     <PageLoader
+      :isVisible="showPageLoader"
+      :message="pageLoaderMessage"
+      :showLogo="false"
+      :type="pageLoaderType"
+      color="blue"
+    />
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import apiClient from '../../api/axios'
+import PageLoader from '../../components/animation/PageLoader.vue'
+import MessageDisplayer from '../../components/animation/MessageDisplayer.vue'
 
 const router = useRouter()
 
@@ -672,6 +690,11 @@ const isEditing = ref(false)
 const isEditingAddress = ref(false)
 const isEditingBusiness = ref(false)
 const showDeleteConfirmation = ref(false)
+const showPageLoader = ref(false);
+const  pageLoaderMessage = ref("")
+const pageLoaderType = ref("pulse")
+const messageDisplayer = ref(null);
+const defaultErrorMessage = ref("Something went wrong. Please contact customer care.")
 
 // User Profile Data
 const userProfile = ref({
@@ -736,7 +759,7 @@ const employeeRanges = ref(['1-10', '10-50', '50-100', '100-500', '500+'])
 
 // Computed Properties
 const isSeller = computed(() => {
-  return userProfile.value.account_type === 'Premium' || userProfile.value.account_type === 'Enterprise'
+  return userProfile.value.account_type === 'seller' || userProfile.value.account_type === 'buyer'
 })
 
 // Methods
@@ -762,87 +785,121 @@ const toggleBusinessEdit = () => {
 
 const saveProfile = async () => {
   try {
-    // API call to save profile data
-    console.log('Saving profile:', userProfile.value)
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    isEditing.value = false
-    // Show success message (you can add a toast notification here)
+    
+    showPageLoader.value = true;
+    pageLoaderMessage.value = "Saving changes..."
+    const data = {
+       "basic": userProfile.value
+    }
+    const response = await apiClient.patch("/users/me/profile?part=basic", data)
+    if (response.status == 200){
+       userProfile.value = response.data
+       isEditing.value = false
+    }
   } catch (error) {
-    console.error('Error saving profile:', error)
-    // Handle error (show error message)
+      
+  }finally{
+      showPageLoader.value = false;
   }
 }
 
 const saveSettings = async () => {
   try {
-    // API call to save settings
-    console.log('Saving settings:', userSettings.value)
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    // Show success message
+   
+    
   } catch (error) {
-    console.error('Error saving settings:', error)
-    // Handle error
+  
+    
   }
 }
 
 const saveAddress = async () => {
   try {
-    // API call to save address
-    console.log('Saving address:', userAddress.value)
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    isEditingAddress.value = false
-    // Show success message
+     showPageLoader.value = true;
+    pageLoaderMessage.value = "Saving changes..."
+     const data = {
+      "address": userAddress.value
+     }
+      const response = await apiClient.patch("/users/me/profile?part=address", data)
+    if (response.status == 200){
+       userAddress.value = response.data
+       isEditingAddress.value = false
+    }
+    
   } catch (error) {
-    console.error('Error saving address:', error)
-    // Handle error
+     messageDisplayer.value.addMessage(defaultErrorMessage.value, "error", 3000)
+  }finally{
+    showPageLoader.value = false;
   }
 }
 
 const saveBusiness = async () => {
   try {
-    // API call to save business info
-    console.log('Saving business info:', businessInfo.value)
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    isEditingBusiness.value = false
-    // Show success message
+    showPageLoader.value = true;
+    pageLoaderMessage.value = "Saving changes...";
+    const data = {
+      "business": userAddress.value
+     }
+      const response = await apiClient.patch("/users/me/profile?part=business", data)
+    if (response.status == 200){
+       userAddress.value = response.data
+       isEditingBusiness.value = false
+    }
+    
   } catch (error) {
-    console.error('Error saving business info:', error)
-    // Handle error
+   
+ 
+  }finally{
+    showPageLoader.value = false
   }
 }
 
 const deleteAccount = async () => {
   try {
-    // API call to delete account
     console.log('Deleting account...')
     await new Promise(resolve => setTimeout(resolve, 1000))
-    // Redirect to login or home page after deletion
+ 
     router.push('/login')
   } catch (error) {
     console.error('Error deleting account:', error)
-    // Handle error
+
   }
 }
 
-// Lifecycle
-onMounted(() => {
-  // Load user data on component mount
-  console.log('User profile component mounted')
-  // You can make API calls here to fetch actual user data
+
+const fetchUserProfile = async() => {
+      try {
+         showPageLoader.value = true;
+          const response = await apiClient.get("/users/me?struct=profile"); 
+          if(response.status == 200){
+            const data = response.data
+            userProfile.value = data.normal_profile.base_profile
+            userAddress.value = data.address
+            businessInfo.value = data.business_profile
+          }
+      } catch (error) {
+        
+      }finally{
+        showPageLoader.value = false;
+      }
+}
+
+onMounted( async () => {
+  await fetchUserProfile();
+   await new Promise((resolve) => setTimeout(resolve, 2000));
 })
 </script>
 
 <style scoped>
 .primary-bg {
-  background-color: #1e3a8a; /* blue-900 */
+  background-color: #1e3a8a; 
 }
 
 .accent-bg {
-  background-color: #fb923c; /* orange-400 */
+  background-color: #fb923c; 
 }
 
 .primary-text {
-  color: #1e3a8a; /* blue-900 */
+  color: #1e3a8a; 
 }
 </style>
