@@ -5,8 +5,9 @@ import apiClient from "../api/axios";
 export const useAuthStore = defineStore('auth',  {
     state: () => ({
         isAuthenticated: false,
-        user: {},
+        userType: "",
         homeLoaded: false,
+        isInitialized: false,
     }),
     actions: {
         async checkUserState() {
@@ -15,12 +16,13 @@ export const useAuthStore = defineStore('auth',  {
                 const response = await apiClient.post(`/auth/verify-token`);
                 if (response.status == 200){
                     this.isAuthenticated = true;
-                    this.user = response.data;
                 }
                 
              } catch (error) {
                 this.isAuthenticated = false;
-             }   
+             }   finally{
+                this.isInitialized = true;
+             }
            
         },
 
@@ -31,7 +33,7 @@ export const useAuthStore = defineStore('auth',  {
                 //
             }finally{
                 this.isAuthenticated = false;
-                this.user = null;
+                this.userType = ""
             }
            
            

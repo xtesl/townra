@@ -5,18 +5,20 @@ import RegisterSeller from "../views/auth/ResgisterSeller.vue"
 import MagicLogin  from "../views/auth/MagicLogin.vue"
 import StartSelling from "../views/auth/StartSelling.vue"
 import TestProductTour from "../views/TestProductTour.vue"
+import Profile from '../views/user/Profile.vue'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    meta: { disableLoader: true }
   },
   {
     path: "/auth/login",
     name: "login",
     component: Login,
-    meta: { requiresLoader: true }
+    meta: { disableLoader: true }
   }, {
 
     path: "/auth/start-selling",
@@ -35,6 +37,11 @@ const routes = [
     name: "register-seller",  
     component: RegisterSeller, 
     meta: { disableLoader: true }
+  },
+  {
+    path: "/user/profile",
+    name: "profile",
+    component: Profile,
   },
 
   {

@@ -87,15 +87,17 @@
         </div>
 
         <!-- Desktop Navigation -->
-        <div class="flex items-center space-x-6">
+        <div class="flex items-center space-x-6" v-if="isInitialized">
           <!-- Sell Button -->
-          <RouterLink
+           <div v-if="!isAuthenticated && userType !== 'seller'">
+               <RouterLink
             to="/auth/register"
             class="bg-[#fbb03b] hover:bg-[#e09d35] text-[#022b5f] px-4 py-2 rounded font-semibold transition-colors duration-200"
           >
             Start Selling
         </RouterLink>
-
+           </div>
+      
           <!-- Categories Dropdown -->
           <div class="relative" ref="categoriesDropdown">
             <button
@@ -135,7 +137,7 @@
           </div>
 
           <!-- User Menu -->
-          <div class="relative" ref="userDropdown" v-if="authStore.isAuthenticated">
+          <div class="relative" ref="userDropdown" v-if="isAuthenticated">
             <button
               @click="toggleUserMenu"
               class="flex items-center space-x-2 text-white hover:text-[#fbb03b] transition-colors duration-200"
@@ -166,27 +168,33 @@
               v-show="showUserMenu"
               class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50"
             >
+              
               <router-link
-                to="/profile"
+                to="/user/profile"
                 class="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200"
                 @click="showUserMenu = false"
               >
                 My Profile
               </router-link>
-              <router-link
+               <div v-if="userType === 'buyer'">
+                 <router-link
                 to="/orders"
                 class="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200"
                 @click="showUserMenu = false"
               >
                 My Orders
               </router-link>
-              <router-link
+               </div>
+               <div v-if="userType == 'seller'">
+                <router-link
                 to="/seller-dashboard"
                 class="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200"
                 @click="showUserMenu = false"
               >
                 Seller Dashboard
               </router-link>
+               </div>
+             
               <hr class="my-2" />
               <button
                 @click="logout"
@@ -234,6 +242,7 @@
             </span>
           </router-link>
         </div>
+
       </div>
 
       <!-- Mobile Navigation -->
@@ -327,13 +336,16 @@
         
   <div class="flex items-center gap-2 sm:gap-3 px-3 pb-3">
   <!-- Start Selling Button -->
-  <router-link
+   <div v-if="!isAuthenticated && userType !== 'seller'">
+    <router-link
     to="/auth/register"
     class="bg-[#fbb03b] hover:bg-[#e09d35] text-[#022b5f] px-2.5 sm:px-3 py-2 rounded text-xs sm:text-sm font-semibold transition-colors duration-200 whitespace-nowrap flex-shrink-0 min-w-0"
   >
     <span class="hidden xs:inline">Sell Now</span>
     <span class="xs:hidden">Start Selling</span>
   </router-link>
+   </div>
+ 
 
   <!-- Mobile Search Bar -->
   <div class="relative flex-1 min-w-0">
@@ -377,7 +389,7 @@
 
     <!-- Mobile Sliding Menu -->
     <div
-  class="fixed top-0 left-0 h-full w-80 bg-white z-50 transform transition-transform duration-300 ease-in-out md:hidden shadow-2xl"
+  class="fixed top-0 left-0 h-full w-80 bg-white z-50 transform transition-transform duration-300 ease-in-out md:hidden"
   :class="{ 'translate-x-0': showMobileMenu, '-translate-x-full': !showMobileMenu }"
 >
   <!-- Menu Header -->
@@ -413,7 +425,7 @@
   <div class="flex-1 overflow-y-auto bg-white">
     <!-- User Section -->
     <div class="px-6 py-4 border-b border-gray-100">
-      <div v-if="authStore.isAuthenticated" class="flex items-center space-x-3 mb-4">
+      <div v-if="isAuthenticated" class="flex items-center space-x-3 mb-4">
         <div class="w-12 h-12 bg-[#fbb03b] rounded-full flex items-center justify-center">
           <span class="text-[#022b5f] font-semibold text-lg">{{ userInitials }}</span>
         </div>
@@ -424,7 +436,7 @@
       </div>
       
       <!-- Auth Buttons -->
-      <div v-if="!authStore.isAuthenticated" class="space-y-3 mb-4">
+      <div v-if="!isAuthenticated" class="space-y-3 mb-4">
         <router-link
           to="/auth/login"
           class="block w-full bg-[#fbb03b] hover:bg-[#e09d35] text-[#022b5f] px-4 py-3 rounded font-semibold text-center transition-all duration-200 transform hover:scale-105"
@@ -459,7 +471,8 @@
       </router-link>
 
       <!-- Sell Button -->
-      <router-link
+       <div v-if="!isAuthenticated && userType !== 'seller'">
+<router-link
         to="/auth/register"
         class="flex items-center space-x-4 bg-gradient-to-r from-[#fbb03b] to-[#e09a2a] text-[#022b5f] py-3 px-4 rounded font-semibold my-4 transition-all duration-200 transform hover:scale-105"
         @click="closeMobileMenu"
@@ -469,6 +482,8 @@
         </svg>
         <span>Start Selling</span>
       </router-link>
+       </div>
+      
 
       <!-- Categories -->
       <div class="mb-4">
@@ -488,10 +503,11 @@
       </div>
 
       <!-- User Menu Items (if authenticated) -->
-      <div v-if="authStore.isAuthenticated" class="border-t border-gray-100 pt-4 space-y-1">
+      <div v-if="isAuthenticated" class="border-t border-gray-100 pt-4 space-y-1">
         <div class="text-gray-500 text-sm font-semibold mb-2 px-2">MY ACCOUNT</div>
+         
         <router-link
-          to="/profile"
+          to="/user/profile"
           class="flex items-center space-x-4 text-[#022b5f] hover:text-[#fbb03b] py-3 rounded-lg transition-all duration-200 hover:bg-gray-50"
           @click="closeMobileMenu"
         >
@@ -500,7 +516,8 @@
           </svg>
           <span>My Profile</span>
         </router-link>
-        <router-link
+        <div v-if="userType === 'buyer'">
+          <router-link
           to="/orders"
           class="flex items-center space-x-4 text-[#022b5f] hover:text-[#fbb03b] py-3 rounded transition-all duration-200 hover:bg-gray-50"
           @click="closeMobileMenu"
@@ -510,7 +527,9 @@
           </svg>
           <span>My Orders</span>
         </router-link>
-        <router-link
+         </div>
+         <div v-else>
+            <router-link
           to="/seller-dashboard"
           class="flex items-center space-x-4 text-[#022b5f] hover:text-[#fbb03b] py-3 rounded transition-all duration-200 hover:bg-gray-50"
           @click="closeMobileMenu"
@@ -520,13 +539,14 @@
           </svg>
           <span>Seller Dashboard</span>
         </router-link>
+         </div>
       </div>
     </div>
 
     <!-- Menu Footer -->
     <div class="px-6 py-4 border-t border-gray-100 mt-auto">
       <button
-        v-if="authStore.isAuthenticated"
+        v-if="isAuthenticated"
         @click="logout"
         class="flex items-center space-x-4 text-red-500 hover:text-red-600 py-3 rounded transition-all duration-200 hover:bg-red-50 w-full"
       >
@@ -537,7 +557,7 @@
       </button>
     </div>
   </div>
-  <div :v-if="showPageLoader">
+  <!-- <div :v-if="showPageLoader">
       <PageLoader
         :isVisible="showPageLoader"
         :message="''"
@@ -545,17 +565,18 @@
         type="pulse"
         color="blue"
       />
-    </div>
+    </div> -->
 </div>
 
   </nav>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from "vue";
+import { ref, computed, onMounted, onUnmounted, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../../stores";
 import PageLoader from "../animation/PageLoader.vue";
+import apiClient from "../../api/axios"
 // import MessageDisplayer from "../animation/MessageDisplayer.vue"
 
 
@@ -574,8 +595,10 @@ const categoriesDropdown = ref(null);
 const userDropdown = ref(null);
 const imageError = ref(false);
 
-// Mock data - replace with your actual data/store
-const isAuthenticated = ref(false); // Change based on auth state
+
+const isAuthenticated = computed(() => authStore.isAuthenticated || true);
+const isInitialized = computed(() => authStore.isInitialized);
+const userType = computed(() => authStore.userType || "buyer");
 const userName = ref("John Doe");
 const cartCount = ref(3);
 
@@ -678,9 +701,12 @@ const handleClickOutside = (event) => {
   }
 };
 
+
+
 // Lifecycle hooks
-onMounted(() => {
+onMounted(async () => {
   document.addEventListener("click", handleClickOutside);
+
 });
 
 onUnmounted(() => {

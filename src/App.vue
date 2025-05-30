@@ -30,34 +30,51 @@ onMounted(async() => {
 <!-- App.vue -->
 <script setup>
 import PageLoader from './components/animation/PageLoader.vue'
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted, computed, watch } from 'vue'
+import { useAuthStore } from './stores'
+import apiClient from "./api/axios"
 
-const showPageLoader = ref(true)
-const router = useRouter()
+const authStore = useAuthStore();
 
-// Hide loader after initial app mount (avoids white screen flash)
-onMounted(() => {
-  setTimeout(() => {
-    showPageLoader.value = false
-  }, 300) // tweak delay if needed
-})
 
-// Route change loader with exclusions
-router.beforeEach((to, from, next) => {
-  if (!to.meta.disableLoader) {
-    showPageLoader.value = true
+const showPageLoader = ref(true);
+const isAuthenticated = computed(() => authStore.isAuthenticated);
+
+const fetchAccountType = async () => {
+      try {
+     showPageLoader.value = true
+      
+    const response = await apiClient.get("/users/user-type");
+    if (response.status == 200){
+     authStore.userType = response.data.data.type
+    }
+    
+  } catch (error) {
+    
+  }finally{
+    showPageLoader.value = false;
   }
-  next()
-})
+}
 
-router.afterEach((to) => {
-  if (!to.meta.disableLoader) {
-    setTimeout(() => {
-      showPageLoader.value = false
-    }, 500)
-  }
-})
+watch(
+  () => isAuthenticated.value,
+  async (newVal) => {
+    if (newVal) {
+      await fetchAccountType()
+    }else{
+      if(!isAuthenticated.value){
+        setTimeout(() => {
+        if (!isAuthenticated.value) {
+          showPageLoader.value = false;
+        }
+      }, 400); 
+    }
+      }
+  },
+  { immediate: true } 
+)
+
+
 </script>
 
 
@@ -66,7 +83,7 @@ router.afterEach((to) => {
     <router-view />
     
     <PageLoader
-      v-if="showPageLoader"
+      
       :isVisible="showPageLoader"
       :message="''"
       :showLogo="false"
