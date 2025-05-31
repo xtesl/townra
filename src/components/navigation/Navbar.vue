@@ -596,7 +596,7 @@ const userDropdown = ref(null);
 const imageError = ref(false);
 
 
-const isAuthenticated = computed(() => authStore.isAuthenticated || true);
+const isAuthenticated = computed(() => authStore.isAuthenticated);
 const isInitialized = computed(() => authStore.isInitialized);
 const userType = computed(() => authStore.userType || "buyer");
 const userName = ref("John Doe");

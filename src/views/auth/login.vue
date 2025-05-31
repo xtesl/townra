@@ -518,11 +518,7 @@ const goBackToForm = () => {
 }
 
 const handleGoogleLogin = () => {
-  if (isLoading.value) return
-  
-  // Implement Google OAuth login
-  console.log('Google login initiated')
-  alert('Google login would be implemented here')
+    window.location.href = "http://localhost:8000/auth/login/google";
 }
 
 const handleSellerRegister = () => {
