@@ -78,7 +78,7 @@
                   <div
                     v-for="product in newArrivals"
                     :key="`new-${product.id}`"
-                    class="flex-none w-56 xl:w-64 bg-white rounded shadow overflow-hidden hover:shadow transition-shadow"
+                    class="flex-none w-56 xl:w-64 bg-white rounded overflow-hidden hover:shadow transition-shadow"
                   >
                     <img :src="product.image" :alt="product.name" class="w-full h-32 xl:h-40 object-cover">
                     <div class="p-3 xl:p-4">
@@ -94,39 +94,10 @@
             </section>
 
             <!-- Categories Section -->
-           <section>
-              <h2 class="text-xl xl:text-2xl font-bold text-[#022b5f] mb-4 xl:mb-6">Shop by Category</h2>
-              <div class="overflow-x-auto pb-4">
-                <div class="flex space-x-4 min-w-max">
-                  <div
-                    v-for="category in categories"
-                    :key="category"
-                    @click="selectedCategory = category; showMobileFilters = false"
-                    class="group relative bg-gradient-to-r from-[#022b5f] to-[#034080] rounded-2xl p-4 xl:p-6 cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-105 hover:from-[#fbb03b] hover:to-[#e09a2a] overflow-hidden min-w-[180px] xl:min-w-[220px] h-24 xl:h-28 flex items-center"
-                  >
-                    <!-- Background Pattern -->
-                    <div class="absolute inset-0 opacity-10">
-                      <div class="absolute -top-2 -right-2 w-12 h-12 rounded bg-white/20"></div>
-                      <div class="absolute -bottom-3 -left-3 w-8 h-8 rounded bg-white/10"></div>
-                    </div>
-                    
-                    <div class="relative z-10 flex items-center space-x-3 xl:space-x-4 w-full">
-                      <div class="w-12 h-12 xl:w-14 xl:h-14 bg-white/20 backdrop-blur-sm rounded flex items-center justify-center group-hover:bg-white/30 transition-all duration-300 group-hover:rotate-12 flex-shrink-0">
-                        <svg class="w-6 h-6 xl:w-7 xl:h-7 text-white" fill="currentColor" viewBox="0 0 20 20">
-                          <path fill-rule="evenodd" d="M10 2L3 7v11a2 2 0 002 2h10a2 2 0 002-2V7l-7-5z" clip-rule="evenodd" />
-                        </svg>
-                      </div>
-                      <div class="flex-1">
-                        <h3 class="font-bold text-white text-sm xl:text-base group-hover:text-white transition-colors">{{ category }}</h3>
-                        <div class="mt-1 w-8 h-0.5 bg-white/50 group-hover:w-12 group-hover:bg-white transition-all duration-300"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-
+           
+            <Categories :categories="categories"/>
             <FeaturedProducts :topRanking="topRanking" />
+             
 
             <!-- All Products Section -->
             <section>
@@ -137,7 +108,8 @@
                 </div>
                 <div class="mt-4 sm:mt-0 flex items-center space-x-2">
                   <span class="text-sm font-medium text-gray-700">Sort by:</span>
-                  <select v-model="sortBy" class="px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#fbb03b] text-sm">
+                  <select v-model="sortBy" class="px-3 py-2 rounded border border-gray-300 focus:outline-none 
+                  focus:ring-2 focus:ring-[#fbb03b] text-sm">
                     <option value="name">Name</option>
                     <option value="price-low">Price: Low to High</option>
                     <option value="price-high">Price: High to Low</option>
@@ -155,7 +127,8 @@
                   <button
                     @click="currentPage = Math.max(1, currentPage - 1)"
                     :disabled="currentPage === 1"
-                    class="px-3 py-2 rounded-lg border border-gray-300 text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                    class="px-3 py-2 rounded border border-gray-300 text-gray-500 
+                    hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                   >
                     Previous
                   </button>
@@ -164,7 +137,7 @@
                     :key="page"
                     @click="currentPage = page"
                     :class="[
-                      'px-3 py-2 rounded-lg border text-sm',
+                      'px-3 py-2 rounded border text-sm',
                       page === currentPage ? 'bg-[#022b5f] text-white border-[#022b5f]' : 'border-gray-300 text-gray-500 hover:bg-gray-50'
                     ]"
                   >
@@ -173,7 +146,8 @@
                   <button
                     @click="currentPage = Math.min(totalPages, currentPage + 1)"
                     :disabled="currentPage === totalPages"
-                    class="px-3 py-2 rounded border border-gray-300 text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                    class="px-3 py-2 rounded border border-gray-300 text-gray-500 
+                    hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                   >
                     Next
                   </button>

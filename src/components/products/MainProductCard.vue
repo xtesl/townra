@@ -39,7 +39,7 @@
                 <div
                   v-for="product in products"
                   :key="product.id"
-                  class="bg-white rounded shadow overflow-hidden hover:shadow-lg transition-shadow duration-300"
+                  class="bg-white rounded overflow-hidden hover:shadow transition-shadow duration-300"
                 >
                   <img :src="product.image" :alt="product.name" class="w-full h-40 xl:h-48 object-cover">
                   <div class="p-4 xl:p-6">
@@ -61,7 +61,8 @@
                         </svg>
                         <span class="truncate">{{ product.marketplace }}</span>
                       </div>
-                      <button class="bg-[#fbb03b] text-white px-3 xl:px-4 py-2 rounded hover:bg-[#e09a2a] transition-colors duration-200 text-sm font-medium">
+                      <button class="bg-[#fbb03b] text-white px-3 xl:px-4 py-2 rounded hover:bg-[#e09a2a] 
+                      transition-colors duration-200 text-sm font-medium">
                         View Details
                       </button>
                     </div>

@@ -716,7 +716,7 @@ const handleNext = async () => {
               messageDisplayer.value.addMessage("Internal server error", messageType, messageDuration)
               break;
             case 403:
-              messageDisplayer.value.addMessage(error.response.data.details, messageType, messageDuration);
+              messageDisplayer.value.addMessage(error.response.data.detail, messageType, messageDuration);
             
           }
     }else if(error.request){

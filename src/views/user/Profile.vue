@@ -1,6 +1,14 @@
 <template>
   <div class="min-h-screen bg-gray-50">
+     <PageLoader
+      :isVisible="showPageLoader"
+      :message="pageLoaderMessage"
+      :showLogo="false"
+      :type="pageLoaderType"
+      color="blue"
+    />
     <MessageDisplayer ref="messageDisplayer"/>
+
     <!-- Header with Back Button -->
     <div class="bg-white border-b border-gray-200 sticky top-0 z-10">
       <div class="px-4 sm:px-6 lg:px-8 py-4">
@@ -27,19 +35,19 @@
           <div class="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6">
             <!-- Avatar -->
             <div class="w-24 h-24 rounded-full flex items-center justify-center text-white text-2xl font-bold  primary-bg">
-              {{ getInitials(userProfile.first_name, userProfile.last_name) }}
+              {{ getInitials(userProfile?.first_name, userProfile?.last_name) }}
             </div>
             
             <!-- User Info -->
             <div class="flex-1 text-center sm:text-left">
               <h2 class="text-3xl font-bold text-gray-900 mb-2">
-                {{ userProfile.first_name }} {{ userProfile.last_name }}
+                {{ userProfile?.first_name }} {{ userProfile?.last_name }}
               </h2>
-              <p class="text-gray-600 mb-2">{{ userProfile.email }}</p>
+              <p class="text-gray-600 mb-2">{{ userProfile?.email }}</p>
               <div class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
                 <div class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
                   <i class="pi pi-shop mr-2"></i>
-                  {{ userProfile.account_type }} Account
+                  {{ userProfile?.account_type }} Account
                 </div>
                 <!-- <div v-else class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
                   <i class="pi pi-shop mr-2"></i>
@@ -80,7 +88,7 @@
               Settings
             </button> -->
             <button 
-              v-if="isSeller"
+              v-if="userType == 'seller'"
               @click="activeTab = 'address'"
               :class="[
                 'py-4 px-4 border-b-2 font-medium text-sm transition-colors duration-200 whitespace-nowrap',
@@ -93,7 +101,7 @@
               Address
             </button>
             <button 
-              v-if="isSeller"
+              v-if="userType == 'seller'"
               @click="activeTab = 'business'"
               :class="[
                 'py-4 px-4 border-b-2 font-medium text-sm transition-colors duration-200 whitespace-nowrap',
@@ -131,7 +139,7 @@
                 type="text"
                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent"
               />
-              <p v-else class="text-gray-900 bg-gray-50 px-3 py-2 rounded-md">{{ userProfile.first_name }}</p>
+              <p v-else class="text-gray-900 bg-gray-50 px-3 py-2 rounded-md">{{ userProfile?.first_name }}</p>
             </div>
 
             <!-- Last Name -->
@@ -143,7 +151,7 @@
                 type="text"
                 class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent"
               />
-              <p v-else class="text-gray-900 bg-gray-50 px-3 py-2 rounded-md">{{ userProfile.last_name }}</p>
+              <p v-else class="text-gray-900 bg-gray-50 px-3 py-2 rounded-md">{{ userProfile?.last_name }}</p>
             </div>
 
             <!-- Email (Read-only) -->
@@ -151,7 +159,7 @@
               <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
               <div class="flex items-center">
                 <i class="pi pi-envelope text-gray-400 mr-2"></i>
-                <p class="text-gray-900 bg-gray-100 px-3 py-2 rounded-md flex-1 opacity-60">{{ userProfile.email }}</p>
+                <p class="text-gray-900 bg-gray-100 px-3 py-2 rounded-md flex-1 opacity-60">{{ userProfile?.email }}</p>
               </div>
             </div>
 
@@ -164,7 +172,7 @@
                 type="tel"
                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent"
               />
-              <p v-else class="text-gray-900 bg-gray-50 px-3 py-2 rounded-md">{{ userProfile.phone_number }}</p>
+              <p v-else class="text-gray-900 bg-gray-50 px-3 py-2 rounded-md">{{ userProfile?.phone_number }}</p>
             </div>
 
             <!-- Date of Birth -->
@@ -176,7 +184,7 @@
                 type="date"
                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent"
               />
-              <p v-else class="text-gray-900 bg-gray-50 px-3 py-2 rounded-md">{{ userProfile.date_of_birth }}</p>
+              <p v-else class="text-gray-900 bg-gray-50 px-3 py-2 rounded-md">{{ userProfile?.date_of_birth }}</p>
             </div>
 
             <!-- Account Type -->
@@ -184,7 +192,7 @@
               <label class="block text-sm font-medium text-gray-700 mb-2">Account Type</label>
               <div class="flex items-center">
                 <i class="text-gray-400 mr-2"></i>
-                <p class="text-gray-900 bg-gray-100 px-3 py-2 rounded-md flex-1 opacity-60">{{ userProfile.account_type }}</p>
+                <p class="text-gray-900 bg-gray-100 px-3 py-2 rounded-md flex-1 opacity-60">{{ userProfile?.account_type }}</p>
               </div>
             </div>
             <!-- <div>
@@ -665,13 +673,7 @@
         </div>
       </div>
     </div>
-     <PageLoader
-      :isVisible="showPageLoader"
-      :message="pageLoaderMessage"
-      :showLogo="false"
-      :type="pageLoaderType"
-      color="blue"
-    />
+    
   </div>
 </template>
 
@@ -681,8 +683,13 @@ import { useRouter } from 'vue-router'
 import apiClient from '../../api/axios'
 import PageLoader from '../../components/animation/PageLoader.vue'
 import MessageDisplayer from '../../components/animation/MessageDisplayer.vue'
+import { useAuthStore } from '../../stores'
 
 const router = useRouter()
+const authStore = useAuthStore()
+
+
+const userType = computed(() => authStore.userType);
 
 // Reactive data
 const activeTab = ref('profile')
@@ -700,10 +707,10 @@ const defaultErrorMessage = ref("Something went wrong. Please contact customer c
 const userProfile = ref({
   first_name: 'John',
   last_name: 'Doe',
-  email: 'john.doe@example.com',
-  phone_number: '+1-555-123-4567',
-  date_of_birth: '1990-05-15',
-  account_type: 'Premium'
+  email: 'johndoe@gmail.com',
+  phone_number: '26727272',
+  date_of_birth: ' ',
+  account_type: 'seller'
 })
 
 // User Settings
@@ -759,12 +766,13 @@ const employeeRanges = ref(['1-10', '10-50', '50-100', '100-500', '500+'])
 
 // Computed Properties
 const isSeller = computed(() => {
-  return userProfile.value.account_type === 'seller' || userProfile.value.account_type === 'buyer'
+  return userProfile.value?.account_type === 'seller' || userProfile.value?.account_type === 'buyer'
 })
 
 // Methods
 const getInitials = (firstName, lastName) => {
-  return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase()
+  if(!firstName || !lastName) return 'TP'
+  return `${firstName?.charAt(0)}${lastName?.charAt(0)}`.toUpperCase()
 }
 
 const goBack = () => {
@@ -873,20 +881,27 @@ const fetchUserProfile = async() => {
           const response = await apiClient.get("/users/me?struct=profile"); 
           if(response.status == 200){
             const data = response.data
-            userProfile.value = data.normal_profile.base_profile
-            userAddress.value = data.address
-            businessInfo.value = data.business_profile
+            if(userType.value === "buyer"){
+              userProfile.value = data?.base_profile
+            }
+            else{
+            userProfile.value = data?.normal_profile?.base_profile
+            userAddress.value = data?.address
+            businessInfo.value = data?.business_profile
+            }
+           
           }
       } catch (error) {
         
       }finally{
-        showPageLoader.value = false;
+       
       }
 }
 
 onMounted( async () => {
   await fetchUserProfile();
    await new Promise((resolve) => setTimeout(resolve, 2000));
+    showPageLoader.value = false;
 })
 </script>
 

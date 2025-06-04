@@ -7,6 +7,7 @@ import StartSelling from "../views/auth/StartSelling.vue"
 import TestProductTour from "../views/TestProductTour.vue"
 import Profile from '../views/user/Profile.vue'
 import { useAuthStore } from '../stores'
+import Dashboard from "../views/user/Dashboard.vue"
 
 const routes = [
   {
@@ -51,6 +52,12 @@ const routes = [
     name: "tour",
     component: TestProductTour
   },
+  {
+
+    path: "/user/dashboard",
+    name: "Dashboard",
+    component: Dashboard
+  }
    
 
 
@@ -79,18 +86,27 @@ const router = createRouter({
       },
 });
 
-
 router.beforeEach((to, from, next) => {
-  try {
-    const authStore = useAuthStore();
+  const authStore = useAuthStore()
+
+  if (!authStore.isInitialized) {
+    // Wait until state is verified
+    const unwatch = authStore.$subscribe(() => {
+      unwatch()
+      proceed()
+    })
+  } else {
+    proceed()
+  }
+
+  function proceed() {
     if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-      next({ name: "home" });
+      next({ name: 'home' })
     } else {
-      next();
+      next()
     }
-  } catch (error) {
-    next(); 
   }
 });
+
 
 export default router

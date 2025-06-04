@@ -5,9 +5,10 @@ import router from './router'
 import { VueReCaptcha } from 'vue-recaptcha-v3'
 import { useAuthStore } from './stores/authStore'
 import { createPinia } from 'pinia'
+import piniaPersistedstate from "pinia-plugin-persistedstate"
 
 const app = createApp(App)
-const pinia = createPinia()
+const pinia = createPinia(piniaPersistedstate)
 app.use(router)
 app.use(pinia)
 
@@ -19,11 +20,17 @@ app.use(VueReCaptcha, {
   }
 });
 
-const initializeApp = async () => {
-  const authStore = useAuthStore();
-  app.mount("#app"); 
-  await authStore.checkUserState();
-  authStore.homeLoaded = true;
-};
 
-initializeApp();
+const authStore = useAuthStore();
+// const initializeApp = async () => {
+//   const authStore = useAuthStore();
+//   app.mount("#app"); 
+//   await authStore.fetchUserType();
+  
+// };
+
+// initializeApp();
+
+authStore.fetchUserType().finally(() => {
+  app.mount('#app')
+})

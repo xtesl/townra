@@ -22,16 +22,19 @@
       <div
         v-for="(product, index) in topRanking.slice(0, 5)"
         :key="`ranking-${product.id}`"
-        class="group relative bg-white rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-500 flex-shrink-0 w-72 md:w-80 snap-start transform hover:-translate-y-2"
+        class="group relative bg-white rounded-2xl overflow-hidden hover:shadow-2xl 
+        transition-all duration-500 flex-shrink-0 w-72 md:w-80 snap-start transform hover:-translate-y-2"
       >
         <!-- Rank Badge - Floating -->
         <div class="absolute top-4 left-4 z-20">
           <div class="relative">
-            <div class="w-12 h-12 bg-gradient-to-br from-[#fbb03b] via-[#e09a2a] to-[#d4941f] rounded-full flex items-center justify-center shadow-xl border-3 border-white">
+            <div class="w-12 h-12 bg-gradient-to-br from-[#fbb03b] via-[#e09a2a] to-[#d4941f]
+             rounded-full flex items-center justify-center border-3 border-white">
               <span class="text-white font-bold text-lg">{{ index + 1 }}</span>
             </div>
             <!-- Glow effect -->
-            <div class="absolute inset-0 bg-gradient-to-br from-[#fbb03b] to-[#e09a2a] rounded-full opacity-30 blur-lg scale-110 group-hover:scale-125 transition-transform duration-500"></div>
+            <div class="absolute inset-0 bg-gradient-to-br from-[#fbb03b] to-[#e09a2a] rounded-full 
+            opacity-30 blur-lg scale-110 group-hover:scale-125 transition-transform duration-500"></div>
           </div>
         </div>
 
@@ -56,11 +59,14 @@
           >
           
           <!-- Gradient overlay -->
-          <div class="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent 
+          to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           
           <!-- Quick action overlay -->
-          <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-            <button class="bg-white/90 backdrop-blur-sm text-[#022b5f] px-6 py-3 rounded-full font-semibold shadow-xl transform scale-90 group-hover:scale-100 transition-all duration-300 hover:bg-white">
+          <div class="absolute inset-0 flex items-center justify-center 
+          opacity-0 group-hover:opacity-100 transition-all duration-300">
+            <button class="bg-white/90 backdrop-blur-sm text-[#022b5f] px-6 py-3 
+            rounded-full font-semibold transform scale-90 group-hover:scale-100 transition-all duration-300 hover:bg-white">
               Quick View
             </button>
           </div>
@@ -97,7 +103,8 @@
           
           <!-- Action Buttons -->
           <div class="flex space-x-3 pt-4">
-            <button class="flex-1 bg-gradient-to-r from-[#fbb03b] via-[#e09a2a] to-[#d4941f] text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-sm md:text-base">
+            <button class="flex-1 bg-gradient-to-r from-[#fbb03b] via-[#e09a2a] to-[#d4941f] text-white px-6 py-3 rounded font-semibold
+              hover:shadow transform hover:scale-105 transition-all duration-300 text-sm md:text-base">
               View Details
             </button>
             <button class="w-12 h-12 bg-gray-100 hover:bg-gray-200 rounded-xl flex items-center justify-center transition-colors duration-200">
@@ -109,7 +116,9 @@
         </div>
         
         <!-- Bottom accent line -->
-        <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#fbb03b] to-[#e09a2a] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+        <div class="absolute bottom-0 left-0 right-0 h-1 
+        bg-gradient-to-r from-[#fbb03b] to-[#e09a2a] transform scale-x-0 group-hover:scale-x-100 
+        transition-transform duration-500 origin-left"></div>
       </div>
     </div>
     

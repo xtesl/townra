@@ -58,7 +58,8 @@
         <div
           v-if="categories[0]"
           @click="selectCategory(categories[0].slug)"
-          class="group col-span-6 lg:col-span-5 row-span-2 relative rounded overflow-hidden cursor-pointer transition-all duration-500 hover:scale-105 hover:shadow-3xl h-80 lg:h-96"
+          class="group col-span-6 lg:col-span-5 row-span-2 relative rounded overflow-hidden cursor-pointer 
+          transition-all duration-500 hover:scale-105 hover:shadow-3xl h-80 lg:h-96"
         >
           <div class="absolute inset-0">
             <img 
@@ -72,7 +73,8 @@
           
           <div class="relative z-10 p-8 h-full flex flex-col justify-between">
             <div class="flex justify-end">
-              <div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-3xl flex items-center justify-center group-hover:bg-[#fbb03b] group-hover:rotate-12 transition-all duration-500">
+              <div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-3xl flex items-center 
+              justify-center group-hover:bg-[#fbb03b] group-hover:rotate-12 transition-all duration-500">
                 <component 
                   :is="getCategoryIcon(categories[0].slug)" 
                   class="w-8 h-8 text-white group-hover:text-[#022b5f] transition-colors duration-300"
@@ -98,7 +100,8 @@
           v-for="category in categories.slice(1, 5)"
           :key="`medium-${category.id}`"
           @click="selectCategory(category.slug)"
-          class="group col-span-6 lg:col-span-3 xl:col-span-3 relative rounded-3xl overflow-hidden cursor-pointer transition-all duration-500 hover:scale-105 shadow-xl hover:shadow-2xl h-48"
+          class="group col-span-6 lg:col-span-3 xl:col-span-3 relative rounded-3xl 
+          overflow-hidden cursor-pointer transition-all duration-500 hover:scale-105 hover:shadow h-48"
         >
           <div class="absolute inset-0">
             <img 
@@ -112,7 +115,8 @@
           
           <div class="relative z-10 p-6 h-full flex flex-col justify-between">
             <div class="flex justify-end">
-              <div class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center group-hover:bg-[#fbb03b] group-hover:rotate-12 transition-all duration-300">
+              <div class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-2xl 
+              flex items-center justify-center group-hover:bg-[#fbb03b] group-hover:rotate-12 transition-all duration-300">
                 <component 
                   :is="getCategoryIcon(category.slug)" 
                   class="w-6 h-6 text-white group-hover:text-[#022b5f] transition-colors duration-300"
@@ -134,7 +138,8 @@
           v-for="category in categories.slice(5, 9)"
           :key="`small-${category.id}`"
           @click="selectCategory(category.slug)"
-          class="group col-span-6 md:col-span-3 lg:col-span-2 relative rounded-3xl overflow-hidden cursor-pointer transition-all duration-500 hover:scale-105 shadow-lg hover:shadow-xl h-36"
+          class="group col-span-6 md:col-span-3 lg:col-span-2 relative rounded-3xl overflow-hidden cursor-pointer transition-all 
+          duration-500 hover:scale-105 hover:shadow h-36"
         >
           <div class="absolute inset-0">
             <img 
@@ -170,7 +175,8 @@
           v-for="category in categories.slice(9, 11)"
           :key="`wide-${category.id}`"
           @click="selectCategory(category.slug)"
-          class="group col-span-12 md:col-span-6 relative rounded-3xl overflow-hidden cursor-pointer transition-all duration-500 hover:scale-105 shadow-xl hover:shadow-2xl h-40"
+          class="group col-span-12 md:col-span-6 relative rounded-3xl overflow-hidden cursor-pointer 
+          transition-all duration-500 hover:scale-105 hover:shadow h-40"
         >
           <div class="absolute inset-0">
             <img 
@@ -203,7 +209,9 @@
 
       <!-- View All Button -->
       <div class="text-center mt-12">
-        <button class="group bg-gradient-to-r from-[#fbb03b] to-[#e09a2a] hover:from-[#e09d35] hover:to-[#d18d26] text-[#022b5f] px-8 py-4 rounded-2xl font-semibold transition-all duration-300 hover:scale-105 shadow-xl hover:shadow-2xl text-lg">
+        <button class="group bg-gradient-to-r from-[#fbb03b] to-[#e09a2a]
+         hover:from-[#e09d35] hover:to-[#d18d26] text-[#022b5f]
+         px-8 py-4 rounded font-semibold transition-all duration-300 hover:scale-105 hover:shadow text-lg">
           <span class="flex items-center space-x-2">
             <span>Explore All Categories</span>
             <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
