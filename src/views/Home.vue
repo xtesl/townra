@@ -10,7 +10,7 @@
        <Listing />
       <!-- <slot /> -->
     </main>
-    
+    <MobileBottomBar />
     <!-- Footer Component -->
     <Footer />
   </div>
@@ -24,6 +24,7 @@ import Footer from "../components/navigation/Footer.vue"
   import Listing from "../components/products/Listing.vue"
   import { useGlobalLoader } from "../composables/useLoader"
   import MobileNavbar from "../components/navigation/MobileNavbar.vue"
+  import MobileBottomBar from "../components/navigation/MobileBottomBar.vue"
 
 const { showLoader, hideLoader } = useGlobalLoader()
   onMounted(() =>{
