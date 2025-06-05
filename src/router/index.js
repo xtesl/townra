@@ -1,62 +1,49 @@
-import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
-import Home from "../views/Home.vue"
-import Login from "../views/auth/login.vue"
-import RegisterSeller from "../views/auth/ResgisterSeller.vue"
-import MagicLogin  from "../views/auth/MagicLogin.vue"
-import StartSelling from "../views/auth/StartSelling.vue"
-import TestProductTour from "../views/TestProductTour.vue"
-import Profile from '../views/user/Profile.vue'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import { useAuthStore } from '../stores'
-import Dashboard from "../views/user/Dashboard.vue"
+
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: Home,
+    component: () => import("../views/Home.vue"),
     meta: { disableLoader: true }
   },
   {
     path: "/auth/login",
     name: "login",
-    component: Login,
+    component: () => import("../views/auth/login.vue"),
     meta: { disableLoader: true }
   }, {
 
     path: "/auth/start-selling",
     name: "start-selling",
-    component: StartSelling
+    component: () => import("../views/auth/StartSelling.vue")
   },
 
   {
     path: "/auth/magic-login",
     name: "magic-login",
-    component: MagicLogin
+    component: () => import("../views/auth/MagicLogin.vue")
   },
 
   {
     path: "/auth/register",
     name: "register-seller",  
-    component: RegisterSeller, 
+    component: () => import("../views/auth/ResgisterSeller.vue"),
     meta: { disableLoader: true }
   },
   {
     path: "/user/profile",
     name: "profile",
-    component: Profile,
+    component: () => import("../views/user/Profile.vue"),
     meta: { requiresAuth: true, disableLoader: true }
-  },
-
-  {
-    path: "/tour",
-    name: "tour",
-    component: TestProductTour
   },
   {
 
     path: "/user/dashboard",
     name: "Dashboard",
-    component: Dashboard
+    component: () => import("../views/user/Dashboard.vue")
   }
    
 

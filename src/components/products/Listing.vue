@@ -222,87 +222,13 @@
                   </select>
                 </div>
               </div>
-
               <MainProductCard :products="paginatedProducts" />
-
-              <!-- Pagination -->
-              <div
-                v-if="totalPages > 1"
-                class="mt-6 xl:mt-8 flex justify-center"
-              >
-                <nav class="flex items-center space-x-2">
-                  <button
-                    @click="currentPage = Math.max(1, currentPage - 1)"
-                    :disabled="currentPage === 1"
-                    class="px-3 py-2 rounded border border-gray-300 text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
-                  >
-                    Previous
-                  </button>
-                  <button
-                    v-for="page in visiblePages"
-                    :key="page"
-                    @click="currentPage = page"
-                    :class="[
-                      'px-3 py-2 rounded border text-sm',
-                      page === currentPage
-                        ? 'bg-[#022b5f] text-white border-[#022b5f]'
-                        : 'border-gray-300 text-gray-500 hover:bg-gray-50',
-                    ]"
-                  >
-                    {{ page }}
-                  </button>
-                  <button
-                    @click="currentPage = Math.min(totalPages, currentPage + 1)"
-                    :disabled="currentPage === totalPages"
-                    class="px-3 py-2 rounded border border-gray-300 text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
-                  >
-                    Next
-                  </button>
-                </nav>
-              </div>
             </section>
           </div>
         </main>
       </div>
-
-      <!-- Mobile Layout -->
       <div class="lg:hidden space-y-6">
-        <!-- New Arrivals Mobile -->
-        <!-- <section>
-          <div class="flex items-center justify-between mb-4">
-            <h2 class="text-xl font-bold text-[#022b5f]">New Arrivals</h2>
-            <button class="text-[#fbb03b] font-medium text-sm">View All</button>
-          </div>
-          <div class="flex space-x-3 overflow-x-auto pb-2">
-            <div
-              v-for="product in newArrivals.slice(0, 6)"
-              :key="`mobile-new-${product.id}`"
-              class="flex-none w-40 bg-white rounded overflow-hidden"
-            >
-              <img
-                :src="product.image"
-                :alt="product.name"
-                class="w-full h-28 object-cover"
-              />
-              <div class="p-3">
-                <h3
-                  class="font-semibold text-[#022b5f] text-xs mb-2 line-clamp-2"
-                >
-                  {{ product.name }}
-                </h3>
-                <div class="flex items-center justify-between">
-                  <span class="text-sm font-bold text-[#022b5f]"
-                    >${{ product.price }}</span
-                  >
-                  <span
-                    class="text-xs bg-[#fbb03b] text-white px-1.5 py-0.5 rounded-full"
-                    >{{ product.category }}</span
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-        </section> -->
+        
         <section>
   <div class="flex items-center justify-between mb-4 xl:mb-6">
     <h2 class="text-xl xl:text-2xl font-bold text-[#022b5f]">New Arrivals</h2>

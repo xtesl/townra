@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full min-h-screen bg-gray-50">
+  <div class="w-full min-h-screen bg-white">
     <!-- Mobile View - 2 columns, full width -->
     <div v-if="isMobile" class="grid grid-cols-2 gap-1">
       <div
