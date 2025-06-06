@@ -74,7 +74,7 @@
       <div
         v-for="product in products"
         :key="product.id"
-        class="bg-white rounded overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group"
+        class="bg-white rounded overflow-hidden hover:shadow transition-all duration-300 hover:-translate-y-2 group"
       >
         <!-- Product Image -->
         <div class="relative aspect-square overflow-hidden bg-gray-50">
@@ -160,7 +160,7 @@
         <div class="animate-spin rounded-full h-12 w-12 border-4 border-gray-200"></div>
         <div class="animate-spin rounded-full h-12 w-12 border-4 border-[#ff6b35] border-t-transparent absolute top-0 left-0"></div>
       </div>
-      <span class="ml-4 text-gray-600 font-medium">Loading more products...</span>
+      <!-- <span class="ml-4 text-gray-600 font-medium">Loading more products...</span> -->
     </div>
 
     <!-- End of Results -->
@@ -177,14 +177,16 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted, computed } from 'vue'
+import apiClient from '../../api/axios'
 
 // Reactive data
 const products = ref([])
 const loading = ref(false)
 const hasMore = ref(true)
-const page = ref(1)
+const offset = ref(0)
 const observerTarget = ref(null)
 let observer = null
+const limit = 20 // Number of products to fetch per request
 
 // Check if mobile
 const isMobile = computed(() => {
@@ -194,11 +196,109 @@ const isMobile = computed(() => {
   return false
 })
 
-// Sample product data generator
-const generateProducts = (pageNum) => {
-  const categories = ['Electronics', 'Fashion', 'Home & Garden', 'Beauty', 'Sports', 'Books']
-  const locations = ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix', 'Philadelphia']
-  const productNames = [
+// Load more products from API using offset-based pagination
+const loadMoreProducts = async () => {
+  if (loading.value || !hasMore.value) return
+
+
+  loading.value = true
+
+  try {
+    // Fetch products using offset-based pagination
+    const response = await apiClient.get(`/products/just-for-you?offset=${offset.value}&limit=${limit}`)
+    
+    if (response.status === 200) {
+      const data = response.data
+      
+      // Handle different API response structures
+      let newProducts = []
+      let totalCount = null
+      
+      // Adjust these based on your actual API response structure
+      if (data.products) {
+        // Structure: { products: [...], total: number, count: number }
+        newProducts = data.products
+        totalCount = data.total || data.count
+      } else if (Array.isArray(data)) {
+        // Structure: [...]  (direct array)
+        newProducts = data
+      } else if (data.data) {
+        // Structure: { data: [...], total: number, meta: {...} }
+        newProducts = data.data
+        totalCount = data.total || data.meta?.total
+      } else if (data.results) {
+        // Structure: { results: [...], count: number }
+        newProducts = data.results
+        totalCount = data.count
+      }
+
+      console.log(`Loaded ${newProducts.length} products at offset ${offset.value}`)
+
+      // Map API products to your required format
+      const formattedProducts = newProducts.map((product, index) => ({
+        id: product.id || `${offset.value}-${index}`,
+        name: product.title || product.name || `Product ${offset.value + index + 1}`,
+        price: product.price || (Math.random() * 200 + 20).toFixed(2),
+        originalPrice: product.original_price || product.originalPrice || null,
+        discount: product.discount || (product.original_price && product.price ? 
+          Math.round(((product.original_price - product.price) / product.original_price) * 100) : null),
+        rating: product.rating || (Math.random() * 2 + 3).toFixed(1),
+        orders: product.orders_count || product.orders || product.sold_count || Math.floor(Math.random() * 1000 + 100),
+        location: product.location || product.seller_location || product.origin || 'Unknown',
+        category: product.category || product.category_name || 'General',
+        image: product.image || product.image_url || product.thumbnail || 
+               `https://picsum.photos/400/300?random=${product.id || offset.value + index}`
+      }))
+
+      // Add new products to existing ones
+      products.value.push(...formattedProducts)
+
+      // Update offset for next request
+      offset.value += newProducts.length
+
+      // Check if we've reached the end
+      if (newProducts.length < limit) {
+        // If we got fewer products than requested, we've reached the end
+        hasMore.value = false
+        console.log('Reached end: got fewer products than requested')
+      } else if (totalCount !== null && products.value.length >= totalCount) {
+        // If we know the total count and we've loaded all products
+        hasMore.value = false
+        console.log(`Reached end: loaded ${products.value.length} of ${totalCount} products`)
+      } else if (newProducts.length === 0) {
+        // If no products returned
+        hasMore.value = false
+        console.log('Reached end: no products returned')
+      }
+
+    } else {
+      console.error('API returned non-200 status:', response.status)
+      hasMore.value = false
+    }
+  } catch (error) {
+    console.error('Failed to load products:', error)
+    
+    // Only show error and stop loading
+    hasMore.value = false
+    
+    // Optional: Add some fallback products only on first load for development
+    if (products.value.length === 0 && offset.value === 0) {
+      console.log('Adding fallback products for development')
+      const fallbackProducts = generateFallbackProducts()
+      products.value.push(...fallbackProducts)
+      offset.value = fallbackProducts.length
+      hasMore.value = false // Don't continue loading if API fails
+    }
+  }finally{
+       loading.value = false
+  }
+
+ 
+}
+
+// Fallback products only for development/testing when API fails
+const generateFallbackProducts = () => {
+  const sampleProducts = [
     'Premium Wireless Headphones',
     'Smart Fitness Watch',
     'Organic Cotton T-Shirt',
@@ -210,46 +310,28 @@ const generateProducts = (pageNum) => {
     'Phone Case',
     'Laptop Stand'
   ]
+  
+  const locations = ['New York', 'Los Angeles', 'Chicago', 'Houston']
 
-  return Array.from({ length: 20 }, (_, index) => {
+  return sampleProducts.map((name, index) => {
     const basePrice = Math.random() * 200 + 20
     const hasDiscount = Math.random() > 0.7
     const discount = hasDiscount ? Math.floor(Math.random() * 40 + 10) : 0
     const originalPrice = hasDiscount ? (basePrice / (1 - discount / 100)).toFixed(2) : null
 
     return {
-      id: (pageNum - 1) * 20 + index + 1,
-      name: productNames[Math.floor(Math.random() * productNames.length)] + ` ${(pageNum - 1) * 20 + index + 1}`,
+      id: `fallback-${index + 1}`,
+      name: name,
       price: basePrice.toFixed(2),
       originalPrice,
       discount: hasDiscount ? discount : null,
       rating: (Math.random() * 2 + 3).toFixed(1),
       orders: Math.floor(Math.random() * 1000 + 100),
       location: locations[Math.floor(Math.random() * locations.length)],
-      category: categories[Math.floor(Math.random() * categories.length)],
-      image: `https://picsum.photos/400/300?random=${(pageNum - 1) * 20 + index + 1}`
+      category: 'Sample',
+      image: `https://picsum.photos/400/300?random=${index + 1}`
     }
   })
-}
-
-// Load more products
-const loadMoreProducts = async () => {
-  if (loading.value || !hasMore.value) return
-
-  loading.value = true
-
-  // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 1000))
-
-  const newProducts = generateProducts(page.value)
-  
-  if (newProducts.length < 20 || page.value >= 10) {
-    hasMore.value = false
-  }
-
-  products.value.push(...newProducts)
-  page.value += 1
-  loading.value = false
 }
 
 // Initialize intersection observer
@@ -261,13 +343,22 @@ const initObserver = () => {
       }
     },
     {
-      threshold: 0.1
+      threshold: 0.1,
+      rootMargin: '50px' // Start loading a bit before reaching the bottom
     }
   )
 
   if (observerTarget.value) {
     observer.observe(observerTarget.value)
   }
+}
+
+// Reset function (useful for refresh or filtering)
+const resetProducts = () => {
+  products.value = []
+  offset.value = 0
+  hasMore.value = true
+  loadMoreProducts()
 }
 
 // Lifecycle hooks
@@ -280,6 +371,11 @@ onUnmounted(() => {
   if (observer) {
     observer.disconnect()
   }
+})
+
+// Expose reset function if needed
+defineExpose({
+  resetProducts
 })
 </script>
 

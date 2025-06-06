@@ -673,8 +673,8 @@
         </div>
       </div>
     </div>
-    
   </div>
+  <MobileNavbarWrapper :active-tab-prop="'account'"/>
 </template>
 
 <script setup>
@@ -684,6 +684,7 @@ import apiClient from '../../api/axios'
 import PageLoader from '../../components/animation/PageLoader.vue'
 import MessageDisplayer from '../../components/animation/MessageDisplayer.vue'
 import { useAuthStore } from '../../stores'
+import MobileNavbarWrapper from '../../components/navigation/MobileNavbarWrapper.vue'
 
 const router = useRouter()
 const authStore = useAuthStore()

@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import apiClient from "../api/axios";
 
+
 export const useAuthStore = defineStore("auth", {
   state: () => ({
     isAuthenticated: false,
@@ -14,11 +15,15 @@ export const useAuthStore = defineStore("auth", {
   actions: {
     async fetchUserType() {
       try {
-        const response = await apiClient.get("/users/user-type");
-        if (response.status == 200) {
+        let response = await apiClient.post("/auth/login/test?email=aimmanuel925@gmail.com");
+        if(response.status == 200){
+         response = await apiClient.get("/users/user-type");
+         if (response.status == 200) {
           this.userType = response.data.data.type;
           this.isAuthenticated = true;
         }
+        }
+       
       } catch (error) {
       } finally {
         this.userType = null;

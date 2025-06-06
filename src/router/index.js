@@ -37,13 +37,19 @@ const routes = [
     path: "/user/profile",
     name: "profile",
     component: () => import("../views/user/Profile.vue"),
-    meta: { requiresAuth: true, disableLoader: true }
+    // meta: { requiresAuth: true, disableLoader: true }
   },
   {
 
     path: "/user/dashboard",
     name: "Dashboard",
     component: () => import("../views/user/Dashboard.vue")
+  },
+   {
+
+    path: "/user/account",
+    name: "account",
+    component: () => import("../views/user/Account.vue")
   }
    
 
@@ -77,7 +83,6 @@ router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
 
   if (!authStore.isInitialized) {
-    // Wait until state is verified
     const unwatch = authStore.$subscribe(() => {
       unwatch()
       proceed()

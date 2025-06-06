@@ -12,7 +12,7 @@
     <!-- Back Button -->
     <button 
       @click="goBack"
-      class="fixed top-6 left-6 z-10 hover:bg-gray-100 border border-gray-200 text-gray-700 hover:text-[#034080] px-4 py-2 rounded transition-all duration-300 flex items-center gap-2 hover:shadow-md"
+      class="fixed top-6 left-6 z-10 hover:bg-gray-100 border-gray-200 text-gray-700 hover:text-[#034080] px-4 py-2 rounded transition-all duration-300 flex items-center gap-2 hover:shadow-md"
     >
       <i class="pi pi-arrow-left text-sm"></i>
       <span class="hidden sm:inline font-medium text-white">Back</span>

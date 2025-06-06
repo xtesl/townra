@@ -116,8 +116,6 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-
 // Props
 const props = defineProps({
   activeTab: {

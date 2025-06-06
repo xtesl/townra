@@ -9,185 +9,160 @@
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
       <!-- Desktop Layout -->
-      <div class="hidden lg:grid lg:grid-cols-12 lg:gap-6 xl:gap-8">
-        <!-- Desktop Filters Sidebar -->
-        <aside class="lg:col-span-3 xl:col-span-2">
-          <div class="bg-white rounded p-4 xl:p-6 sticky top-24">
-            <h2 class="text-lg font-semibold text-[#022b5f] mb-4 xl:mb-6">
-              Filters
-            </h2>
-
-            <div class="space-y-4 xl:space-y-6">
-              <!-- Search -->
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2"
-                  >Search</label
-                >
-                <input
-                  v-model="searchQuery"
-                  type="text"
-                  placeholder="Search products..."
-                  class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#fbb03b] text-sm"
-                />
-              </div>
-
-              <!-- Category Filter -->
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2"
-                  >Category</label
-                >
-                <select
-                  v-model="selectedCategory"
-                  class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#fbb03b] text-sm"
-                >
-                  <option value="">All Categories</option>
-                  <option
-                    v-for="category in categories"
-                    :key="category"
-                    :value="category"
-                  >
-                    {{ category }}
-                  </option>
-                </select>
-              </div>
-
-              <!-- Price Range Filter -->
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2"
-                  >Price Range</label
-                >
-                <div class="grid grid-cols-2 gap-2">
-                  <input
-                    v-model.number="priceRange.min"
-                    type="number"
-                    placeholder="Min"
-                    class="px-2 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#fbb03b]"
-                  />
-                  <input
-                    v-model.number="priceRange.max"
-                    type="number"
-                    placeholder="Max"
-                    class="px-2 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#fbb03b]"
-                  />
-                </div>
-              </div>
-
-              <!-- Duration Filter -->
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2"
-                  >Duration</label
-                >
-                <select
-                  v-model="selectedDuration"
-                  class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#fbb03b] text-sm"
-                >
-                  <option value="">Any Duration</option>
-                  <option
-                    v-for="duration in durations"
-                    :key="duration"
-                    :value="duration"
-                  >
-                    {{ duration }}
-                  </option>
-                </select>
-              </div>
-
-              <button
-                @click="clearFilters"
-                class="w-full bg-gray-100 text-gray-700 py-2 px-4 rounded hover:bg-gray-200 transition-colors text-sm font-medium"
-              >
-                Clear All Filters
-              </button>
-            </div>
-          </div>
-        </aside>
-
+      <div class="hidden lg:grid lg:grid-cols-12 lg:gap-6 xl:gap">
         <!-- Desktop Main Content -->
         <main class="lg:col-span-9 xl:col-span-10">
           <div class="space-y-6 xl:space-y-8">
             <!-- New Arrivals Section -->
-          <section>
-  <div class="flex items-center justify-between mb-4 xl:mb-6">
-    <h2 class="text-xl xl:text-2xl font-bold text-[#022b5f]">New Arrivals</h2>
-    <button class="flex items-center text-[#fbb03b] hover:text-[#e09a2a] font-medium text-sm transition-colors">
-      View All
-      <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-      </svg>
-    </button>
-  </div>
-  <div class="overflow-x-auto scrollbar-hide">
-    <div class="flex space-x-3 sm:space-x-4 pb-2">
-      <div
-        v-for="product in newArrivals"
-        :key="`new-${product.id}`"
-        class="flex-none w-48 sm:w-52 md:w-56 xl:w-64 bg-white rounded overflow-hidden hover:shadow
-         hover:border-[#fbb03b] transition-all duration-300 hover:-translate-y-1"
-      >
-        <!-- Product Image -->
-        <div class="relative">
-          <img :src="product.image" :alt="product.name" class="w-full h-48 sm:h-52 xl:h-56 object-cover">
-          <!-- Badges -->
-          <div class="absolute top-2 left-2 flex flex-col space-y-1">
-            <span v-if="product.isVerified" class="text-xs bg-green-500 text-white px-2 py-1 rounded font-medium flex items-center">
-              <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-              </svg>
-              Verified
-            </span>
-          </div>
-          <!-- Discount Badge -->
-          <div v-if="product.discount" class="absolute top-2 right-2">
-            <span class="text-xs bg-[#fbb03b] text-white px-2 py-1 rounded-full font-bold">-{{ product.discount }}%</span>
-          </div>
-        </div>
-        
-        <!-- Product Info -->
-        <div class="p-3 xl:p-4">
-          <!-- Product Name -->
-          <h3 class="font-semibold text-[#022b5f] text-sm mb-2 line-clamp-2 leading-tight">{{ product.name }}</h3>
-          
-          <!-- Price Section -->
-          <div class="mb-2">
-            <div class="flex items-center space-x-2">
-              <span class="text-lg font-bold text-[#022b5f]">${{ product.price }}</span>
-              <span v-if="product.originalPrice" class="text-sm text-gray-400 line-through">${{ product.originalPrice }}</span>
-            </div>
-            <span class="text-xs text-gray-500">/ piece</span>
-          </div>
-          
-          <!-- MOQ and Supplier Info -->
-          <div class="space-y-1 mb-3">
-            <div class="flex items-center justify-between text-xs text-gray-600">
-              <span>MOQ: {{ product.moq || '1' }} piece</span>
-              <span class="text-green-600 font-medium">{{ product.availability || 'In Stock' }}</span>
-            </div>
-            <div class="flex items-center text-xs text-gray-500">
-              <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
-              </svg>
-              <span>{{ product.supplier || 'Verified Supplier' }}</span>
-            </div>
-          </div>
-          
-          <!-- Bottom Section -->
-          <div class="flex items-center justify-between">
-            
-            <!-- Rating -->
-            <div class="flex items-center space-x-1">
-              <div class="flex text-[#fbb03b]">
-                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                </svg>
+            <section>
+              <div class="flex items-center justify-between mb-4 xl:mb-6">
+                <h2 class="text-xl xl:text-2xl font-bold text-[#022b5f]">
+                  New Arrivals
+                </h2>
+                <button
+                  class="flex items-center text-[#fbb03b] hover:text-[#e09a2a] font-medium text-sm transition-colors"
+                >
+                  View All
+                  <svg
+                    class="w-4 h-4 ml-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 5l7 7-7 7"
+                    ></path>
+                  </svg>
+                </button>
               </div>
-              <span class="text-xs text-gray-500">{{ product.rating || '4.8' }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+              <div class="overflow-x-auto scrollbar-hide">
+                <div class="flex space-x-3 sm:space-x-4 pb-2">
+                  <div
+                    v-for="product in newArrivals"
+                    :key="`new-${product.id}`"
+                    class="flex-none w-48 sm:w-52 md:w-56 xl:w-64 bg-white rounded overflow-hidden hover:shadow hover:border-[#fbb03b] transition-all duration-300 hover:-translate-y-1"
+                  >
+                    <!-- Product Image -->
+                    <div class="relative">
+                      <img
+                        :src="product.image"
+                        :alt="product.name"
+                        class="w-full h-48 sm:h-52 xl:h-56 object-cover"
+                      />
+                      <!-- Badges -->
+                      <div
+                        class="absolute top-2 left-2 flex flex-col space-y-1"
+                      >
+                        <span
+                          v-if="product.isVerified"
+                          class="text-xs bg-green-500 text-white px-2 py-1 rounded font-medium flex items-center"
+                        >
+                          <svg
+                            class="w-3 h-3 mr-1"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                              clip-rule="evenodd"
+                            ></path>
+                          </svg>
+                          Verified
+                        </span>
+                      </div>
+                      <!-- Discount Badge -->
+                      <div
+                        v-if="product.discount"
+                        class="absolute top-2 right-2"
+                      >
+                        <span
+                          class="text-xs bg-[#fbb03b] text-white px-2 py-1 rounded-full font-bold"
+                          >-{{ product.discount }}%</span
+                        >
+                      </div>
+                    </div>
+
+                    <!-- Product Info -->
+                    <div class="p-3 xl:p-4">
+                      <!-- Product Name -->
+                      <h3
+                        class="font-semibold text-[#022b5f] text-sm mb-2 line-clamp-2 leading-tight"
+                      >
+                        {{ product.name }}
+                      </h3>
+
+                      <!-- Price Section -->
+                      <div class="mb-2">
+                        <div class="flex items-center space-x-2">
+                          <span class="text-lg font-bold text-[#022b5f]"
+                            >${{ product.price }}</span
+                          >
+                          <span
+                            v-if="product.originalPrice"
+                            class="text-sm text-gray-400 line-through"
+                            >${{ product.originalPrice }}</span
+                          >
+                        </div>
+                        <span class="text-xs text-gray-500">/ piece</span>
+                      </div>
+
+                      <!-- MOQ and Supplier Info -->
+                      <div class="space-y-1 mb-3">
+                        <div
+                          class="flex items-center justify-between text-xs text-gray-600"
+                        >
+                          <span>MOQ: {{ product.moq || "1" }} piece</span>
+                          <span class="text-green-600 font-medium">{{
+                            product.availability || "In Stock"
+                          }}</span>
+                        </div>
+                        <div class="flex items-center text-xs text-gray-500">
+                          <svg
+                            class="w-3 h-3 mr-1"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                              clip-rule="evenodd"
+                            ></path>
+                          </svg>
+                          <span>{{
+                            product.supplier || "Verified Supplier"
+                          }}</span>
+                        </div>
+                      </div>
+
+                      <!-- Bottom Section -->
+                      <div class="flex items-center justify-between">
+                        <!-- Rating -->
+                        <div class="flex items-center space-x-1">
+                          <div class="flex text-[#fbb03b]">
+                            <svg
+                              class="w-3 h-3"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                              ></path>
+                            </svg>
+                          </div>
+                          <span class="text-xs text-gray-500">{{
+                            product.rating || "4.8"
+                          }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
 
             <!-- Categories Section -->
 
@@ -201,11 +176,11 @@
               >
                 <div>
                   <h2 class="text-xl xl:text-2xl font-bold text-[#022b5f]">
-                    All Products
+                    For you
                   </h2>
-                  <p class="text-gray-600 mt-1 text-sm">
+                  <!-- <p class="text-gray-600 mt-1 text-sm">
                     {{ filteredProducts.length }} products found
-                  </p>
+                  </p> -->
                 </div>
                 <div class="mt-4 sm:mt-0 flex items-center space-x-2">
                   <span class="text-sm font-medium text-gray-700"
@@ -228,89 +203,149 @@
         </main>
       </div>
       <div class="lg:hidden space-y-6">
-        
         <section>
-  <div class="flex items-center justify-between mb-4 xl:mb-6">
-    <h2 class="text-xl xl:text-2xl font-bold text-[#022b5f]">New Arrivals</h2>
-    <button class="flex items-center text-[#fbb03b] hover:text-[#e09a2a] font-medium text-sm transition-colors">
-      View All
-      <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-      </svg>
-    </button>
-  </div>
-  <div class="overflow-x-auto scrollbar-hide">
-    <div class="flex space-x-3 sm:space-x-4 pb-2">
-      <div
-        v-for="product in newArrivals"
-        :key="`new-${product.id}`"
-        class="flex-none w-48 sm:w-52 md:w-56 xl:w-64 bg-white rounded overflow-hidden hover:shadow
-        transition-all duration-300 hover:-translate-y-1"
-      >
-        <!-- Product Image -->
-        <div class="relative">
-          <img :src="product.image" :alt="product.name" class="w-full h-48 sm:h-52 xl:h-56 object-cover">
-          <!-- Badges -->
-          <div class="absolute top-2 left-2 flex flex-col space-y-1">
-            <!-- <span class="text-xs bg-[#022b5f] text-white px-2 py-1 rounded font-medium">NEW</span> -->
-            <span v-if="product.isVerified" class="text-xs bg-green-500 text-white px-2 py-1 rounded font-medium flex items-center">
-              <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+          <div class="flex items-center justify-between mb-4 xl:mb-6">
+            <h2 class="text-xl xl:text-2xl font-bold text-[#022b5f]">
+              New Arrivals
+            </h2>
+            <button
+              class="flex items-center text-[#fbb03b] hover:text-[#e09a2a] font-medium text-sm transition-colors"
+            >
+              View All
+              <svg
+                class="w-4 h-4 ml-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                ></path>
               </svg>
-              Verified
-            </span>
+            </button>
           </div>
-          <!-- Discount Badge -->
-          <div v-if="product.discount" class="absolute top-2 right-2">
-            <span class="text-xs bg-[#fbb03b] text-white px-2 py-1 rounded-full font-bold">-{{ product.discount }}%</span>
-          </div>
-        </div>
-        
-        <!-- Product Info -->
-        <div class="p-3 xl:p-4">
-          <!-- Product Name -->
-          <h3 class="font-semibold text-[#022b5f] text-sm mb-2 line-clamp-2 leading-tight">{{ product.name }}</h3>
-          
-          <!-- Price Section -->
-          <div class="mb-2">
-            <div class="flex items-center space-x-2">
-              <span class="text-lg font-bold text-[#022b5f]">${{ product.price }}</span>
-              <span v-if="product.originalPrice" class="text-sm text-gray-400 line-through">${{ product.originalPrice }}</span>
-            </div>
-            <span class="text-xs text-gray-500">/ piece</span>
-          </div>
-          
-          <!-- MOQ and Supplier Info -->
-          <div class="space-y-1 mb-3">
-            <div class="flex items-center justify-between text-xs text-gray-600">
-              <span>MOQ: {{ product.moq || '1' }} piece</span>
-              <span class="text-green-600 font-medium">{{ product.availability || 'In Stock' }}</span>
-            </div>
-            <div class="flex items-center text-xs text-gray-500">
-              <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
-              </svg>
-              <span>{{ product.supplier || 'Verified Supplier' }}</span>
-            </div>
-          </div>
-          
-          <!-- Bottom Section -->
-          <div class="flex items-center justify-between">
-            <!-- Rating -->
-            <div class="flex items-center space-x-1">
-              <div class="flex text-[#fbb03b]">
-                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                </svg>
+          <div class="overflow-x-auto scrollbar-hide">
+            <div class="flex space-x-3 sm:space-x-4 pb-2">
+              <div
+                v-for="product in newArrivals"
+                :key="`new-${product.id}`"
+                class="flex-none w-48 sm:w-52 md:w-56 xl:w-64 bg-white rounded overflow-hidden hover:shadow transition-all duration-300 hover:-translate-y-1"
+              >
+                <!-- Product Image -->
+                <div class="relative">
+                  <img
+                    :src="product.image"
+                    :alt="product.name"
+                    class="w-full h-48 sm:h-52 xl:h-56 object-cover"
+                  />
+                  <!-- Badges -->
+                  <div class="absolute top-2 left-2 flex flex-col space-y-1">
+                    <!-- <span class="text-xs bg-[#022b5f] text-white px-2 py-1 rounded font-medium">NEW</span> -->
+                    <span
+                      v-if="product.isVerified"
+                      class="text-xs bg-green-500 text-white px-2 py-1 rounded font-medium flex items-center"
+                    >
+                      <svg
+                        class="w-3 h-3 mr-1"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                      Verified
+                    </span>
+                  </div>
+                  <!-- Discount Badge -->
+                  <div v-if="product.discount" class="absolute top-2 right-2">
+                    <span
+                      class="text-xs bg-[#fbb03b] text-white px-2 py-1 rounded-full font-bold"
+                      >-{{ product.discount }}%</span
+                    >
+                  </div>
+                </div>
+
+                <!-- Product Info -->
+                <div class="p-3 xl:p-4">
+                  <!-- Product Name -->
+                  <h3
+                    class="font-semibold text-[#022b5f] text-sm mb-2 line-clamp-2 leading-tight"
+                  >
+                    {{ product.name }}
+                  </h3>
+
+                  <!-- Price Section -->
+                  <div class="mb-2">
+                    <div class="flex items-center space-x-2">
+                      <span class="text-lg font-bold text-[#022b5f]"
+                        >${{ product.price }}</span
+                      >
+                      <span
+                        v-if="product.originalPrice"
+                        class="text-sm text-gray-400 line-through"
+                        >${{ product.originalPrice }}</span
+                      >
+                    </div>
+                    <span class="text-xs text-gray-500">/ piece</span>
+                  </div>
+
+                  <!-- MOQ and Supplier Info -->
+                  <div class="space-y-1 mb-3">
+                    <div
+                      class="flex items-center justify-between text-xs text-gray-600"
+                    >
+                      <span>MOQ: {{ product.moq || "1" }} piece</span>
+                      <span class="text-green-600 font-medium">{{
+                        product.availability || "In Stock"
+                      }}</span>
+                    </div>
+                    <div class="flex items-center text-xs text-gray-500">
+                      <svg
+                        class="w-3 h-3 mr-1"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                      <span>{{ product.supplier || "Verified Supplier" }}</span>
+                    </div>
+                  </div>
+
+                  <!-- Bottom Section -->
+                  <div class="flex items-center justify-between">
+                    <!-- Rating -->
+                    <div class="flex items-center space-x-1">
+                      <div class="flex text-[#fbb03b]">
+                        <svg
+                          class="w-3 h-3"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                          ></path>
+                        </svg>
+                      </div>
+                      <span class="text-xs text-gray-500">{{
+                        product.rating || "4.8"
+                      }}</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <span class="text-xs text-gray-500">{{ product.rating || '4.8' }}</span>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+        </section>
 
         <!-- Categories Mobile -->
 
@@ -321,7 +356,7 @@
         <section>
           <div class="flex items-center justify-between mb-4">
             <div>
-              <h2 class="text-xl font-bold text-[#022b5f]">All Products</h2>
+              <h2 class="text-xl font-bold text-[#022b5f]">For you</h2>
               <p class="text-gray-600 text-sm">
                 {{ filteredProducts.length }} products
               </p>

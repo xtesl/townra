@@ -1,4 +1,4 @@
-<!-- 
+
 <script setup>
 import PageLoader from './components/animation/PageLoader.vue'
 import { ref, computed, watch } from 'vue'
@@ -46,20 +46,21 @@ watch(
 )
 
 
-</script> -->
+</script>
+
 
 
 <template>
   <div id="app">
     <router-view />
-    
-    <!-- <PageLoader
+  
+    <PageLoader
       :isVisible="showPageLoader"
       :message="''"
       :showLogo="false"
       type="pulse"
       color="blue"
-    /> -->
+    /> 
   </div>
 </template>
 
