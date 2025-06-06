@@ -3,48 +3,23 @@
 import PageLoader from './components/animation/PageLoader.vue'
 import { ref, computed, watch } from 'vue'
 import { useAuthStore } from './stores'
-import apiClient from "./api/axios"
 
 const authStore = useAuthStore();
 
 
 const showPageLoader = ref(true);
-const isAuthenticated = computed(() => authStore.isAuthenticated);
+const isInitialized = computed(() => authStore.isInitialized);
 
-const fetchAccountType = async () => {
-      try {
-     showPageLoader.value = true
-      
-    const response = await apiClient.get("/users/user-type");
-    if (response.status == 200){
-     authStore.userType = response.data.data.type
-    }
-    
-  } catch (error) {
-    
-  }finally{
-    showPageLoader.value = false;
-  }
-}
 
-watch(
-  () => isAuthenticated.value,
+ watch(() => isInitialized.value,
   async (newVal) => {
     if (newVal) {
-      await fetchAccountType()
-    }else{
-      if(!isAuthenticated.value){
-        setTimeout(() => {
-        if (!isAuthenticated.value) {
-          showPageLoader.value = false;
-        }
-      }, 400); 
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      showPageLoader.value = false;
     }
-      }
   },
-  { immediate: true } 
-)
-
+ { immediate: true } 
+);
 
 </script>
 

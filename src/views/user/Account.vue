@@ -40,6 +40,16 @@
           >
             Login
           </button>
+           <button 
+            v-else
+            @click="logout"
+            :class="[
+              'px-2 py-1 rounded-full text-xs font-medium transition-colors',
+              'bg-yellow-100 text-yellow-700'
+            ]"
+          >
+            Logout
+          </button>
         </div>
       </div>
     </div>
@@ -99,7 +109,7 @@
           </div>
           <div>
             <h3 class="font-medium text-gray-900">Business Dashboard</h3>
-            <p class="text-sm text-gray-500">Analytics & insights</p>
+            <p class="text-sm text-gray-500">Stores & products</p>
           </div>
         </div>
         <div class="flex items-center space-x-2">
@@ -226,30 +236,27 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import Profile from './Profile.vue';
+import { useAuthStore } from '../../stores';
 import MobileNavbarWrapper from '../../components/navigation/MobileNavbarWrapper.vue';
 
 
 const router = useRouter();
+const authStore = useAuthStore()
 
-// Reactive state
-const isAuthenticated = ref(true)
-const userType = ref('seller') // 'buyer' or 'seller'
-
-// Computed
-const getFeatureCount = computed(() => {
-  if (!isAuthenticated.value) return 0
-  return userType.value === 'seller' ? 'All' : 'Standard'
-})
-
-// Methods
-const toggleAuth = () => {
-  isAuthenticated.value = !isAuthenticated.value
-}
+const userType = computed(() => authStore.userType);
+const isAuthenticated = computed(() => authStore.isAuthenticated);
 
 const login = () => {
    router.push("/auth/login")
 }
+
+
+const logout = async () => {
+  await authStore.logout();
+  router.replace("/").then(() => {
+      //  window.location.reload();
+  })
+};
 
 const gotoDashboard = () => {
    router.push("/user/dashboard")
@@ -260,20 +267,20 @@ const handleTileClick = (tile) => {
   }else if(tile === 'settings'){
       router.push("/user/profile")
   } else {
-    console.log(`Opening ${tile}...`)
+    
   }
 }
 
 const handleAction = (action) => {
   if (!isAuthenticated.value) {
-    console.log('Authentication required')
+  
   } else {
-    console.log(`Opening ${action}...`)
+    
   }
 }
 
 const handleBackClick = () => {
-  console.log('Going back...')
+   router.go(-1);
 }
 
 

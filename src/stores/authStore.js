@@ -23,11 +23,8 @@ export const useAuthStore = defineStore("auth", {
           this.isAuthenticated = true;
         }
         }
-       
       } catch (error) {
       } finally {
-        this.userType = null;
-        this.isAuthenticated = false;
         this.isInitialized = true
       }
     },

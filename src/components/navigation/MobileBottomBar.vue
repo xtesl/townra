@@ -3,6 +3,8 @@
   <div class="md:hidden fixed bottom-0 left-0 right-0 z-50">
     <div class="bg-white border-t border-gray-200 px-4 py-1 shadow-lg">
       
+      
+
       <!-- For Unauthenticated Users -->
       <div v-if="!isAuthenticated" class="flex items-center justify-around">
         
@@ -13,11 +15,13 @@
         </button>
 
         <!-- Sell -->
-        <button @click="navigateTo('sell')" :class="buttonClass('sell')">
+         
+          <button @click="navigateTo('sell')" :class="buttonClass('sell')">
           <i class="pi pi-plus text-xl mb-1"></i>
           <span class="text-xs font-medium">Sell</span>
         </button>
-
+         
+      
         <!-- Account -->
         <button @click="navigateTo('account')" :class="buttonClass('account')">
           <i class="pi pi-user text-xl mb-1"></i>
@@ -38,7 +42,7 @@
       </div>
 
       <!-- For Authenticated Regular Users -->
-      <div v-else-if="isAuthenticated && !isSeller" class="flex items-center justify-around">
+      <div v-else-if="isAuthenticated && userType == 'buyer'" class="flex items-center justify-around">
         
         <!-- Home -->
         <button @click="navigateTo('home')" :class="buttonClass('home')">
@@ -52,6 +56,12 @@
           <span class="text-xs font-medium">Sell</span>
         </button>
 
+         <!-- Account -->
+        <button @click="navigateTo('account')" :class="buttonClass('account')">
+          <i class="pi pi-user text-xl mb-1"></i>
+          <span class="text-xs font-medium">Account</span>
+        </button>
+
         <!-- Cart -->
         <button @click="navigateTo('cart')" :class="buttonClass('cart')">
           <div class="relative mb-1">
@@ -63,16 +73,10 @@
           <span class="text-xs font-medium">Cart</span>
         </button>
 
-        <!-- Profile -->
-        <button @click="navigateTo('profile')" :class="buttonClass('profile')">
-          <i class="pi pi-user text-xl mb-1"></i>
-          <span class="text-xs font-medium">Profile</span>
-        </button>
-
       </div>
 
       <!-- For Authenticated Sellers -->
-      <div v-else-if="isAuthenticated && isSeller" class="flex items-center justify-around">
+      <div v-else-if="isAuthenticated && userType == 'seller'" class="flex items-center justify-around">
         
         <!-- Home -->
         <button @click="navigateTo('home')" :class="buttonClass('home')">
@@ -80,16 +84,10 @@
           <span class="text-xs font-medium">Home</span>
         </button>
 
-        <!-- Dashboard -->
-        <button @click="navigateTo('dashboard')" :class="buttonClass('dashboard')">
-          <i class="pi pi-chart-line text-lg mb-1"></i>
-          <span class="text-xs font-medium">Dashboard</span>
-        </button>
-
-        <!-- Sell -->
-        <button @click="navigateTo('sell')" :class="buttonClass('sell')">
-          <i class="pi pi-plus text-lg mb-1"></i>
-          <span class="text-xs font-medium">Sell</span>
+           <!-- Account -->
+        <button @click="navigateTo('account')" :class="buttonClass('account')">
+          <i class="pi pi-user text-xl mb-1"></i>
+          <span class="text-xs font-medium">Account</span>
         </button>
 
         <!-- Cart -->
@@ -102,13 +100,6 @@
           </div>
           <span class="text-xs font-medium">Cart</span>
         </button>
-
-        <!-- Profile -->
-        <button @click="navigateTo('profile')" :class="buttonClass('profile')">
-          <i class="pi pi-user text-lg mb-1"></i>
-          <span class="text-xs font-medium">Profile</span>
-        </button>
-
       </div>
 
     </div>
@@ -116,6 +107,14 @@
 </template>
 
 <script setup>
+import { useAuthStore } from '../../stores';
+import { computed } from 'vue';
+
+const authStore = useAuthStore();
+
+
+const userType = computed(() => authStore.userType);
+const isAuthenticated = computed(() => authStore.isAuthenticated);
 // Props
 const props = defineProps({
   activeTab: {

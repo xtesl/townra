@@ -37,13 +37,14 @@ const routes = [
     path: "/user/profile",
     name: "profile",
     component: () => import("../views/user/Profile.vue"),
-    // meta: { requiresAuth: true, disableLoader: true }
+    meta: { requiresAuth: true}
   },
   {
 
     path: "/user/dashboard",
     name: "Dashboard",
-    component: () => import("../views/user/Dashboard.vue")
+    component: () => import("../views/user/Dashboard.vue"),
+    meta: { requiresAuth: true }
   },
    {
 
@@ -55,7 +56,6 @@ const routes = [
 
 
 ]
-
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -79,24 +79,24 @@ const router = createRouter({
       },
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore()
 
   if (!authStore.isInitialized) {
-    const unwatch = authStore.$subscribe(() => {
-      unwatch()
-      proceed()
+    await new Promise((resolve) => {
+      const unwatch = authStore.$subscribe(() => {
+        if (authStore.isInitialized) {
+          unwatch()
+          resolve()
+        }
+      })
     })
-  } else {
-    proceed()
   }
-
-  function proceed() {
-    if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-      next({ name: 'home' })
-    } else {
-      next()
-    }
+  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+    console.log(authStore.isAuthenticated)
+    next({ name: 'login' })
+  } else {
+    next()
   }
 });
 
