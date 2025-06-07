@@ -15,14 +15,12 @@ export const useAuthStore = defineStore("auth", {
   actions: {
     async fetchUserType() {
       try {
-        let response = await apiClient.post("/auth/login/test?email=aimmanuel925@gmail.com");
-        if(response.status == 200){
-         response = await apiClient.get("/users/user-type");
+         const response = await apiClient.get("/users/user-type");
          if (response.status == 200) {
           this.userType = response.data.data.type;
           this.isAuthenticated = true;
         }
-        }
+        
       } catch (error) {
       } finally {
         this.isInitialized = true

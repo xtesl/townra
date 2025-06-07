@@ -9,7 +9,7 @@ const props = defineProps({
   },
   currentView: {
     type: String,
-    default: 'dashboard'
+    default: 'stores'
   },
   currentPlanName: {
     type: String,
@@ -136,7 +136,7 @@ const handleHelpSupport = () => {
       <nav class="px-4 flex-1 overflow-y-auto">
         <div class="space-y-2 pb-6">
           <!-- Dashboard -->
-          <button
+          <!-- <button
             @click="setCurrentView('dashboard')"
             class="group relative w-full flex items-center px-4 py-3.5 text-sm font-medium rounded-2xl transition-all duration-200 hover:scale-[1.02]"
             :class="props.currentView === 'dashboard' 
@@ -151,7 +151,7 @@ const handleHelpSupport = () => {
               <span>Dashboard</span>
             </div>
             <div v-if="props.currentView === 'dashboard'" class="w-2 h-2 rounded-full bg-white/30"></div>
-          </button>
+          </button> -->
 
           <!-- My Stores -->
           <button

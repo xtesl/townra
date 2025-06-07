@@ -34,7 +34,7 @@
             v-if="!isAuthenticated"
             @click="login"
             :class="[
-              'px-2 py-1 rounded-full text-xs font-medium transition-colors',
+              'px-2 py-1 rounded-sm border text-xl font-medium transition-colors',
               'bg-yellow-100 text-yellow-700'
             ]"
           >
@@ -44,7 +44,7 @@
             v-else
             @click="logout"
             :class="[
-              'px-2 py-1 rounded-full text-xs font-medium transition-colors',
+              'px-2 py-1 rounded-sm border text-xl font-medium transition-colors',
               'bg-yellow-100 text-yellow-700'
             ]"
           >

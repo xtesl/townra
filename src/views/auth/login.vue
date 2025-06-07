@@ -207,7 +207,7 @@
 
             <!-- Google Login -->
             <button
-              @click="handleGoogleLogin"
+              @click="loginWithGoogle"
               :disabled="spinning"
 
               class="w-full bg-white border border-gray-200 hover:border-[#e09a2a] hover:bg-gray-50 text-gray-700 
@@ -697,6 +697,7 @@ const handleGoogleLogin = async () => {
       "http://localhost:8000/auth/login/google"
     );
   } catch (error) {
+    console.log("hello")
     showGoogleErrorMessage.value = true;
     googleErrorMessage.value = "Something went wrong. Please try again.";
   } finally {
@@ -704,14 +705,78 @@ const handleGoogleLogin = async () => {
   }
 };
 
-const handleSellerRegister = () => {
-  // Navigate to seller registration
-  console.log("Seller registration initiated");
-  alert("Redirecting to seller registration...");
-};
+
+const loginWithGoogle = () => {
+  spinning.value = true
+  const popup = window.open(
+    'http://localhost:8000/auth/login/google',
+    'googleAuth',
+    'width=500,height=600,scrollbars=yes,resizable=yes'
+  )
+
+  // Listen for messages from popup
+  const messageListener = (event) => {
+    if (event.origin !== 'http://localhost:8000') return
+    
+    window.removeEventListener('message', messageListener)
+    popup.close()
+    
+    if (event.data.type === 'GOOGLE_AUTH_SUCCESS') {
+      // Redirect happens in MAIN window, not popup
+      window.location.href = event.data.redirectUrl || '/'
+    } else if (event.data.type === 'GOOGLE_AUTH_ERROR') {
+      googleErrorMessage.value = "Login failed. Please try again."
+      showGoogleErrorMessage.value = true
+      spinning.value = false
+    }
+  }
+
+  window.addEventListener('message', messageListener)
+  
+  const checkClosed = setInterval(() => {
+    if (popup.closed) {
+      clearInterval(checkClosed)
+      window.removeEventListener('message', messageListener)
+      spinning.value = false
+    }
+  }, 1000)
+}
+
+// const handlePopupAuth = (popup) => {
+//   return new Promise((resolve, reject) => {
+//     let checkClosed
+
+//     const cleanup = () => {
+//       if (checkClosed) clearInterval(checkClosed)
+//       window.removeEventListener('message', messageListener)
+//     }
+
+//     checkClosed = setInterval(() => {
+//       if (popup.closed) {
+//         cleanup()
+//         reject(new Error('Authentication cancelled'))
+//       }
+//     }, 1000)
+
+//     const messageListener = (event) => {
+//       if (event.origin !== 'http://localhost:8000') return
+      
+//       cleanup()
+//       popup.close()
+
+//       if (event.data.type === 'GOOGLE_AUTH_SUCCESS') {
+//         window.location.href = '/' 
+//         resolve()
+//       } else if (event.data.type === 'GOOGLE_AUTH_ERROR') {
+//         reject(new Error(event.data.error || 'Authentication failed'))
+//       }
+//     }
+//     window.addEventListener('message', messageListener)
+//   })
+// }
+
 
 const goBack = () => {
-  // Navigate back or to previous page
   if (window.history.length > 1) {
     window.history.back();
   } else {
