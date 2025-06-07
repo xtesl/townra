@@ -8,7 +8,6 @@
           <button
             v-for="marketplace in marketplaces"
             :key="marketplace.id"
-            @click="selectMarketplace(marketplace.id)"
             :class="[
               'px-6 py-2 text-sm font-medium border-b transition-colors duration-200',
               selectedMarketplace === marketplace.id
@@ -24,11 +23,11 @@
         <div class="sm:hidden relative w-full max-w-xs">
           <select
             :value="selectedMarketplace"
-            @change="selectMarketplace($event.target.value)"
+            
             class="w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded
              focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           >
-            <option value="" disabled>Select Marketplace</option>
+            <option value="">General</option>
             <option
               v-for="marketplace in marketplaces"
               :key="marketplace.id"
@@ -45,23 +44,42 @@
 </template>
 
 <script setup>
-// Props
-const props = defineProps({
-  selectedMarketplace: {
-    type: String,
-    required: true
-  },
-  marketplaces: {
-    type: Array,
-    required: true
-  }
-})
+import apiClient from '../../../api/axios';
+import { onMounted, ref } from 'vue';
 
-// Emits
-const emit = defineEmits(['update:selectedMarketplace'])
+const marketplaces = ref(["General"]);
+
+// const props = defineProps({
+//   selectedMarketplace: {
+//     type: String,
+//     required: true
+//   },
+//   marketplaces: {
+//     type: Array,
+//     required: true
+//   }
+// })
+
+// // Emits
+// const emit = defineEmits(['update:selectedMarketplace'])
+
+const fetchMarketplaces = async () => {
+  try {
+    const response = await apiClient.get("/marketplaces/");
+    if (response.status === 200 && Array.isArray(response.data)) {
+      marketplaces.value = response.data;
+    }
+  } catch (error) {
+    // showPageLoader.value = false;
+  }
+};
 
 // Methods
-const selectMarketplace = (marketplaceId) => {
-  emit('update:selectedMarketplace', marketplaceId)
-}
+// const selectMarketplace = (marketplaceId) => {
+//   emit('update:selectedMarketplace', marketplaceId)
+// }
+
+onMounted(async() => {
+ await fetchMarketplaces();
+});
 </script>

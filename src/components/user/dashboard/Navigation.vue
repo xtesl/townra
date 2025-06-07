@@ -1,10 +1,7 @@
 <script setup>
-import { defineProps, defineEmits, ref } from 'vue'
+import { defineProps, defineEmits, ref, computed } from 'vue'
 import PageLoader from '../../animation/PageLoader.vue';
 
-// const pageLoaderMessage = ref('Doing something');
-// const showPageLoader = ref(true);
-// Define props interface
 const props = defineProps({
   sidebarOpen: {
     type: Boolean,
@@ -56,6 +53,7 @@ const closeSidebar = () => {
 }
 
 const setCurrentView = (view) => {
+  closeSidebar();
   emit('update:current-view', view)
 }
 

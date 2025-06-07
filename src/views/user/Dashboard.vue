@@ -595,6 +595,7 @@
                 rows="4"
                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
                 placeholder="Describe your store and what you sell..."
+                required
               ></textarea>
             </div>
 
@@ -671,6 +672,7 @@
                   v-model="newStore.contact_email"
                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
                   placeholder="store@example.com"
+                  required
                 />
               </div>
               <div>
@@ -682,6 +684,7 @@
                   v-model="newStore.contact_phone"
                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
                   placeholder="+1234567890"
+                  required
                 />
               </div>
             </div>
